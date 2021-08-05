@@ -9,9 +9,34 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>statistics-dashboard-rest</module>
+        <module>statistics-dashboard-service</module>
+        <module>statistics-dashboard-common</module>
+    </modules>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <version.slf4j>1.7.30</version.slf4j>
+        <version.jul.to.slf4j>1.7.30</version.jul.to.slf4j>
+        <version.log4j>2.14.1</version.log4j>
+
+        <version.spring>5.3.7</version.spring>
+        <version.spring.test>${version.spring}</version.spring.test>
+        <version.spring.context>${version.spring}</version.spring.context>
+        <version.spring.beans>${version.spring}</version.spring.beans>
+
+
     </properties>
+
+    <!-- Github connection -->
+    <scm>
+        <connection>scm:git:https://github.com/europeana/statistics-dashboard-backend</connection>
+        <url>https://github.com/europeana/statistics-dashboard-backend</url>
+        <tag>HEAD</tag>
+        <developerConnection>scm:git:https://github.com/europeana/statistics-dashboard-backend</developerConnection>
+    </scm>
     
 </project>
