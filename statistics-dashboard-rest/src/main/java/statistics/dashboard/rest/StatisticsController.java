@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import statistics.dashboard.common.models.StatisticsFilteringRequest;
 import statistics.dashboard.common.view.FilteringResult;
 import statistics.dashboard.common.view.ResultListFilters;
 
@@ -28,7 +29,7 @@ public class StatisticsController {
   @PostMapping(value = FILTERING_STATISTICS, consumes = {APPLICATION_JSON},
       produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  public FilteringResult getFilters(@RequestBody String filters){
+  public FilteringResult getFilters(@RequestBody StatisticsFilteringRequest filters){
     return null;
   }
 
