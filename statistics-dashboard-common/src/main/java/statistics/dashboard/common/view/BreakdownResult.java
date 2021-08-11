@@ -5,9 +5,9 @@ import java.util.List;
 public class BreakdownResult {
 
   private String breakdownBy;
-  private List<FilterResult> results;
+  private List<StatisticsResult> results;
 
-  public BreakdownResult(String breakdownBy, List<FilterResult> results) {
+  public BreakdownResult(String breakdownBy, List<StatisticsResult> results) {
     this.breakdownBy = breakdownBy;
     this.results = results;
   }
@@ -20,11 +20,11 @@ public class BreakdownResult {
     this.breakdownBy = breakdownBy;
   }
 
-  public List<FilterResult> getResults() {
+  public List<StatisticsResult> getResults() {
     return results;
   }
 
-  public void setResults(List<FilterResult> results) {
+  public void setResults(List<StatisticsResult> results) {
     this.results = results;
   }
 

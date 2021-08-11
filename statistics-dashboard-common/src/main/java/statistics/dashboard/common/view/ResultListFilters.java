@@ -2,11 +2,11 @@ package statistics.dashboard.common.view;
 
 import java.util.List;
 
-public class ListResultBreakdowns {
+public class ResultListFilters {
 
   private List<BreakdownResult> allBreakdowns;
 
-  public ListResultBreakdowns(List<BreakdownResult> allBreakdowns) {
+  public ResultListFilters(List<BreakdownResult> allBreakdowns) {
     this.allBreakdowns = allBreakdowns;
   }
 

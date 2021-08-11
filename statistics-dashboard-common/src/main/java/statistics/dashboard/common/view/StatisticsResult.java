@@ -1,15 +1,17 @@
 package statistics.dashboard.common.view;
 
-public class FilterResult {
+public class StatisticsResult {
 
   private String value;
   private long count;
   private double percentage;
+  private BreakdownResult breakdowns;
 
-  public FilterResult(String value, long count, double percentage) {
+  public StatisticsResult(String value, long count, double percentage, BreakdownResult breakdowns) {
     this.value = value;
     this.count = count;
     this.percentage = percentage;
+    this.breakdowns = breakdowns;
   }
 
   public String getValue() {
@@ -36,5 +38,11 @@ public class FilterResult {
     this.percentage = percentage;
   }
 
+  public BreakdownResult getBreakdowns() {
+    return breakdowns;
+  }
 
+  public void setBreakdowns(BreakdownResult breakdowns) {
+    this.breakdowns = breakdowns;
+  }
 }
