@@ -24,6 +24,8 @@
         <version.log4j>2.14.1</version.log4j>
 
         <version.spring>5.3.7</version.spring>
+        <version.jackson>2.12.3</version.jackson>
+        <version.maven.war.plugin>2.3</version.maven.war.plugin>
         <version.spring.test>${version.spring}</version.spring.test>
         <version.spring.context>${version.spring}</version.spring.context>
         <version.spring.beans>${version.spring}</version.spring.beans>
