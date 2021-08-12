@@ -18,6 +18,10 @@ public class StatisticsController {
   public static final String FILTERING_STATISTICS = "statistics/filtering";
   public static final String APPLICATION_JSON = "application/json";
 
+  /**
+   *
+   * @return
+   */
   @GetMapping(value = GENERAL_STATISTICS, consumes = {APPLICATION_JSON},
       produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
@@ -26,6 +30,11 @@ public class StatisticsController {
     return null;
   }
 
+  /**
+   *
+   * @param filters
+   * @return
+   */
   @PostMapping(value = FILTERING_STATISTICS, consumes = {APPLICATION_JSON},
       produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
