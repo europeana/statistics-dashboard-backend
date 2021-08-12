@@ -9,4 +9,24 @@ public abstract class StatisticsCountFilter implements StatisticsFilter{
   private Integer breakdown;
   private List<String> values;
 
+  public StatisticsCountFilter(Integer breakdown, List<String> values) {
+    this.breakdown = breakdown;
+    this.values = values;
+  }
+
+  public Integer getBreakdown() {
+    return breakdown;
+  }
+
+  public void setBreakdown(Integer breakdown) {
+    this.breakdown = breakdown;
+  }
+
+  public List<String> getValues() {
+    return values;
+  }
+
+  public void setValues(List<String> values) {
+    this.values = values;
+  }
 }
