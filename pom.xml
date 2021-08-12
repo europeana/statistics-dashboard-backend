@@ -26,6 +26,8 @@
         <version.spring>5.3.7</version.spring>
         <version.jackson>2.12.3</version.jackson>
         <version.maven.war.plugin>2.3</version.maven.war.plugin>
+        <version.swagger>3.0.0</version.swagger>
+        <version.swagger.annotations>1.6.2</version.swagger.annotations>
         <version.spring.test>${version.spring}</version.spring.test>
         <version.spring.context>${version.spring}</version.spring.context>
         <version.spring.beans>${version.spring}</version.spring.beans>
@@ -40,5 +42,23 @@
         <tag>HEAD</tag>
         <developerConnection>scm:git:https://github.com/europeana/statistics-dashboard-backend</developerConnection>
     </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${version.swagger}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${version.swagger}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${version.swagger.annotations}</version>
+        </dependency>
+    </dependencies>
     
 </project>

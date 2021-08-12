@@ -1,6 +1,8 @@
 package statistics.dashboard.common.view;
 
 import java.util.List;
+import statistics.dashboard.common.models.range.CreatedDate;
+import statistics.dashboard.common.models.range.UpdatedDate;
 
 public class FilteringOptions {
 
@@ -11,6 +13,8 @@ public class FilteringOptions {
   private List<String> provider;
   private List<String> rights;
   private List<String> contentType;
+  private CreatedDate createdDate;
+  private UpdatedDate updatedDate;
 
   public FilteringOptions(List<String> contentTier, List<String> country,
       List<String> dataProvider, List<String> metadataTier, List<String> provider,
