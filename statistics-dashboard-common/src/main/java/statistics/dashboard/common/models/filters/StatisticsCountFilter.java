@@ -1,13 +1,20 @@
-package statistics.dashboard.common.models.count;
+package statistics.dashboard.common.models.filters;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModel;
 import java.util.List;
-import statistics.dashboard.common.models.StatisticsFilter;
 
-public abstract class StatisticsCountFilter implements StatisticsFilter{
+@JsonSerialize
+@ApiModel(value = "statisticsCountFilter")
+public class StatisticsCountFilter implements StatisticsFilter{
 
   // It is an Integer instead of an int, so it can be null
   private Integer breakdown;
   private List<String> values;
+
+  public StatisticsCountFilter(){
+
+  }
 
   public StatisticsCountFilter(Integer breakdown, List<String> values) {
     this.breakdown = breakdown;

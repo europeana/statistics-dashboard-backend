@@ -7,11 +7,10 @@ public class StatisticsResult {
   private double percentage;
   private BreakdownResult breakdowns;
 
-  public StatisticsResult(String value, long count, double percentage, BreakdownResult breakdowns) {
+  public StatisticsResult(String value, long count, double percentage) {
     this.value = value;
     this.count = count;
     this.percentage = percentage;
-    this.breakdowns = breakdowns;
   }
 
   public String getValue() {
