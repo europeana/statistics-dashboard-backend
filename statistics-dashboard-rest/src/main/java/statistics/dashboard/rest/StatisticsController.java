@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import statistics.dashboard.common.models.StatisticsFilteringRequest;
 import statistics.dashboard.common.view.FilteringResult;
+import statistics.dashboard.common.view.FiltersWrapper;
 import statistics.dashboard.common.view.ResultListFilters;
 
 /**
@@ -55,7 +56,7 @@ public class StatisticsController {
   @ApiOperation(value = "Returns the results of the given filtering options", response = FilteringResult.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
   public FilteringResult getFilters(@ApiParam(value = "The filters to be applied", required = true)
-      @RequestBody StatisticsFilteringRequest filters) {
+      @RequestBody FiltersWrapper filters) {
     return null;
   }
 
