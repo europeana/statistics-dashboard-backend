@@ -11,6 +11,9 @@ import dev.morphia.annotations.Property;
 import eu.europeana.metis.mongo.utils.ObjectIdSerializer;
 import org.bson.types.ObjectId;
 
+/**
+ * This class models the database structure for statistics data.
+ */
 @Entity
 @Indexes({
     @Index(fields = {@Field(StatisticsRecordModel.DATASET_ID_FIELD)}),
@@ -36,17 +39,17 @@ import org.bson.types.ObjectId;
 })
 public class StatisticsRecordModel {
 
-  public static final String DATASET_ID_FIELD = "datasetId";
-  public static final String TYPE_FIELD = "type";
-  public static final String COUNTRY_FIELD = "country";
-  public static final String PROVIDER_FIELD = "provider";
-  public static final String DATA_PROVIDER_FIELD = "dataProvider";
-  public static final String RIGHTS_FIELD = "rights";
-  public static final String CONTENT_TIER_FIELD = "contentTier";
-  public static final String METADATA_TIER_FIELD = "metadataTier";
-  public static final String CREATED_DATE_FIELD = "createdDate";
-  public static final String UPDATED_DATE_FIELD = "updatedDate";
-  public static final String RECORD_COUNT_FIELD = "recordCount";
+  static final String DATASET_ID_FIELD = "datasetId";
+  static final String TYPE_FIELD = "type";
+  static final String COUNTRY_FIELD = "country";
+  static final String PROVIDER_FIELD = "provider";
+  static final String DATA_PROVIDER_FIELD = "dataProvider";
+  static final String RIGHTS_FIELD = "rights";
+  static final String CONTENT_TIER_FIELD = "contentTier";
+  static final String METADATA_TIER_FIELD = "metadataTier";
+  static final String CREATED_DATE_FIELD = "createdDate";
+  static final String UPDATED_DATE_FIELD = "updatedDate";
+  static final String RECORD_COUNT_FIELD = "recordCount";
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)

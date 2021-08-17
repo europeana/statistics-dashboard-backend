@@ -13,6 +13,9 @@ import dev.morphia.query.experimental.filters.Filters;
 import java.util.List;
 import org.bson.types.ObjectId;
 
+/**
+ * Data access object for the Statistics Dashboard Mongo.
+ */
 public class MongoSDDao {
 
   private final Datastore datastore;
@@ -31,14 +34,33 @@ public class MongoSDDao {
     this.datastore.getMapper().map(StatisticsRecordModel.class);
   }
 
+  /**
+   * Delete all statistics for the given dataset ID.
+   *
+   * @param datasetId The dataset ID to clear the statistics for.
+   */
   public void deleteRecords(String datasetId) {
     datastore.find(StatisticsRecordModel.class)
         .filter(Filters.eq(StatisticsRecordModel.DATASET_ID_FIELD, datasetId))
         .delete(new DeleteOptions().multi(true));
   }
 
+  /**
+   * Saves the statistics to the database.
+   *
+   * @param records the statistics records.
+   */
   public void saveRecords(List<StatisticsRecordModel> records) {
     records.forEach(record -> record.setId(new ObjectId()));
     retryableExternalRequestForNetworkExceptions(() -> datastore.save(records));
+  }
+
+  /**
+   * Create a query for obtaining aggregated statistics.
+   *
+   * @return A query object.
+   */
+  public StatisticsQuery createStatisticsQuery() {
+    return new StatisticsQuery(() -> datastore.aggregate(StatisticsRecordModel.class));
   }
 }

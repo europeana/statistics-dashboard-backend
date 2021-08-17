@@ -22,17 +22,18 @@ public final class TruststoreInitializer {
    * Initialize the truststore.
    *
    * @param properties The properties.
-   * @throws DataHarvestingException In case something went wrong.
+   * @throws DataAccessConfigException In case something went wrong.
    */
-  public static void initializeTruststore(PropertiesHolder properties) throws DataHarvestingException {
+  public static void initializeTruststore(PropertiesHolder properties)
+      throws DataAccessConfigException {
     LOGGER.info("Append default truststore with custom truststore");
     if (StringUtils.isNotEmpty(properties.getTruststorePath()) && StringUtils
-            .isNotEmpty(properties.getTruststorePassword())) {
+        .isNotEmpty(properties.getTruststorePassword())) {
       try {
         CustomTruststoreAppender.appendCustomTrustoreToDefault(properties.getTruststorePath(),
-                properties.getTruststorePassword());
+            properties.getTruststorePassword());
       } catch (TrustStoreConfigurationException e) {
-        throw new DataHarvestingException(e.getMessage(), e);
+        throw new DataAccessConfigException(e.getMessage(), e);
       }
     }
   }
