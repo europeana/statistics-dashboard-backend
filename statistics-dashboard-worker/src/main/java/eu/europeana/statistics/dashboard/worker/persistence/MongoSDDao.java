@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker;
+package eu.europeana.statistics.dashboard.worker.persistence;
 
 import static eu.europeana.metis.network.ExternalRequestUtil.retryableExternalRequestForNetworkExceptions;
 
@@ -10,7 +10,6 @@ import dev.morphia.mapping.DiscriminatorFunction;
 import dev.morphia.mapping.MapperOptions;
 import dev.morphia.mapping.NamingStrategy;
 import dev.morphia.query.experimental.filters.Filters;
-import java.util.Collection;
 import java.util.List;
 import org.bson.types.ObjectId;
 

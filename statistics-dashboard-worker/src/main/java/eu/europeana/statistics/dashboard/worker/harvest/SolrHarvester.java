@@ -1,5 +1,6 @@
-package eu.europeana.statistics.dashboard.worker;
+package eu.europeana.statistics.dashboard.worker.harvest;
 
+import eu.europeana.statistics.dashboard.worker.persistence.StatisticsRecordModel;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -54,26 +55,26 @@ public class SolrHarvester {
   }
 
   public List<StatisticsRecordModel> harvestDataset(String datasetId)
-      throws IOException, SolrServerException {
+      throws DataHarvestingException {
+    try {
+      return harvestDatasetInternal(datasetId);
+    } catch (SolrServerException | IOException e) {
+      throw new DataHarvestingException("An exception occurred while harvesting data.", e);
+    }
+  }
 
-//    System.out.println("");
+  private List<StatisticsRecordModel> harvestDatasetInternal(String datasetId)
+      throws IOException, SolrServerException, DataHarvestingException {
 
     // Compute the total number of records we are expecting.
     final long size = getDatasetSize(datasetId);
-//    System.out.println("Records found: " + size);
     if (size == 0) {
       return Collections.emptyList();
     }
 
-//    System.out.println("");
-
     // Obtain the different values for the created and updated dates.
     final List<LocalDate> createdDates = getAllDatesForField(datasetId, TIMESTAMP_CREATED_FIELD);
-//    createdDates.forEach(System.out::println);
-//    System.out.println("");
     final List<LocalDate> updatedDates = getAllDatesForField(datasetId, TIMESTAMP_UPDATE_FIELD);
-//    updatedDates.forEach(System.out::println);
-//    System.out.println("");
 
     // For each date combination, obtain the data separately (as we can't pivot on these).
     final List<StatisticsRecordModel> result = new ArrayList<>();
@@ -85,12 +86,9 @@ public class SolrHarvester {
 
     // Check that the total count of all records is the expected count of the whole dataset.
     if (result.stream().mapToInt(StatisticsRecordModel::getRecordCount).sum() != size) {
-      throw new IllegalStateException("Computed total over the lists for separate dates does not "
+      throw new DataHarvestingException("Computed total over the lists for separate dates does not "
           + "match the expected total for dataset " + datasetId + ".");
     }
-/*
-    System.out.println("");
-    System.out.println("Done");*/
 
     // Done.
     return result;
@@ -98,7 +96,7 @@ public class SolrHarvester {
 
   private void getAllDataCombinations(String datasetId, LocalDate createdDate,
       LocalDate updatedDate, Consumer<StatisticsRecordModel> resultConsumer)
-      throws IOException, SolrServerException {
+      throws IOException, SolrServerException, DataHarvestingException {
 
     // Perform the counting.
     final String createdStartIncl = getSolrTimestampForStartOfDay(createdDate);
@@ -136,13 +134,14 @@ public class SolrHarvester {
   }
 
   private static void recurseThroughPivots(PivotField pivotField,
-      Map<String, String> foundProperties, Consumer<StatisticsRecordModel> resultConsumer) {
+      Map<String, String> foundProperties, Consumer<StatisticsRecordModel> resultConsumer)
+      throws DataHarvestingException {
 
     // Set the value of this pivot - if already set, we have a problem.
     final String previousValue = foundProperties.put(pivotField.getField(),
         Optional.ofNullable(pivotField.getValue().toString()).orElse(""));
     if (previousValue != null) {
-      throw new IllegalArgumentException("Value '" + pivotField.getField() + "' already set.");
+      throw new DataHarvestingException("Value '" + pivotField.getField() + "' already set.");
     }
 
     // Consider this field's pivot.
@@ -160,10 +159,6 @@ public class SolrHarvester {
 
       // Report a result.
       resultConsumer.accept(convert(foundProperties, pivotField.getCount()));
-
-//      System.out.println("Found result with count: " + pivotField.getCount());
-//      System.out.println(toString(foundProperties));
-//      System.out.println("-----------------------------");
     }
 
     // Unset the value of this pivot.
@@ -187,10 +182,10 @@ public class SolrHarvester {
   }
 
   private static void verifyTotals(List<PivotField> pivot, int expectedTotal,
-      Map<String, String> foundProperties) {
+      Map<String, String> foundProperties) throws DataHarvestingException {
     final long computedTotal = pivot.stream().mapToInt(PivotField::getCount).sum();
     if (computedTotal != expectedTotal) {
-      throw new IllegalStateException(
+      throw new DataHarvestingException(
           "Computed total for list of pivots does not match the expected total.\n"
               + "Properties: " + toString(foundProperties));
     }

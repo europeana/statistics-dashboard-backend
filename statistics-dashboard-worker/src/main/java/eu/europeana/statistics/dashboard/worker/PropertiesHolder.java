@@ -107,25 +107,28 @@ public class PropertiesHolder {
     return truststorePassword;
   }
 
-  public MongoProperties<SDWorkerException> getMongoCoreProperties() throws SDWorkerException {
-    final MongoProperties<SDWorkerException> properties =
-        new MongoProperties<>(SDWorkerException::new);
+  public MongoProperties<DataAccessConfigException> getMongoCoreProperties()
+      throws DataAccessConfigException {
+    final MongoProperties<DataAccessConfigException> properties =
+        new MongoProperties<>(DataAccessConfigException::new);
     properties.setAllProperties(mongoCoreHosts, mongoCorePorts, mongoCoreAuthenticationDatabase,
         mongoCoreUsername, mongoCorePassword, mongoCoreEnableSsl, null, mongoCoreApplicationName);
     return properties;
   }
 
-  public MongoProperties<SDWorkerException> getMongoSDProperties() throws SDWorkerException {
-    final MongoProperties<SDWorkerException> properties =
-        new MongoProperties<>(SDWorkerException::new);
+  public MongoProperties<DataAccessConfigException> getMongoSDProperties()
+      throws DataAccessConfigException {
+    final MongoProperties<DataAccessConfigException> properties =
+        new MongoProperties<>(DataAccessConfigException::new);
     properties.setAllProperties(mongoSDHosts, mongoSDPorts, mongoSDAuthenticationDatabase,
         mongoSDUsername, mongoSDPassword, mongoSDEnableSsl, null, mongoSDApplicationName);
     return properties;
   }
 
-  public SolrProperties<SDWorkerException> getSolrProperties() throws SDWorkerException {
-    final SolrProperties<SDWorkerException> properties =
-        new SolrProperties<>(SDWorkerException::new);
+  public SolrProperties<DataAccessConfigException> getSolrProperties()
+      throws DataAccessConfigException {
+    final SolrProperties<DataAccessConfigException> properties =
+        new SolrProperties<>(DataAccessConfigException::new);
     properties.setZookeeperHosts(publishZookeeperHosts, publishZookeeperPorts);
     if (StringUtils.isNotBlank(publishZookeeperChroot)) {
       properties.setZookeeperChroot(publishZookeeperChroot);
@@ -137,7 +140,7 @@ public class PropertiesHolder {
       try {
         properties.addSolrHost(new URI(host));
       } catch (URISyntaxException e) {
-        throw new SDWorkerException(e.getMessage(), e);
+        throw new DataAccessConfigException(e.getMessage(), e);
       }
     }
     return properties;

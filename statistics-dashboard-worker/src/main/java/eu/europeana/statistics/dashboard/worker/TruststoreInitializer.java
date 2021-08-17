@@ -2,6 +2,7 @@ package eu.europeana.statistics.dashboard.worker;
 
 import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
+import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,9 @@ public final class TruststoreInitializer {
    * Initialize the truststore.
    *
    * @param properties The properties.
-   * @throws SDWorkerException In case something went wrong.
+   * @throws DataHarvestingException In case something went wrong.
    */
-  public static void initializeTruststore(PropertiesHolder properties) throws SDWorkerException {
+  public static void initializeTruststore(PropertiesHolder properties) throws DataHarvestingException {
     LOGGER.info("Append default truststore with custom truststore");
     if (StringUtils.isNotEmpty(properties.getTruststorePath()) && StringUtils
             .isNotEmpty(properties.getTruststorePassword())) {
@@ -31,7 +32,7 @@ public final class TruststoreInitializer {
         CustomTruststoreAppender.appendCustomTrustoreToDefault(properties.getTruststorePath(),
                 properties.getTruststorePassword());
       } catch (TrustStoreConfigurationException e) {
-        throw new SDWorkerException(e.getMessage(), e);
+        throw new DataHarvestingException(e.getMessage(), e);
       }
     }
   }
