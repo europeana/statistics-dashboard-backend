@@ -16,6 +16,10 @@ import statistics.dashboard.common.models.StatisticsFilteringRequest;
 import statistics.dashboard.common.view.FilteringResult;
 import statistics.dashboard.common.view.ResultListFilters;
 
+/**
+ * Controller for the Statistics Dashboard
+ */
+
 @Api("/")
 @Controller
 public class StatisticsController {
@@ -35,7 +39,6 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
   public ResultListFilters getGeneralStatistics() {
-    System.out.println("Request received");
     return null;
   }
 
@@ -51,8 +54,7 @@ public class StatisticsController {
   @ResponseBody
   @ApiOperation(value = "Returns the results of the given filtering options", response = FilteringResult.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
-  public FilteringResult getFilters(
-      @ApiParam(value = "The filters to be applied", required = true)
+  public FilteringResult getFilters(@ApiParam(value = "The filters to be applied", required = true)
       @RequestBody StatisticsFilteringRequest filters) {
     return null;
   }

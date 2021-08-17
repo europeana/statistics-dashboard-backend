@@ -1,5 +1,10 @@
 package statistics.dashboard.common.view;
 
+/**
+ * Class that saves the available filtering options and the
+ * filtering results
+ */
+
 public class FilteringResult {
 
   private StatisticsResult results;

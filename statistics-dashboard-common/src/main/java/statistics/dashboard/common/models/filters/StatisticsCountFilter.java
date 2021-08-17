@@ -3,6 +3,11 @@ package statistics.dashboard.common.models.filters;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.List;
 
+/**
+ * Class that represents a filter type count.
+ * That is, a filtering that results in a count of records with the conditions met
+ */
+
 @JsonSerialize
 public class StatisticsCountFilter implements StatisticsFilter{
 
@@ -10,9 +15,7 @@ public class StatisticsCountFilter implements StatisticsFilter{
   private Integer breakdown;
   private List<String> values;
 
-  public StatisticsCountFilter(){
-
-  }
+  public StatisticsCountFilter(){}
 
   public StatisticsCountFilter(Integer breakdown, List<String> values) {
     this.breakdown = breakdown;

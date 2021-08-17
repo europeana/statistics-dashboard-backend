@@ -2,6 +2,10 @@ package statistics.dashboard.common.view;
 
 import java.util.List;
 
+/**
+ * A wrapper class that saves all the breakdowns results
+ */
+
 public class ResultListFilters {
 
   private List<BreakdownResult> allBreakdowns;

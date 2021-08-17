@@ -2,6 +2,11 @@ package statistics.dashboard.common.view;
 
 import java.util.List;
 
+/**
+ *  Class that represents the filtering results by breakdown.
+ *  It contains value to represent the breakdown and the results of each value
+ */
+
 public class BreakdownResult {
 
   private String breakdownBy;

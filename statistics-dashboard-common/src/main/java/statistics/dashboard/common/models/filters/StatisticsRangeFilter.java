@@ -2,6 +2,11 @@ package statistics.dashboard.common.models.filters;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+/**
+ * Class that represents a filter type range.
+ * That is, a filtering that contains range conditions
+ */
+
 @JsonSerialize
 public class StatisticsRangeFilter implements StatisticsFilter{
 

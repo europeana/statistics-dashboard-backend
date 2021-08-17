@@ -3,6 +3,10 @@ package statistics.dashboard.common.view;
 import java.util.List;
 import statistics.dashboard.common.models.filters.StatisticsRangeFilter;
 
+/**
+ * Class that contains the available options after filtering the results
+ */
+
 public class FilteringOptions {
 
   private List<String> contentTier;

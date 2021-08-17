@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import statistics.dashboard.common.models.filters.StatisticsCountFilter;
 import statistics.dashboard.common.models.filters.StatisticsRangeFilter;
 
+/**
+ * Class that encapsulates all types of statistics filters, each of them with their conditions
+ */
+
 @JsonSerialize
 public class StatisticsFilteringRequest {
 
@@ -20,10 +24,11 @@ public class StatisticsFilteringRequest {
   public StatisticsFilteringRequest() {
   }
 
-  public StatisticsFilteringRequest(StatisticsCountFilter contentTier, StatisticsCountFilter contentType,
-      StatisticsCountFilter country, StatisticsCountFilter dataProvider, StatisticsCountFilter metadataTier,
-      StatisticsCountFilter provider, StatisticsCountFilter rightsStatements, StatisticsRangeFilter createdDate,
-      StatisticsRangeFilter updatedDate) {
+  public StatisticsFilteringRequest(StatisticsCountFilter contentTier,
+      StatisticsCountFilter contentType, StatisticsCountFilter country,
+      StatisticsCountFilter dataProvider, StatisticsCountFilter metadataTier,
+      StatisticsCountFilter provider, StatisticsCountFilter rightsStatements,
+      StatisticsRangeFilter createdDate, StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.contentType = contentType;
     this.country = country;

@@ -1,5 +1,11 @@
 package statistics.dashboard.common.view;
 
+/**
+ * Class that represents a single filtering result with its
+ * value, the count of records, the percentage of that count, and
+ * breakdowns if there are any
+ */
+
 public class StatisticsResult {
 
   private String value;
