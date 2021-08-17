@@ -1,12 +1,10 @@
 package statistics.dashboard.common.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
 import statistics.dashboard.common.models.filters.StatisticsCountFilter;
 import statistics.dashboard.common.models.filters.StatisticsRangeFilter;
 
 @JsonSerialize
-@ApiModel(value = "filters")
 public class StatisticsFilteringRequest {
 
   private StatisticsCountFilter contentTier;

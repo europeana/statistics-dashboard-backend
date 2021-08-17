@@ -1,10 +1,8 @@
 package statistics.dashboard.common.models.filters;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
 
 @JsonSerialize
-@ApiModel(value = "statisticsRangeFilter")
 public class StatisticsRangeFilter implements StatisticsFilter{
 
   private String from;

@@ -17,7 +17,8 @@ public class FilteringOptions {
 
   public FilteringOptions(List<String> contentTier, List<String> country,
       List<String> dataProvider, List<String> metadataTier, List<String> provider,
-      List<String> rights, List<String> contentType) {
+      List<String> rights, List<String> contentType, StatisticsRangeFilter createdDate,
+      StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.country = country;
     this.dataProvider = dataProvider;
@@ -25,6 +26,8 @@ public class FilteringOptions {
     this.provider = provider;
     this.rights = rights;
     this.contentType = contentType;
+    this.createdDate = createdDate;
+    this.updatedDate = updatedDate;
   }
 
   public List<String> getContentTier() {
@@ -81,5 +84,21 @@ public class FilteringOptions {
 
   public void setContentType(List<String> contentType) {
     this.contentType = contentType;
+  }
+
+  public StatisticsRangeFilter getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(StatisticsRangeFilter createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public StatisticsRangeFilter getUpdatedDate() {
+    return updatedDate;
+  }
+
+  public void setUpdatedDate(StatisticsRangeFilter updatedDate) {
+    this.updatedDate = updatedDate;
   }
 }

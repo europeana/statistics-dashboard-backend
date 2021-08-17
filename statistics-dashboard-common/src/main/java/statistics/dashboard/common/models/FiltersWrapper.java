@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 
 @JsonSerialize
-@ApiModel
+@ApiModel(value = "filters")
 public class FiltersWrapper {
 
   private StatisticsFilteringRequest filters;
