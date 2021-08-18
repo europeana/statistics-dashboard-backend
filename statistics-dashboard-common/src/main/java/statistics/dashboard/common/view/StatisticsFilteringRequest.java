@@ -1,4 +1,4 @@
-package statistics.dashboard.common.models;
+package statistics.dashboard.common.view;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import statistics.dashboard.common.models.filters.StatisticsCountFilter;

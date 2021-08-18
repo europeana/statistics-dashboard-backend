@@ -3,7 +3,6 @@ package statistics.dashboard.common.view;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
-import statistics.dashboard.common.models.StatisticsFilteringRequest;
 
 /**
  * A wrapper class for the filters as the input
