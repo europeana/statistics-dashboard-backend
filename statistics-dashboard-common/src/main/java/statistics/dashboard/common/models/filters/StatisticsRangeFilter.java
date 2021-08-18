@@ -13,9 +13,10 @@ public class StatisticsRangeFilter implements StatisticsFilter{
   private String from;
   private String to;
 
-  public StatisticsRangeFilter(){
-
-  }
+  /**
+   * This empty constructor is needed for deserialization
+   */
+  public StatisticsRangeFilter(){}
 
   public StatisticsRangeFilter(String from, String to) {
     this.from = from;

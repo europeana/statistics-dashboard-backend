@@ -14,6 +14,9 @@ public class FiltersWrapper {
 
   private StatisticsFilteringRequest filters;
 
+  /**
+   * This empty constructor is needed for deserialization
+   */
   public FiltersWrapper(){
   }
 

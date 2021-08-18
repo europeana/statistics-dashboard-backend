@@ -15,6 +15,9 @@ public class StatisticsCountFilter implements StatisticsFilter{
   private Integer breakdown;
   private List<String> values;
 
+  /**
+   * This empty constructor is needed for deserialization
+   */
   public StatisticsCountFilter(){}
 
   public StatisticsCountFilter(Integer breakdown, List<String> values) {

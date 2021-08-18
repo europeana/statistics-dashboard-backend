@@ -21,6 +21,9 @@ public class StatisticsFilteringRequest {
   private StatisticsRangeFilter createdDate;
   private StatisticsRangeFilter updatedDate;
 
+  /**
+   * This empty constructor is needed for deserialization
+   */
   public StatisticsFilteringRequest() {
   }
 
