@@ -1,4 +1,4 @@
-package statistics.dashboard.common.api.response;
+package eu.europeana.statistics.dashboard.common.api.response;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package statistics.dashboard.common.api.response;
+package eu.europeana.statistics.dashboard.common.api.response;
 
 import java.util.List;
-import statistics.dashboard.common.api.request.StatisticsRangeFilter;
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
 
 /**
  * Class that contains the available options after filtering the results

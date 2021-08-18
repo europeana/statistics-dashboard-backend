@@ -1,4 +1,4 @@
-package statistics.dashboard.rest;
+package eu.europeana.statistics.dashboard.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import statistics.dashboard.common.api.request.StatisticsFilteringRequest;
-import statistics.dashboard.common.api.response.FilteringResult;
-import statistics.dashboard.common.api.request.FiltersWrapper;
-import statistics.dashboard.common.api.response.ResultListFilters;
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
+import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
+import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
+import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 
 /**
  * Controller for the Statistics Dashboard

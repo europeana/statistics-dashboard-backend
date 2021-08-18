@@ -1,4 +1,4 @@
-package statistics.dashboard.rest.config;
+package eu.europeana.statistics.dashboard.rest.config;
 
 import com.mongodb.client.MongoClient;
 //import eu.europeana.corelib.web.socks.SocksProxy;

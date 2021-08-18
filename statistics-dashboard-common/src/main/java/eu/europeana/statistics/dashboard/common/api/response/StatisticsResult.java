@@ -1,4 +1,4 @@
-package statistics.dashboard.common.api.response;
+package eu.europeana.statistics.dashboard.common.api.response;
 
 /**
  * Class that represents a single filtering result with its

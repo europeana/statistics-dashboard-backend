@@ -1,4 +1,4 @@
-package statistics.dashboard.rest.config;
+package eu.europeana.statistics.dashboard.rest.config;
 
 import java.io.File;
 import javax.servlet.MultipartConfigElement;
