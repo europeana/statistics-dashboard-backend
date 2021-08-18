@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import statistics.dashboard.common.view.StatisticsFilteringRequest;
-import statistics.dashboard.common.view.FilteringResult;
-import statistics.dashboard.common.view.FiltersWrapper;
-import statistics.dashboard.common.view.ResultListFilters;
+import statistics.dashboard.common.api.request.StatisticsFilteringRequest;
+import statistics.dashboard.common.api.response.FilteringResult;
+import statistics.dashboard.common.api.request.FiltersWrapper;
+import statistics.dashboard.common.api.response.ResultListFilters;
 
 /**
  * Controller for the Statistics Dashboard

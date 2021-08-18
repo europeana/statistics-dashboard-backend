@@ -1,4 +1,4 @@
-package statistics.dashboard.common.models.filters;
+package statistics.dashboard.common.api.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.List;

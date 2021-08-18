@@ -1,8 +1,6 @@
-package statistics.dashboard.common.view;
+package statistics.dashboard.common.api.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import statistics.dashboard.common.models.filters.StatisticsCountFilter;
-import statistics.dashboard.common.models.filters.StatisticsRangeFilter;
 
 /**
  * Class that encapsulates all types of statistics filters, each of them with their conditions

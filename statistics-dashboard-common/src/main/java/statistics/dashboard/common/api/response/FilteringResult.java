@@ -1,4 +1,4 @@
-package statistics.dashboard.common.view;
+package statistics.dashboard.common.api.response;
 
 /**
  * Class that saves the available filtering options and the
