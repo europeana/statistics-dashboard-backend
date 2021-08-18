@@ -2,7 +2,6 @@ package eu.europeana.statistics.dashboard.worker;
 
 import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
-import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

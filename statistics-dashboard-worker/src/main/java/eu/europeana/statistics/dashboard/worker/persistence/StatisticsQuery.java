@@ -15,16 +15,23 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Spliterators;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
- * This class represents a statistical query on the data.
+ * This class represents a statistical query on the data. The class is designed so that the user can
+ * execute the query multiple times.
  */
 public class StatisticsQuery {
+
+  private final static String MIN_VALUE_FIELD_NAME = "minValue";
+  private final static String MAX_VALUE_FIELD_NAME = "maxValue";
 
   private final Supplier<Aggregation<StatisticsRecordModel>> aggregationSupplier;
 
@@ -79,39 +86,50 @@ public class StatisticsQuery {
     return this;
   }
 
-  /**
-   * Executes the query and returns the result.
-   *
-   * @return The result of the query in the form of a statistics data tree. Is not null.
-   */
-  public StatisticsData perform() {
+  private Aggregation<StatisticsRecordModel> createFilteredAggregation(Field excludeField) {
 
-    // Create the aggregation.
-    final Aggregation<StatisticsRecordModel> pipeline = aggregationSupplier.get();
-
-    // Add the value filters
+    // Compile the filters.
     final List<Filter> filters = new ArrayList<>(Field.values().length * 2);
-    filterValues.forEach((field, values) -> filters.add(Filters.in(field.getFieldName(), values)));
+    filterValues.forEach((field, values) -> {
+      if (field != excludeField) {
+        filters.add(Filters.in(field.getFieldName(), values));
+      }
+    });
     filterRanges.forEach((field, range) -> {
-      if (range.getFrom() != null) {
+      if (field != excludeField && range.getFrom() != null) {
         filters.add(Filters.gte(field.getFieldName(), range.getFrom()));
       }
-      if (range.getTo() != null) {
+      if (field != excludeField && range.getTo() != null) {
         filters.add(Filters.lte(field.getFieldName(), range.getTo()));
       }
     });
+
+    // Create the aggregation.
+    final Aggregation<StatisticsRecordModel> pipeline = aggregationSupplier.get();
     if (!filters.isEmpty()) {
       pipeline.match(Filters.and(filters.toArray(Filter[]::new)));
     }
+    return pipeline;
+  }
 
-    // Add the breakdowns as a grouping with a sum over the
+  /**
+   * Executes the query and returns the statistics data.
+   *
+   * @return The result of the query in the form of a statistics data tree. Is not null.
+   */
+  public StatisticsData queryForStatistics() {
+
+    // Create the aggregation and add the value filters.
+    final Aggregation<StatisticsRecordModel> pipeline = createFilteredAggregation(null);
+
+    // Add the breakdowns as a grouping with a sum over the record count values.
     final GroupId groupId = Group.id();
     breakdownFields.forEach(field -> groupId.field(field.getFieldName()));
     pipeline.group(Group.group(groupId).field(StatisticsRecordModel.RECORD_COUNT_FIELD,
         AccumulatorExpressions.sum(Expressions.field(StatisticsRecordModel.RECORD_COUNT_FIELD))));
 
     // Execute the query
-    final List<QueryResult> queryResults = pipeline.execute(QueryResult.class).toList();
+    final List<StatisticsResult> queryResults = pipeline.execute(StatisticsResult.class).toList();
 
     // Compile the result
     final StatisticsData result;
@@ -123,7 +141,7 @@ public class StatisticsQuery {
     return result;
   }
 
-  private List<StatisticsData> convert(int breakdownPosition, List<QueryResult> queryResults) {
+  private List<StatisticsData> convert(int breakdownPosition, List<StatisticsResult> queryResults) {
 
     // Sanity check. We don't recurse beyond the length of the list.
     if (breakdownPosition >= breakdownFields.size()) {
@@ -133,20 +151,72 @@ public class StatisticsQuery {
 
     // If we have reached the last breakdown value, we convert the results and return.
     if (breakdownPosition == breakdownFields.size() - 1) {
-      return queryResults.stream().map(
-          queryResult -> new StatisticsData(currentField, queryResult.getValue(currentField),
-              queryResult.getRecordCount())).collect(Collectors.toList());
+      return queryResults.stream().map(result -> new StatisticsData(currentField,
+          result.getValue(currentField), result.getRecordCount())).collect(Collectors.toList());
     }
 
     // Perform the breakdown (split results by field value) and recurse.
-    final Map<String, List<QueryResult>> breakdown = queryResults.stream()
-        .collect(Collectors.groupingBy(queryResult -> queryResult.getValue(currentField)));
+    final Map<String, List<StatisticsResult>> breakdown = queryResults.stream()
+        .collect(Collectors.groupingBy(result -> result.getValue(currentField)));
     return breakdown.entrySet().stream().map(
         entry -> new StatisticsData(currentField, entry.getKey(),
             convert(breakdownPosition + 1, entry.getValue()))).collect(Collectors.toList());
   }
 
-  private static class ValueRange {
+  /**
+   * Executes the query and return the value range for the given field. Note that any filter set
+   * for this field will be ignored (i.e. the range will be taken over the data that satisfies all
+   * filters except the one for this field). Also, the breakdown field settings are not relevant.
+   * @param field The field for which to determine the range.
+   * @return The value range that exists in the data for the given field.
+   */
+  public ValueRange queryForValueRange(Field field) {
+
+    // Create the aggregation and add the value filters.
+    final Aggregation<StatisticsRecordModel> pipeline = createFilteredAggregation(field);
+
+    // Add a grouping for all data with expressions for the minimum and maximum values.
+    pipeline.group(Group.group(Group.id())
+        .field(MIN_VALUE_FIELD_NAME,
+            AccumulatorExpressions.min(Expressions.field(field.getFieldName())))
+        .field(MAX_VALUE_FIELD_NAME,
+            AccumulatorExpressions.max(Expressions.field(field.getFieldName()))));
+
+    // Execute the query.
+    final List<ValueRangeResult> queryResults = pipeline.execute(ValueRangeResult.class).toList();
+
+    // Return the result.
+    if (queryResults.isEmpty()) {
+      return null;
+    }
+    return new ValueRange(queryResults.get(0).getMinimumValue(),
+        queryResults.get(0).getMaximumValue());
+  }
+
+  /**
+   * Executes the query and return the value options for the given field. Note that any filter set
+   * for this field will be ignored (i.e. the options will be taken from the data that satisfies all
+   * filters except the one for this field). Also, the breakdown field settings are not relevant.
+   * @param field The field for which to determine the options.
+   * @return The value options that exists in the data for the given field.
+   */
+  public Set<String> queryForValueOptions(Field field) {
+
+    // Create the aggregation and add the value filters.
+    final Aggregation<StatisticsRecordModel> pipeline = createFilteredAggregation(field);
+
+    // Add the field as a grouping so that we get the distinct values.
+    pipeline.group(Group.group(Group.id(field.getFieldName())));
+
+    // Execute the query.
+    final Iterator<ValueOptionsResult> queryResults = pipeline.execute(ValueOptionsResult.class);
+
+    // Return the result.
+    return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResults, 0), false)
+        .map(ValueOptionsResult::getFieldValue).collect(Collectors.toSet());
+  }
+
+  public static class ValueRange {
 
     private final String from;
     private final String to;
@@ -166,11 +236,11 @@ public class StatisticsQuery {
   }
 
   /**
-   * A wrapper class for the query result data. The {@link Entity} annotation is needed so that
-   * Morphia can handle the aggregation.
+   * A wrapper class for the statistics query result data. The {@link Entity} annotation is needed
+   * so that Morphia can handle the aggregation.
    */
   @Entity
-  private static class QueryResult {
+  private static class StatisticsResult {
 
     @Id
     private Map<String, String> breakdownValues;
@@ -188,6 +258,43 @@ public class StatisticsQuery {
 
     public String getValue(Field field) {
       return getBreakdownValues().get(field.getFieldName());
+    }
+  }
+
+  /**
+   * A wrapper class for the value options result data. The {@link Entity} annotation is needed so
+   * that Morphia can handle the aggregation.
+   */
+  @Entity
+  private static class ValueOptionsResult {
+
+    @Id
+    private String fieldValue;
+
+    public String getFieldValue() {
+      return fieldValue;
+    }
+  }
+
+  /**
+   * A wrapper class for the value range result data. The {@link Entity} annotation is needed so
+   * that Morphia can handle the aggregation.
+   */
+  @Entity
+  private static class ValueRangeResult {
+
+    @Property(MIN_VALUE_FIELD_NAME)
+    private String minimumValue;
+
+    @Property(MAX_VALUE_FIELD_NAME)
+    private String maximumValue;
+
+    public String getMinimumValue() {
+      return minimumValue;
+    }
+
+    public String getMaximumValue() {
+      return maximumValue;
     }
   }
 }
