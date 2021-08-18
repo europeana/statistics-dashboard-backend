@@ -16,8 +16,6 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
 
         <version.slf4j>1.7.30</version.slf4j>
         <version.jul.to.slf4j>1.7.30</version.jul.to.slf4j>
@@ -27,6 +25,8 @@
         <version.jackson>2.12.3</version.jackson>
         <version.commons.lang3>3.12.0</version.commons.lang3>
         <version.maven.war.plugin>2.3</version.maven.war.plugin>
+        <version.maven.compiler.plugin>3.8.0</version.maven.compiler.plugin>
+        <version.maven.release.plugin>2.5.3</version.maven.release.plugin>
         <version.swagger>3.0.0</version.swagger>
         <version.mongodb>3.12.10</version.mongodb>
         <version.servlet.api>4.0.1</version.servlet.api>
@@ -49,27 +49,35 @@
         <developerConnection>scm:git:https://github.com/europeana/statistics-dashboard-backend</developerConnection>
     </scm>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${version.swagger.annotations}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${version.commons.lang3}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>${version.mongodb}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${version.javax.annotation}</version>
-        </dependency>
-    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${version.maven.release.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.maven.compiler.plugin}</version>
+                    <configuration>
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <release>11</release>
+                        <source>11</source>
+                        <target>11</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${version.maven.war.plugin}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
