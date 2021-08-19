@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +23,16 @@ import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
  * Controller for the Statistics Dashboard
  */
 
-@Api("/")
+@Tags(@Tag(name = StatisticsController.CONTROLLER_TAG_NAME,
+    description = "Controller providing statistics values throughout Europeana database"))
+@Api(tags = StatisticsController.CONTROLLER_TAG_NAME)
 @Controller
 public class StatisticsController {
 
   public static final String GENERAL_STATISTICS = "/statistics/europeana/general";
-  public static final String FILTERING_STATISTICS = "statistics/filtering";
+  public static final String FILTERING_STATISTICS = "/statistics/filtering";
   public static final String APPLICATION_JSON = "application/json";
+  public static final String CONTROLLER_TAG_NAME = "StatisticsController";
 
   /**
    * Get a complete statistics overview over the whole Europeana database

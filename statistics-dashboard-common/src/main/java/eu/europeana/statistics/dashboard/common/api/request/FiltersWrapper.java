@@ -2,14 +2,12 @@ package eu.europeana.statistics.dashboard.common.api.request;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
 
 /**
  * A wrapper class for the filters as the input
  */
 
 @JsonSerialize
-@ApiModel(value = "filters")
 public class FiltersWrapper {
 
   private StatisticsFilteringRequest filters;
