@@ -2,6 +2,7 @@ package eu.europeana.statistics.dashboard.common.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import eu.europeana.statistics.dashboard.common.utils.FilterNames;
 
 /**
  * Class that encapsulates all types of statistics filters, each of them with their conditions
@@ -10,23 +11,23 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize
 public class StatisticsFilteringRequest {
 
-  @JsonProperty("contentTier")
+  @JsonProperty(FilterNames.CONTENT_TIER)
   private StatisticsCountFilter contentTier;
-  @JsonProperty("contentType")
+  @JsonProperty(FilterNames.CONTENT_TYPE)
   private StatisticsCountFilter contentType;
-  @JsonProperty("country")
+  @JsonProperty(FilterNames.COUNTRY)
   private StatisticsCountFilter country;
-  @JsonProperty("dataProvider")
+  @JsonProperty(FilterNames.DATA_PROVIDER)
   private StatisticsCountFilter dataProvider;
-  @JsonProperty("metadataTier")
+  @JsonProperty(FilterNames.METADATA_TIER)
   private StatisticsCountFilter metadataTier;
-  @JsonProperty("provider")
+  @JsonProperty(FilterNames.PROVIDER)
   private StatisticsCountFilter provider;
-  @JsonProperty("rightsStatements")
+  @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
   private StatisticsCountFilter rightsStatements;
-  @JsonProperty("createdDate")
+  @JsonProperty(FilterNames.CREATED_DATE)
   private StatisticsRangeFilter createdDate;
-  @JsonProperty("updatedDate")
+  @JsonProperty(FilterNames.UPDATED_DATE)
   private StatisticsRangeFilter updatedDate;
 
   /**

@@ -1,6 +1,7 @@
 package eu.europeana.statistics.dashboard.common.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.europeana.statistics.dashboard.common.utils.FilterNames;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,23 +13,23 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilte
 
 public class FilteringOptions {
 
-  @JsonProperty("contentTier")
+  @JsonProperty(FilterNames.CONTENT_TIER)
   private List<String> contentTier;
-  @JsonProperty("country")
+  @JsonProperty(FilterNames.COUNTRY)
   private List<String> country;
-  @JsonProperty("dataProvider")
+  @JsonProperty(FilterNames.DATA_PROVIDER)
   private List<String> dataProvider;
-  @JsonProperty("metadataTier")
+  @JsonProperty(FilterNames.METADATA_TIER)
   private List<String> metadataTier;
-  @JsonProperty("provider")
+  @JsonProperty(FilterNames.PROVIDER)
   private List<String> provider;
-  @JsonProperty("rightsStatements")
+  @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
   private List<String> rights;
-  @JsonProperty("contentType")
+  @JsonProperty(FilterNames.CONTENT_TYPE)
   private List<String> contentType;
-  @JsonProperty("createdDate")
+  @JsonProperty(FilterNames.CREATED_DATE)
   private StatisticsRangeFilter createdDate;
-  @JsonProperty("updatedDate")
+  @JsonProperty(FilterNames.UPDATED_DATE)
   private StatisticsRangeFilter updatedDate;
 
   public FilteringOptions(List<String> contentTier, List<String> country,
