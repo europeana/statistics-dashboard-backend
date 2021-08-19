@@ -13,7 +13,7 @@ mongo.username=
 mongo.password=
 mongo.enable.ssl=
 mongo.application.name=
-mongo.record.db=
+mongo.database.name=
 
 #Truststore
 truststore.path=

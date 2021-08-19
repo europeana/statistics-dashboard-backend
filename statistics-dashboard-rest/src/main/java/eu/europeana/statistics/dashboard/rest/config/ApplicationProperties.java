@@ -38,8 +38,8 @@ public class ApplicationProperties {
   private boolean mongoEnableSsl;
   @Value("${mongo.application.name}")
   private String mongoApplicationName;
-  @Value("${mongo.record.db}")
-  private String mongoRecordDb;
+  @Value("${mongo.database.name}")
+  private String mongoDatabaseName;
 
   // truststore
   @Value("${truststore.path}")
@@ -95,8 +95,8 @@ public class ApplicationProperties {
     return mongoApplicationName;
   }
 
-  public String getMongoRecordDb() {
-    return mongoRecordDb;
+  public String getMongoDatabaseName() {
+    return mongoDatabaseName;
   }
 
   public String getTruststorePath() {

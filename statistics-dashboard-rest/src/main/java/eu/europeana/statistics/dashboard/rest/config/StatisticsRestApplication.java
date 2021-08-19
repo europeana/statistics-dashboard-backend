@@ -19,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -62,7 +60,6 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
 
   @Override
   public void afterPropertiesSet() {
-    System.out.println("Web application initializing");
   }
 
 //
@@ -91,11 +88,6 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
 //                    ReadPreferenceValue.PRIMARY_PREFERRED, properties.getMongoApplicationName());
 //    mongoClientForEntities = new MongoClientProvider<>(mongoProperties).createMongoClient();
 //  }
-
-  @Bean(name = DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME)
-  public StandardServletMultipartResolver getMultipartResolver() {
-    return new StandardServletMultipartResolver();
-  }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
