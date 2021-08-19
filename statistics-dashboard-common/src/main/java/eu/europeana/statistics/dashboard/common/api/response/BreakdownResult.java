@@ -1,5 +1,8 @@
 package eu.europeana.statistics.dashboard.common.api.response;
 
+import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +17,7 @@ public class BreakdownResult {
 
   public BreakdownResult(String breakdownBy, List<StatisticsResult> results) {
     this.breakdownBy = breakdownBy;
-    this.results = results;
+    this.results = new ArrayList<>(results);
   }
 
   public String getBreakdownBy() {
@@ -26,11 +29,11 @@ public class BreakdownResult {
   }
 
   public List<StatisticsResult> getResults() {
-    return results;
+    return Collections.unmodifiableList(results);
   }
 
   public void setResults(List<StatisticsResult> results) {
-    this.results = results;
+    this.results = new ArrayList<>(results);
   }
 
 }

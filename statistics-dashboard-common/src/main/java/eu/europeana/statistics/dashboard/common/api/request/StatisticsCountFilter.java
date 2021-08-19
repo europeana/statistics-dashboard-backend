@@ -1,6 +1,8 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +24,7 @@ public class StatisticsCountFilter implements StatisticsFilter{
 
   public StatisticsCountFilter(Integer breakdown, List<String> values) {
     this.breakdown = breakdown;
-    this.values = values;
+    this.values = new ArrayList<>(values);
   }
 
   public Integer getBreakdown() {
@@ -34,10 +36,10 @@ public class StatisticsCountFilter implements StatisticsFilter{
   }
 
   public List<String> getValues() {
-    return values;
+    return Collections.unmodifiableList(values);
   }
 
   public void setValues(List<String> values) {
-    this.values = values;
+    this.values = new ArrayList<>(values);
   }
 }
