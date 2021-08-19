@@ -1,15 +1,16 @@
 package eu.europeana.statistics.dashboard.common.iternal;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import eu.europeana.statistics.dashboard.common.utils.FilterNames;
 
 public enum FacetValue {
-  CONTENT_TIER("contentTier"),
-  CONTENT_TYPE("contentType"),
-  COUNTRY("country"),
-  DATA_PROVIDER("dataProvider"),
-  METADATA_TIER("metadataTier"),
-  PROVIDER("provider"),
-  RIGHTS_STATEMENTS("rightsStatements");
+  CONTENT_TIER(FilterNames.CONTENT_TIER),
+  CONTENT_TYPE(FilterNames.CONTENT_TYPE),
+  COUNTRY(FilterNames.COUNTRY),
+  DATA_PROVIDER(FilterNames.DATA_PROVIDER),
+  METADATA_TIER(FilterNames.METADATA_TIER),
+  PROVIDER(FilterNames.PROVIDER),
+  RIGHTS_STATEMENTS(FilterNames.RIGHTS_STATEMENTS);
 
   private final String name;
 
