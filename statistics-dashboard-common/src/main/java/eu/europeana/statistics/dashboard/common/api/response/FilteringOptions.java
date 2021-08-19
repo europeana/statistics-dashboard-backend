@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.common.api.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,14 +12,23 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilte
 
 public class FilteringOptions {
 
+  @JsonProperty("contentTier")
   private List<String> contentTier;
+  @JsonProperty("country")
   private List<String> country;
+  @JsonProperty("dataProvider")
   private List<String> dataProvider;
+  @JsonProperty("metadataTier")
   private List<String> metadataTier;
+  @JsonProperty("provider")
   private List<String> provider;
+  @JsonProperty("rightsStatements")
   private List<String> rights;
+  @JsonProperty("contentType")
   private List<String> contentType;
+  @JsonProperty("createdDate")
   private StatisticsRangeFilter createdDate;
+  @JsonProperty("updatedDate")
   private StatisticsRangeFilter updatedDate;
 
   public FilteringOptions(List<String> contentTier, List<String> country,

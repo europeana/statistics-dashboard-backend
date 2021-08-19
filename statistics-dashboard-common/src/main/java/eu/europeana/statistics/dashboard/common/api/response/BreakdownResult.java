@@ -12,20 +12,21 @@ import java.util.List;
 
 public class BreakdownResult {
 
-  private String breakdownBy;
+
+  private FacetValue breakdownBy;
   private List<StatisticsResult> results;
 
-  public BreakdownResult(String breakdownBy, List<StatisticsResult> results) {
+  public BreakdownResult(FacetValue breakdownBy, List<StatisticsResult> results) {
     this.breakdownBy = breakdownBy;
     this.results = new ArrayList<>(results);
   }
 
-  public String getBreakdownBy() {
+  public FacetValue getBreakdownBy() {
     return breakdownBy;
   }
 
   public void setBreakdownBy(String breakdownBy) {
-    this.breakdownBy = breakdownBy;
+    this.breakdownBy = FacetValue.valueOf(breakdownBy);
   }
 
   public List<StatisticsResult> getResults() {

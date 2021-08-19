@@ -1,5 +1,8 @@
 package eu.europeana.statistics.dashboard.rest;
 
+import eu.europeana.statistics.dashboard.common.api.response.BreakdownResult;
+import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
+import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -7,6 +10,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

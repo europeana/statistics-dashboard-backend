@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
@@ -9,14 +10,23 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize
 public class StatisticsFilteringRequest {
 
+  @JsonProperty("contentTier")
   private StatisticsCountFilter contentTier;
+  @JsonProperty("contentType")
   private StatisticsCountFilter contentType;
+  @JsonProperty("country")
   private StatisticsCountFilter country;
+  @JsonProperty("dataProvider")
   private StatisticsCountFilter dataProvider;
+  @JsonProperty("metadataTier")
   private StatisticsCountFilter metadataTier;
+  @JsonProperty("provider")
   private StatisticsCountFilter provider;
+  @JsonProperty("rightsStatements")
   private StatisticsCountFilter rightsStatements;
+  @JsonProperty("createdDate")
   private StatisticsRangeFilter createdDate;
+  @JsonProperty("updatedDate")
   private StatisticsRangeFilter updatedDate;
 
   /**
