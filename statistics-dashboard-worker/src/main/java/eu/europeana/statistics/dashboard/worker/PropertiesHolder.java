@@ -11,7 +11,7 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Contains the properties required for the execution of the link checking functionality.
+ * Contains the properties required for the execution of the script(s) in this module.
  */
 public class PropertiesHolder {
 

@@ -1,4 +1,6 @@
-package eu.europeana.statistics.dashboard.worker.persistence;
+package eu.europeana.statistics.dashboard.service.persistence;
+
+import static eu.europeana.metis.network.ExternalRequestUtil.retryableExternalRequestForNetworkExceptions;
 
 import dev.morphia.aggregation.experimental.Aggregation;
 import dev.morphia.aggregation.experimental.expressions.AccumulatorExpressions;
@@ -129,7 +131,8 @@ public class StatisticsQuery {
         AccumulatorExpressions.sum(Expressions.field(StatisticsRecordModel.RECORD_COUNT_FIELD))));
 
     // Execute the query
-    final List<StatisticsResult> queryResults = pipeline.execute(StatisticsResult.class).toList();
+    final List<StatisticsResult> queryResults = retryableExternalRequestForNetworkExceptions(
+        () -> pipeline.execute(StatisticsResult.class).toList());
 
     // Compile the result
     final StatisticsData result;
@@ -183,7 +186,8 @@ public class StatisticsQuery {
             AccumulatorExpressions.max(Expressions.field(field.getFieldName()))));
 
     // Execute the query.
-    final List<ValueRangeResult> queryResults = pipeline.execute(ValueRangeResult.class).toList();
+    final List<ValueRangeResult> queryResults = retryableExternalRequestForNetworkExceptions(
+        () -> pipeline.execute(ValueRangeResult.class).toList());
 
     // Return the result.
     if (queryResults.isEmpty()) {
@@ -209,7 +213,8 @@ public class StatisticsQuery {
     pipeline.group(Group.group(Group.id(field.getFieldName())));
 
     // Execute the query.
-    final Iterator<ValueOptionsResult> queryResults = pipeline.execute(ValueOptionsResult.class);
+    final Iterator<ValueOptionsResult> queryResults = retryableExternalRequestForNetworkExceptions(
+        () -> pipeline.execute(ValueOptionsResult.class));
 
     // Return the result.
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(queryResults, 0), false)

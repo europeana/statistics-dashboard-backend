@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker.persistence;
+package eu.europeana.statistics.dashboard.service.persistence;
 
 import static eu.europeana.metis.network.ExternalRequestUtil.retryableExternalRequestForNetworkExceptions;
 
@@ -40,9 +40,9 @@ public class MongoSDDao {
    * @param datasetId The dataset ID to clear the statistics for.
    */
   public void deleteRecords(String datasetId) {
-    datastore.find(StatisticsRecordModel.class)
+    retryableExternalRequestForNetworkExceptions(() -> datastore.find(StatisticsRecordModel.class)
         .filter(Filters.eq(StatisticsRecordModel.DATASET_ID_FIELD, datasetId))
-        .delete(new DeleteOptions().multi(true));
+        .delete(new DeleteOptions().multi(true)));
   }
 
   /**

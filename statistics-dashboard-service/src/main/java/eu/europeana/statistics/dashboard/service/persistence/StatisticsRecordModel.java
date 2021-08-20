@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker.persistence;
+package eu.europeana.statistics.dashboard.service.persistence;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.Entity;

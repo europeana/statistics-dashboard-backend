@@ -12,4 +12,16 @@
   <artifactId>statistics-dashboard-service</artifactId>
   <packaging>jar</packaging>
 
+  <dependencies>
+    <dependency>
+      <groupId>eu.europeana.metis</groupId>
+      <artifactId>metis-common-mongo</artifactId>
+      <version>${version.metis}</version>
+    </dependency>
+    <dependency>
+      <groupId>eu.europeana.metis</groupId>
+      <artifactId>metis-common-network</artifactId>
+      <version>${version.metis}</version>
+    </dependency>
+  </dependencies>
 </project>

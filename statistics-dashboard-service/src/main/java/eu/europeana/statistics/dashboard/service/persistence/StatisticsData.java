@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker.persistence;
+package eu.europeana.statistics.dashboard.service.persistence;
 
 import java.util.ArrayList;
 import java.util.Collections;

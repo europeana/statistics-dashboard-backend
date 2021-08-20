@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker.persistence;
+package eu.europeana.statistics.dashboard.service.persistence;
 
 /**
  * This enum contains the different fields that can be queried.

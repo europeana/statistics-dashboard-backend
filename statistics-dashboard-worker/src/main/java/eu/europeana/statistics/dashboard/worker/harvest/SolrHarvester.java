@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.worker.harvest;
 
-import eu.europeana.statistics.dashboard.worker.persistence.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.service.persistence.StatisticsRecordModel;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -24,6 +24,10 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.PivotField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 
+/**
+ * This class provides functionality to harvest from the Solr database. This object can be
+ * reused for multiple calls (but there is no guarantee of thread-safety).
+ */
 public class SolrHarvester {
 
   // The various fields as they occur in the SOLR database.
@@ -54,6 +58,14 @@ public class SolrHarvester {
     this.solrClient = solrClient;
   }
 
+  /**
+   * Harvest the statistics for a given dataset.
+   *
+   * @param datasetId The dataset ID to harvest.
+   * @return The objects that together form all statistics for the given dataset. Is not null but
+   * can be empty (if the dataset is not found in the Solr).
+   * @throws DataHarvestingException In case there was an issue connecting to the Solr.
+   */
   public List<StatisticsRecordModel> harvestDataset(String datasetId)
       throws DataHarvestingException {
     try {

@@ -13,9 +13,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>eu.europeana.metis</groupId>
-            <artifactId>metis-common-mongo</artifactId>
-            <version>${version.metis}</version>
+            <groupId>eu.europeana.statistics.backend</groupId>
+            <artifactId>statistics-dashboard-service</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>eu.europeana.metis</groupId>

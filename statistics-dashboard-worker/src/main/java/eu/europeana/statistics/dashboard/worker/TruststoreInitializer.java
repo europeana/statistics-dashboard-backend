@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This utilities class initializes the trust store and
+ * This utilities class initializes the trust store.
  */
 public final class TruststoreInitializer {
 

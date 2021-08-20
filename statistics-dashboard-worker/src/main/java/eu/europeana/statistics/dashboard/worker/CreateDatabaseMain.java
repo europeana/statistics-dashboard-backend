@@ -6,8 +6,8 @@ import eu.europeana.metis.solr.client.CompoundSolrClient;
 import eu.europeana.metis.solr.connection.SolrClientProvider;
 import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import eu.europeana.statistics.dashboard.worker.harvest.SolrHarvester;
-import eu.europeana.statistics.dashboard.worker.persistence.MongoSDDao;
-import eu.europeana.statistics.dashboard.worker.persistence.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
+import eu.europeana.statistics.dashboard.service.persistence.StatisticsRecordModel;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +17,10 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class contains a script (main method) that harvests all datasets and save them in the
+ * statistics dashboard database.
+ */
 public class CreateDatabaseMain {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CreateDatabaseMain.class);
