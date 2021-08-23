@@ -39,7 +39,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
-@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest"})
+@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest",
+    "eu.europeana.statistics.dashboard.service"})
 public class StatisticsRestApplication implements WebMvcConfigurer, InitializingBean {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRestApplication.class);

@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.rest;
 
+import eu.europeana.statistics.dashboard.service.server.StatisticsServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -7,6 +8,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +36,17 @@ public class StatisticsController {
   public static final String APPLICATION_JSON = "application/json";
   public static final String CONTROLLER_TAG_NAME = "StatisticsController";
 
+  private final StatisticsServer statisticsServer;
+
+  /**
+   * Autowired constructor
+   */
+  @Autowired
+  public StatisticsController(StatisticsServer statisticsServer){
+    this.statisticsServer = statisticsServer;
+  }
+
+
   /**
    * Get a complete statistics overview over the whole Europeana database
    *
@@ -45,7 +58,7 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
   public ResultListFilters getGeneralStatistics() {
-    return null;
+    return statisticsServer.queryGeneralEuropeanaData();
   }
 
   /**
@@ -62,7 +75,7 @@ public class StatisticsController {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
   public FilteringResult getFilters(@ApiParam(value = "The filters to be applied", required = true)
       @RequestBody FiltersWrapper filters) {
-    return null;
+    return statisticsServer.queryDataWithFilters(filters.getFilters());
   }
 
 }
