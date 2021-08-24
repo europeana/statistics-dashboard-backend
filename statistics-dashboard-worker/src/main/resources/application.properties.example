@@ -1,0 +1,31 @@
+#Mongo metis core
+mongo.core.hosts=
+mongo.core.port=
+mongo.core.authentication.db=
+mongo.core.username=
+mongo.core.password=
+mongo.core.enable.ssl=
+mongo.core.db=
+mongo.core.application.name=
+
+#Mongo statistics dashboard
+mongo.sd.hosts=
+mongo.sd.port=
+mongo.sd.authentication.db=
+mongo.sd.username=
+mongo.sd.password=
+mongo.sd.enable.ssl=
+mongo.sd.db=
+mongo.sd.application.name=
+
+#Truststore
+truststore.path=
+truststore.password=
+
+#Solr/Zookeeper published records
+solr.publish.hosts=
+zookeeper.publish.hosts=
+zookeeper.publish.port=
+zookeeper.publish.chroot=
+zookeeper.publish.defaultCollection=
+
