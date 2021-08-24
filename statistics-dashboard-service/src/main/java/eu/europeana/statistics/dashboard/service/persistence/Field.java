@@ -1,7 +1,7 @@
 package eu.europeana.statistics.dashboard.service.persistence;
 
 /**
- * This enum contains the different fields that can be queried.
+ * This enum contains the different fields that can be queried in {@link StatisticsQuery}.
  */
 public enum Field {
 

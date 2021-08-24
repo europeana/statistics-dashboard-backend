@@ -15,6 +15,7 @@ import dev.morphia.query.experimental.filters.Filters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -254,7 +255,7 @@ public class StatisticsQuery {
     private int recordCount;
 
     public Map<String, String> getBreakdownValues() {
-      return breakdownValues;
+      return Collections.unmodifiableMap(breakdownValues);
     }
 
     public int getRecordCount() {
