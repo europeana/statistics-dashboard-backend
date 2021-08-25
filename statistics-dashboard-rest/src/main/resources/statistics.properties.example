@@ -6,14 +6,14 @@ socks.proxy.username=
 socks.proxy.password=
 
 #Mongo
-mongo.hosts=
-mongo.port=
-mongo.authentication.db=
-mongo.username=
-mongo.password=
-mongo.enable.ssl=
-mongo.application.name=
-mongo.database.name=
+mongo.sd.hosts=
+mongo.sd.port=
+mongo.sd.authentication.db=
+mongo.sd.username=
+mongo.sd.password=
+mongo.sd.enable.ssl=
+mongo.sd.application.name=
+mongo.sd.database.name=
 
 #Truststore
 truststore.path=

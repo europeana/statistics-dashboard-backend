@@ -24,22 +24,22 @@ public class ApplicationProperties {
   private String socksProxyPassword;
 
   // Mongo
-  @Value("${mongo.hosts}")
-  private String[] mongoHosts;
-  @Value("${mongo.port}")
-  private int mongoPort;
-  @Value("${mongo.authentication.db}")
-  private String mongoAuthenticationDb;
-  @Value("${mongo.username}")
-  private String mongoUsername;
-  @Value("${mongo.password}")
-  private String mongoPassword;
-  @Value("${mongo.enable.ssl}")
-  private boolean mongoEnableSsl;
-  @Value("${mongo.application.name}")
-  private String mongoApplicationName;
-  @Value("${mongo.database.name}")
-  private String mongoDatabaseName;
+  @Value("${mongo.sd.hosts}")
+  private String[] mongoSDHosts;
+  @Value("${mongo.sd.port}")
+  private int mongoSDPort;
+  @Value("${mongo.sd.authentication.db}")
+  private String mongoSDAuthenticationDb;
+  @Value("${mongo.sd.username}")
+  private String mongoSDUsername;
+  @Value("${mongo.sd.password}")
+  private String mongoSDPassword;
+  @Value("${mongo.sd.enable.ssl}")
+  private boolean mongoSDEnableSsl;
+  @Value("${mongo.sd.application.name}")
+  private String mongoSDApplicationName;
+  @Value("${mongo.sd.database.name}")
+  private String mongoSDDatabaseName;
 
   // truststore
   @Value("${truststore.path}")
@@ -67,36 +67,36 @@ public class ApplicationProperties {
     return socksProxyPassword;
   }
 
-  public String[] getMongoHosts() {
-    return mongoHosts.clone();
+  public String[] getMongoSDHosts() {
+    return mongoSDHosts.clone();
   }
 
-  public int getMongoPort() {
-    return mongoPort;
+  public int getMongoSDPort() {
+    return mongoSDPort;
   }
 
-  public String getMongoAuthenticationDb() {
-    return mongoAuthenticationDb;
+  public String getMongoSDAuthenticationDb() {
+    return mongoSDAuthenticationDb;
   }
 
-  public String getMongoUsername() {
-    return mongoUsername;
+  public String getMongoSDUsername() {
+    return mongoSDUsername;
   }
 
-  public String getMongoPassword() {
-    return mongoPassword;
+  public String getMongoSDPassword() {
+    return mongoSDPassword;
   }
 
-  public boolean isMongoEnableSsl() {
-    return mongoEnableSsl;
+  public boolean isMongoSDEnableSsl() {
+    return mongoSDEnableSsl;
   }
 
-  public String getMongoApplicationName() {
-    return mongoApplicationName;
+  public String getMongoSDApplicationName() {
+    return mongoSDApplicationName;
   }
 
-  public String getMongoDatabaseName() {
-    return mongoDatabaseName;
+  public String getMongoSDDatabaseName() {
+    return mongoSDDatabaseName;
   }
 
   public String getTruststorePath() {
