@@ -40,7 +40,7 @@ public class StatisticsServer {
    * @throws FailedFieldException
    */
   public ResultListFilters queryGeneralEuropeanaData() throws FailedFieldException {
-    ArrayList<StatisticsData> generalQueries = prepareGeneralQueries();
+    List<StatisticsData> generalQueries = prepareGeneralQueries();
     int totalRecordCount = generalQueries.get(0).getRecordCount();
 
     List<BreakdownResult> allBreakdowns = new ArrayList<>();
@@ -77,9 +77,9 @@ public class StatisticsServer {
     return null;
   }
 
-  private ArrayList<StatisticsData> prepareGeneralQueries() {
+  private List<StatisticsData> prepareGeneralQueries() {
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
-    ArrayList<StatisticsData> queries = new ArrayList<>();
+    List<StatisticsData> queries = new ArrayList<>();
 
     List<Field> filterFields = Arrays.stream(Field.values())
         .filter(x -> x != Field.UPDATED_DATE && x != Field.CREATED_DATE && x != Field.DATASET_ID)
