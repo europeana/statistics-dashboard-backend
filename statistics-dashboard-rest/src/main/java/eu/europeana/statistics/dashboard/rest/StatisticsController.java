@@ -57,7 +57,7 @@ public class StatisticsController {
   @ResponseBody
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
-  public ResultListFilters getGeneralStatistics() {
+  public ResultListFilters getGeneralStatistics() throws NoSuchFieldException {
     return statisticsServer.queryGeneralEuropeanaData();
   }
 

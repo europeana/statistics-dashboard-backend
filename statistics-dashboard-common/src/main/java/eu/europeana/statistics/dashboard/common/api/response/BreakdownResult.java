@@ -12,7 +12,6 @@ import java.util.List;
 
 public class BreakdownResult {
 
-
   private FacetValue breakdownBy;
   private List<StatisticsResult> results;
 

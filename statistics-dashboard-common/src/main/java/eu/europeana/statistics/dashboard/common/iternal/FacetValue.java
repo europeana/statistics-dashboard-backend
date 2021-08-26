@@ -2,6 +2,12 @@ package eu.europeana.statistics.dashboard.common.iternal;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
+import eu.europeana.statistics.dashboard.service.persistence.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public enum FacetValue {
   CONTENT_TIER(FilterNames.CONTENT_TIER),
@@ -14,17 +20,26 @@ public enum FacetValue {
 
   private final String name;
 
-  FacetValue(String name){
+  FacetValue(String name) {
     this.name = name;
   }
 
-  public boolean equalValues(FacetValue otherValue){
+  public boolean equalValues(FacetValue otherValue) {
     return name.equals(otherValue.name);
   }
 
   @JsonValue
   @Override
-  public String toString(){
+  public String toString() {
     return name;
+  }
+
+  public static FacetValue fromFieldToFacetValue(Field field) {
+    List<FacetValue> anyMatchOrContainsField = Arrays.stream(FacetValue.values())
+        .filter(facetValue -> facetValue.toString().equals(field.getFieldName()) ||
+            facetValue.toString().toLowerCase(Locale.ROOT).contains(field.getFieldName()))
+        .collect(Collectors.toList());
+
+    return Optional.ofNullable(anyMatchOrContainsField.get(0)).orElse(null);
   }
 }
