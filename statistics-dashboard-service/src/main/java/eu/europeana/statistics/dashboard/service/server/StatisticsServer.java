@@ -6,6 +6,7 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
+import eu.europeana.statistics.dashboard.service.exception.FailedFieldException;
 import eu.europeana.statistics.dashboard.service.persistence.Field;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
@@ -36,9 +37,9 @@ public class StatisticsServer {
   /**
    * It queries the general data for all of Europeana
    * @return A list with all breakdowns and their respective value
-   * @throws NoSuchFieldException
+   * @throws FailedFieldException
    */
-  public ResultListFilters queryGeneralEuropeanaData() throws NoSuchFieldException {
+  public ResultListFilters queryGeneralEuropeanaData() throws FailedFieldException {
     ArrayList<StatisticsData> generalQueries = prepareGeneralQueries();
     int totalRecordCount = generalQueries.get(0).getRecordCount();
 
@@ -51,7 +52,7 @@ public class StatisticsServer {
 
       // Check if any FacetValue was found from Field
       if(breakdownBy == null){
-        throw new NoSuchFieldException("No such field " + resultData.getBreakdown().get(0).getField()
+        throw new FailedFieldException("No such field " + resultData.getBreakdown().get(0).getField()
             + " exists");
       }
 

@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.rest;
 
+import eu.europeana.statistics.dashboard.service.exception.FailedFieldException;
 import eu.europeana.statistics.dashboard.service.server.StatisticsServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,7 +58,7 @@ public class StatisticsController {
   @ResponseBody
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
-  public ResultListFilters getGeneralStatistics() throws NoSuchFieldException {
+  public ResultListFilters getGeneralStatistics() throws FailedFieldException {
     return statisticsServer.queryGeneralEuropeanaData();
   }
 
