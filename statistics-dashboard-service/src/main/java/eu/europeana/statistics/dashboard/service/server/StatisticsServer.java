@@ -1,7 +1,9 @@
 package eu.europeana.statistics.dashboard.service.server;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
 import eu.europeana.statistics.dashboard.common.api.response.BreakdownResult;
+import eu.europeana.statistics.dashboard.common.api.response.FilteringOptions;
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
@@ -76,9 +78,10 @@ public class StatisticsServer {
   }
 
   /**
-   *
-   * @param statisticsRequest
-   * @return
+   * It queries the requested data taking into account the filters
+   * @param statisticsRequest The filters and its respective values to query
+   * @return An object containing the result of the filtering and the available
+   *    * options based on the filtering performed
    */
   public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) {
     StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
@@ -94,9 +97,12 @@ public class StatisticsServer {
       statisticsResult.setBreakdowns(new BreakdownResult(breakdownParsing.getKey(),breakdownParsing.getValue()));
     }
 
+    FilteringOptions filteringOptions = new FilteringOptions();
+    valueAvailableOptions.forEach((key, value) -> key.getValueFilterSetter().accept(filteringOptions, value));
+    rangeAvailableOptions.forEach((key, value) -> key.getRangeFilterSetter()
+        .accept(filteringOptions, new StatisticsRangeFilter(value.getFrom(), value.getTo())));
 
-
-    return new FilteringResult(statisticsResult, null);
+    return new FilteringResult(statisticsResult, filteringOptions);
   }
 
   private List<StatisticsData> prepareGeneralQueries() {

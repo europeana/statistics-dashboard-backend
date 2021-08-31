@@ -4,9 +4,11 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsCountFilte
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
 
+import eu.europeana.statistics.dashboard.common.api.response.FilteringOptions;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 
@@ -15,27 +17,33 @@ import java.util.function.Function;
  */
 public enum FieldMongoStatistics {
 
-  DATASET_ID(MongoFieldNames.DATASET_ID_FIELD, null, null),
-  TYPE(MongoFieldNames.TYPE_FIELD, StatisticsFilteringRequest::getContentType, null),
-  COUNTRY(MongoFieldNames.COUNTRY_FIELD, StatisticsFilteringRequest::getCountry, null),
-  PROVIDER(MongoFieldNames.PROVIDER_FIELD, StatisticsFilteringRequest::getProvider, null),
-  DATA_PROVIDER(MongoFieldNames.DATA_PROVIDER_FIELD, StatisticsFilteringRequest::getDataProvider, null),
-  RIGHTS(MongoFieldNames.RIGHTS_FIELD, StatisticsFilteringRequest::getRightsStatements, null),
-  CONTENT_TIER(MongoFieldNames.CONTENT_TIER_FIELD, StatisticsFilteringRequest::getContentTier, null),
-  METADATA_TIER(MongoFieldNames.METADATA_TIER_FIELD, StatisticsFilteringRequest::getMetadataTier, null),
-  CREATED_DATE(MongoFieldNames.CREATED_DATE_FIELD, null, StatisticsFilteringRequest::getCreatedDate),
-  UPDATED_DATE(MongoFieldNames.UPDATED_DATE_FIELD, null, StatisticsFilteringRequest::getUpdatedDate);
+  DATASET_ID(MongoFieldNames.DATASET_ID_FIELD, null, null, null, null),
+  TYPE(MongoFieldNames.TYPE_FIELD, StatisticsFilteringRequest::getContentType, null, FilteringOptions::setContentType, null),
+  COUNTRY(MongoFieldNames.COUNTRY_FIELD, StatisticsFilteringRequest::getCountry, null, FilteringOptions::setCountry, null),
+  PROVIDER(MongoFieldNames.PROVIDER_FIELD, StatisticsFilteringRequest::getProvider, null, FilteringOptions::setProvider, null),
+  DATA_PROVIDER(MongoFieldNames.DATA_PROVIDER_FIELD, StatisticsFilteringRequest::getDataProvider, null, FilteringOptions::setDataProvider, null),
+  RIGHTS(MongoFieldNames.RIGHTS_FIELD, StatisticsFilteringRequest::getRightsStatements, null, FilteringOptions::setRights, null),
+  CONTENT_TIER(MongoFieldNames.CONTENT_TIER_FIELD, StatisticsFilteringRequest::getContentTier, null, FilteringOptions::setContentTier, null),
+  METADATA_TIER(MongoFieldNames.METADATA_TIER_FIELD, StatisticsFilteringRequest::getMetadataTier, null, FilteringOptions::setMetadataTier, null),
+  CREATED_DATE(MongoFieldNames.CREATED_DATE_FIELD, null, StatisticsFilteringRequest::getCreatedDate, null, FilteringOptions::setCreatedDate),
+  UPDATED_DATE(MongoFieldNames.UPDATED_DATE_FIELD, null, StatisticsFilteringRequest::getUpdatedDate, null, FilteringOptions::setUpdatedDate);
 
   private final String fieldName;
   private final Function<StatisticsFilteringRequest, StatisticsCountFilter> valueFilterGetter;
   private final Function<StatisticsFilteringRequest, StatisticsRangeFilter> rangeFilterGetter;
+  private final BiConsumer<FilteringOptions, Set<String>> valueFilterSetter;
+  private final BiConsumer<FilteringOptions, StatisticsRangeFilter> rangeFilterSetter;
 
   FieldMongoStatistics(String fieldName,
       Function<StatisticsFilteringRequest, StatisticsCountFilter> valueFilterGetter,
-      Function<StatisticsFilteringRequest, StatisticsRangeFilter> rangeFilterGetter) {
+      Function<StatisticsFilteringRequest, StatisticsRangeFilter> rangeFilterGetter,
+      BiConsumer<FilteringOptions, Set<String>> valueFilterSetter,
+      BiConsumer<FilteringOptions, StatisticsRangeFilter> rangeFilterSetter) {
     this.fieldName = fieldName;
     this.valueFilterGetter = valueFilterGetter;
     this.rangeFilterGetter = rangeFilterGetter;
+    this.valueFilterSetter = valueFilterSetter;
+    this.rangeFilterSetter = rangeFilterSetter;
   }
 
   /**
@@ -53,6 +61,14 @@ public enum FieldMongoStatistics {
 
   public Function<StatisticsFilteringRequest, StatisticsRangeFilter> getRangeFilterGetter() {
     return rangeFilterGetter;
+  }
+
+  public BiConsumer<FilteringOptions, Set<String>> getValueFilterSetter() {
+    return valueFilterSetter;
+  }
+
+  public BiConsumer<FilteringOptions, StatisticsRangeFilter> getRangeFilterSetter() {
+    return rangeFilterSetter;
   }
 
   public static Set<FieldMongoStatistics> getValueFields(){
