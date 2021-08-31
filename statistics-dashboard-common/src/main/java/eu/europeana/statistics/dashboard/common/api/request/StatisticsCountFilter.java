@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Class that represents a filter type count.
@@ -41,5 +42,10 @@ public class StatisticsCountFilter implements StatisticsFilter{
 
   public void setValues(List<String> values) {
     this.values = new ArrayList<>(values);
+  }
+
+  @Override
+  public boolean isValuesEmpty() {
+    return CollectionUtils.isEmpty(values);
   }
 }

@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.service.persistence;
 
+import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
  */
 public class StatisticsData {
 
-  private final Field field;
+  private final FieldMongoStatistics fieldMongoStatistics;
   private final String fieldValue;
   private final int recordCount;
   private final List<StatisticsData> breakdown;
@@ -20,15 +21,15 @@ public class StatisticsData {
    * Constructor for a node with children (i.e. a nested breakdown). The record count is computed
    * from the total of the children's record counts.
    *
-   * @param field      The field on which this object and its siblings are broken down. Is null for
+   * @param fieldMongoStatistics      The field on which this object and its siblings are broken down. Is null for
    *                   the top level node.
    * @param fieldValue The value of the field that applies to this data (and its children) and that
    *                   distinguishes it from its siblings. Is null for the top level node.
    * @param breakdown  The breakdown of the data represented by this node (by another field). Is
    *                   null in case of leaf nodes.
    */
-  StatisticsData(Field field, String fieldValue, List<StatisticsData> breakdown) {
-    this.field = field;
+  StatisticsData(FieldMongoStatistics fieldMongoStatistics, String fieldValue, List<StatisticsData> breakdown) {
+    this.fieldMongoStatistics = fieldMongoStatistics;
     this.fieldValue = fieldValue;
     this.recordCount = Optional.ofNullable(breakdown)
         .map(list -> list.stream().mapToInt(StatisticsData::getRecordCount).sum()).orElse(0);
@@ -39,14 +40,14 @@ public class StatisticsData {
   /**
    * Constructor for a leaf node (without children).
    *
-   * @param field       The field on which this object and its siblings are broken down. Is null for
+   * @param fieldMongoStatistics       The field on which this object and its siblings are broken down. Is null for
    *                    the top level node.
    * @param fieldValue  The value of the field that applies to this data (and its children) and that
    *                    distinguishes it from its siblings. Is null for the top level node.
    * @param recordCount The number of records represented by this node. Should be greater than 1.
    */
-  StatisticsData(Field field, String fieldValue, int recordCount) {
-    this.field = field;
+  StatisticsData(FieldMongoStatistics fieldMongoStatistics, String fieldValue, int recordCount) {
+    this.fieldMongoStatistics = fieldMongoStatistics;
     this.fieldValue = fieldValue;
     this.recordCount = recordCount;
     this.breakdown = null;
@@ -56,8 +57,8 @@ public class StatisticsData {
    * @return The field on which this object and its siblings are broken down. Is null for the top
    * level node.
    */
-  public Field getField() {
-    return field;
+  public FieldMongoStatistics getField() {
+    return fieldMongoStatistics;
   }
 
   /**

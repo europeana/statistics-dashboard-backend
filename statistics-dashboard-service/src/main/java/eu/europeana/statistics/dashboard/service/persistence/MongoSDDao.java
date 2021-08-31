@@ -10,6 +10,8 @@ import dev.morphia.mapping.DiscriminatorFunction;
 import dev.morphia.mapping.MapperOptions;
 import dev.morphia.mapping.NamingStrategy;
 import dev.morphia.query.experimental.filters.Filters;
+import eu.europeana.statistics.dashboard.common.iternal.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -41,7 +43,7 @@ public class MongoSDDao {
    */
   public void deleteRecords(String datasetId) {
     retryableExternalRequestForNetworkExceptions(() -> datastore.find(StatisticsRecordModel.class)
-        .filter(Filters.eq(StatisticsRecordModel.DATASET_ID_FIELD, datasetId))
+        .filter(Filters.eq(MongoFieldNames.DATASET_ID_FIELD, datasetId))
         .delete(new DeleteOptions().multi(true)));
   }
 

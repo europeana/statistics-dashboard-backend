@@ -2,7 +2,6 @@ package eu.europeana.statistics.dashboard.common.iternal;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
-import eu.europeana.statistics.dashboard.service.persistence.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -34,10 +33,10 @@ public enum FacetValue {
     return name;
   }
 
-  public static FacetValue fromFieldToFacetValue(Field field) {
+  public static FacetValue fromFieldToFacetValue(FieldMongoStatistics fieldMongoStatistics) {
     List<FacetValue> anyMatchOrContainsField = Arrays.stream(FacetValue.values())
-        .filter(facetValue -> facetValue.toString().equals(field.getFieldName()) ||
-            facetValue.toString().toLowerCase(Locale.ROOT).contains(field.getFieldName()))
+        .filter(facetValue -> facetValue.toString().equals(fieldMongoStatistics.getFieldName()) ||
+            facetValue.toString().toLowerCase(Locale.ROOT).contains(fieldMongoStatistics.getFieldName()))
         .collect(Collectors.toList());
 
     return Optional.ofNullable(anyMatchOrContainsField.get(0)).orElse(null);

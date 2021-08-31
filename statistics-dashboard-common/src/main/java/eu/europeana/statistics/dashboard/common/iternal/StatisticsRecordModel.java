@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.service.persistence;
+package eu.europeana.statistics.dashboard.common.iternal;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.Entity;
@@ -9,6 +9,7 @@ import dev.morphia.annotations.IndexOptions;
 import dev.morphia.annotations.Indexes;
 import dev.morphia.annotations.Property;
 import eu.europeana.metis.mongo.utils.ObjectIdSerializer;
+import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import org.bson.types.ObjectId;
 
 /**
@@ -16,76 +17,64 @@ import org.bson.types.ObjectId;
  */
 @Entity
 @Indexes({
-    @Index(fields = {@Field(StatisticsRecordModel.DATASET_ID_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.TYPE_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.COUNTRY_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.PROVIDER_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.DATA_PROVIDER_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.RIGHTS_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.CONTENT_TIER_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.METADATA_TIER_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.CREATED_DATE_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.UPDATED_DATE_FIELD)}),
-    @Index(fields = {@Field(StatisticsRecordModel.DATASET_ID_FIELD),
-        @Field(StatisticsRecordModel.TYPE_FIELD), @Field(StatisticsRecordModel.COUNTRY_FIELD),
-        @Field(StatisticsRecordModel.PROVIDER_FIELD),
-        @Field(StatisticsRecordModel.DATA_PROVIDER_FIELD),
-        @Field(StatisticsRecordModel.RIGHTS_FIELD),
-        @Field(StatisticsRecordModel.CONTENT_TIER_FIELD),
-        @Field(StatisticsRecordModel.METADATA_TIER_FIELD),
-        @Field(StatisticsRecordModel.CREATED_DATE_FIELD),
-        @Field(StatisticsRecordModel.UPDATED_DATE_FIELD)},
+    @Index(fields = {@Field(MongoFieldNames.DATASET_ID_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.TYPE_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.COUNTRY_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.PROVIDER_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.DATA_PROVIDER_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.RIGHTS_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.CONTENT_TIER_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.METADATA_TIER_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.CREATED_DATE_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.UPDATED_DATE_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.DATASET_ID_FIELD),
+        @Field(MongoFieldNames.TYPE_FIELD), @Field(MongoFieldNames.COUNTRY_FIELD),
+        @Field(MongoFieldNames.PROVIDER_FIELD),
+        @Field(MongoFieldNames.DATA_PROVIDER_FIELD),
+        @Field(MongoFieldNames.RIGHTS_FIELD),
+        @Field(MongoFieldNames.CONTENT_TIER_FIELD),
+        @Field(MongoFieldNames.METADATA_TIER_FIELD),
+        @Field(MongoFieldNames.CREATED_DATE_FIELD),
+        @Field(MongoFieldNames.UPDATED_DATE_FIELD)},
         options = @IndexOptions(name = "all_fields_uniqueness", unique = true))
 })
 public class StatisticsRecordModel {
-
-  static final String DATASET_ID_FIELD = "datasetId";
-  static final String TYPE_FIELD = "type";
-  static final String COUNTRY_FIELD = "country";
-  static final String PROVIDER_FIELD = "provider";
-  static final String DATA_PROVIDER_FIELD = "dataProvider";
-  static final String RIGHTS_FIELD = "rights";
-  static final String CONTENT_TIER_FIELD = "contentTier";
-  static final String METADATA_TIER_FIELD = "metadataTier";
-  static final String CREATED_DATE_FIELD = "createdDate";
-  static final String UPDATED_DATE_FIELD = "updatedDate";
-  static final String RECORD_COUNT_FIELD = "recordCount";
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)
   private ObjectId id;
 
-  @Property(DATASET_ID_FIELD)
+  @Property(MongoFieldNames.DATASET_ID_FIELD)
   private String datasetId;
 
-  @Property(TYPE_FIELD)
+  @Property(MongoFieldNames.TYPE_FIELD)
   private String type;
 
-  @Property(COUNTRY_FIELD)
+  @Property(MongoFieldNames.COUNTRY_FIELD)
   private String country;
 
-  @Property(PROVIDER_FIELD)
+  @Property(MongoFieldNames.PROVIDER_FIELD)
   private String provider;
 
-  @Property(DATA_PROVIDER_FIELD)
+  @Property(MongoFieldNames.DATA_PROVIDER_FIELD)
   private String dataProvider;
 
-  @Property(RIGHTS_FIELD)
+  @Property(MongoFieldNames.RIGHTS_FIELD)
   private String rights;
 
-  @Property(CONTENT_TIER_FIELD)
+  @Property(MongoFieldNames.CONTENT_TIER_FIELD)
   private String contentTier;
 
-  @Property(METADATA_TIER_FIELD)
+  @Property(MongoFieldNames.METADATA_TIER_FIELD)
   private String metadataTier;
 
-  @Property(CREATED_DATE_FIELD)
+  @Property(MongoFieldNames.CREATED_DATE_FIELD)
   private String createdDate;
 
-  @Property(UPDATED_DATE_FIELD)
+  @Property(MongoFieldNames.UPDATED_DATE_FIELD)
   private String updatedDate;
 
-  @Property(RECORD_COUNT_FIELD)
+  @Property(MongoFieldNames.RECORD_COUNT_FIELD)
   private int recordCount;
 
   public ObjectId getId() {

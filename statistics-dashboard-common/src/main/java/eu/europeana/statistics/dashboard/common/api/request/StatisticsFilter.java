@@ -5,4 +5,6 @@ package eu.europeana.statistics.dashboard.common.api.request;
  */
 public interface StatisticsFilter {
 
+  public boolean isValuesEmpty();
+
 }

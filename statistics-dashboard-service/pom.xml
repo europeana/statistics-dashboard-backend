@@ -24,15 +24,5 @@
       <version>5.3.7</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>eu.europeana.metis</groupId>
-      <artifactId>metis-common-mongo</artifactId>
-      <version>${version.metis}</version>
-    </dependency>
-    <dependency>
-      <groupId>eu.europeana.metis</groupId>
-      <artifactId>metis-common-network</artifactId>
-      <version>${version.metis}</version>
-    </dependency>
   </dependencies>
 </project>

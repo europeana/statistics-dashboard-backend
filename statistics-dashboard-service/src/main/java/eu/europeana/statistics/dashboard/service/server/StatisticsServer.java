@@ -6,14 +6,18 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
+import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
 import eu.europeana.statistics.dashboard.service.exception.FailedFieldException;
-import eu.europeana.statistics.dashboard.service.persistence.Field;
+import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
+import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
@@ -74,6 +78,7 @@ public class StatisticsServer {
    * @return
    */
   public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) {
+    StatisticsData queryResult = prepareFilteringQuery(statisticsRequest);
     return null;
   }
 
@@ -81,14 +86,35 @@ public class StatisticsServer {
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
     List<StatisticsData> queries = new ArrayList<>();
 
-    List<Field> filterFields = Arrays.stream(Field.values())
-        .filter(x -> x != Field.UPDATED_DATE && x != Field.CREATED_DATE && x != Field.DATASET_ID)
+    List<FieldMongoStatistics> filterFieldMongoStatistics = Arrays.stream(FieldMongoStatistics.values())
+        .filter(field -> field != FieldMongoStatistics.UPDATED_DATE &&
+            field != FieldMongoStatistics.CREATED_DATE &&
+            field != FieldMongoStatistics.DATASET_ID)
         .collect(Collectors.toUnmodifiableList());
-    for (Field field : filterFields) {
-      queries.add(query.withBreakdowns(field).queryForStatistics());
+    for (FieldMongoStatistics fieldMongoStatistics : filterFieldMongoStatistics) {
+      queries.add(query.withBreakdowns(fieldMongoStatistics).queryForStatistics());
     }
 
     return queries;
+  }
+
+  private StatisticsData prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest){
+    StatisticsQuery query = mongoSDDao.createStatisticsQuery();
+
+    Map<FieldMongoStatistics, Set<String>> parsedValueFilters = RequestUtils
+        .parseValuesFiltersFromRequest(statisticsRequest);
+    Map<FieldMongoStatistics, ValueRange> parsedRangeFilters = RequestUtils
+        .parseRangeFiltersFromRequest(statisticsRequest);
+    List<FieldMongoStatistics> breakdowns = RequestUtils
+        .parseBreakdownsFromRequest(statisticsRequest);
+
+    parsedValueFilters.forEach(query::withValueFilter);
+    parsedRangeFilters.forEach(
+        (key, value) -> query.withRangeFilter(key, value.getFrom(), value.getTo()));
+    query.withBreakdowns(breakdowns.toArray(FieldMongoStatistics[]::new));
+
+    return query.queryForStatistics();
+
   }
 
   private double getPercentage(double totalCount, double count) {

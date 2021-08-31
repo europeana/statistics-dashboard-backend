@@ -3,6 +3,10 @@ package eu.europeana.statistics.dashboard.common.api.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Class that encapsulates all types of statistics filters, each of them with their conditions
@@ -123,5 +127,26 @@ public class StatisticsFilteringRequest {
 
   public void setUpdatedDate(StatisticsRangeFilter updatedDate) {
     this.updatedDate = updatedDate;
+  }
+
+  public List<StatisticsCountFilter> getAllCountFilters(){
+    List<StatisticsCountFilter> filters = new ArrayList<>();
+    filters.add(contentTier);
+    filters.add(contentType);
+    filters.add(country);
+    filters.add(dataProvider);
+    filters.add(metadataTier);
+    filters.add(provider);
+    filters.add(rightsStatements);
+
+    return filters.stream().filter(Objects::nonNull).collect(Collectors.toList());
+  }
+
+  public List<StatisticsRangeFilter> getAllRangeFilters(){
+    List<StatisticsRangeFilter> filters = new ArrayList<>();
+    filters.add(createdDate);
+    filters.add(updatedDate);
+
+    return filters.stream().filter(Objects::nonNull).collect(Collectors.toList());
   }
 }
