@@ -15,10 +15,13 @@ import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
 
 /**
@@ -78,8 +81,22 @@ public class StatisticsServer {
    * @return
    */
   public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) {
-    StatisticsData queryResult = prepareFilteringQuery(statisticsRequest);
-    return null;
+    StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
+    StatisticsData queryResult = readyQuery.queryForStatistics();
+    Map<FieldMongoStatistics, Set<String>> valueAvailableOptions = prepareValueFilteringOptionsQuery(readyQuery);
+    Map<FieldMongoStatistics, ValueRange> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(readyQuery);
+
+    int totalRecords = queryResult.getRecordCount();
+    StatisticsResult statisticsResult = new StatisticsResult("ALL_RECORDS", totalRecords, 100);
+
+    if(!queryResult.isBreakdownListEmpty()) {
+      Pair<FacetValue, List<StatisticsResult>> breakdownParsing = parseBreakdown(queryResult, totalRecords);
+      statisticsResult.setBreakdowns(new BreakdownResult(breakdownParsing.getKey(),breakdownParsing.getValue()));
+    }
+
+
+
+    return new FilteringResult(statisticsResult, null);
   }
 
   private List<StatisticsData> prepareGeneralQueries() {
@@ -98,7 +115,7 @@ public class StatisticsServer {
     return queries;
   }
 
-  private StatisticsData prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest){
+  private StatisticsQuery prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest){
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
 
     Map<FieldMongoStatistics, Set<String>> parsedValueFilters = RequestUtils
@@ -113,8 +130,51 @@ public class StatisticsServer {
         (key, value) -> query.withRangeFilter(key, value.getFrom(), value.getTo()));
     query.withBreakdowns(breakdowns.toArray(FieldMongoStatistics[]::new));
 
-    return query.queryForStatistics();
+    return query;
 
+  }
+
+  private Map<FieldMongoStatistics, Set<String>> prepareValueFilteringOptionsQuery(StatisticsQuery query){
+    Map<FieldMongoStatistics, Set<String>> result = new HashMap<>();
+    FieldMongoStatistics.getValueFields().forEach(field -> result.put(field, query.queryForValueOptions(field)));
+    return result;
+
+  }
+
+  private Map<FieldMongoStatistics, ValueRange> prepareRangeFilteringOptionsQuery(StatisticsQuery query){
+    Map<FieldMongoStatistics, ValueRange> result = new HashMap<>();
+    FieldMongoStatistics.getRangeFields().forEach(field -> result.put(field, query.queryForValueRange(field)));
+    return result;
+
+  }
+
+  // TODO: Consider making a recursion method
+  private Pair<FacetValue, List<StatisticsResult>> parseBreakdown(StatisticsData queryResult, int totalRecords){
+
+    FacetValue breakdownBy = FacetValue.fromFieldToFacetValue(queryResult.getBreakdown().get(0).getField());
+    List<StatisticsResult> breakdownsResults = new ArrayList<>();
+
+    for (StatisticsData breakdown : queryResult.getBreakdown()) {
+      StatisticsResult newElement = new StatisticsResult(breakdown.getFieldValue(),
+          breakdown.getRecordCount(), getPercentage(totalRecords, breakdown.getRecordCount()));
+
+      if (!breakdown.isBreakdownListEmpty()) {
+        List<StatisticsResult> listBreakdownsResult = new ArrayList<>();
+        FacetValue newFacetBreakdownValue = FacetValue.fromFieldToFacetValue(
+            breakdown.getBreakdown().get(0).getField());
+        breakdown.getBreakdown().forEach(value ->
+            listBreakdownsResult.add(new StatisticsResult(value.getFieldValue(),
+                value.getRecordCount(), getPercentage(totalRecords, value.getRecordCount())))
+        );
+        BreakdownResult breakdownResult = new BreakdownResult(newFacetBreakdownValue,
+            listBreakdownsResult);
+        newElement.setBreakdowns(breakdownResult);
+      }
+
+      breakdownsResults.add(newElement);
+    }
+
+    return new ImmutablePair<>(breakdownBy, breakdownsResults);
   }
 
   private double getPercentage(double totalCount, double count) {

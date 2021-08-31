@@ -5,6 +5,8 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringR
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
 
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 
@@ -51,5 +53,24 @@ public enum FieldMongoStatistics {
 
   public Function<StatisticsFilteringRequest, StatisticsRangeFilter> getRangeFilterGetter() {
     return rangeFilterGetter;
+  }
+
+  public static Set<FieldMongoStatistics> getValueFields(){
+    Set<FieldMongoStatistics> result = new HashSet<>();
+    result.add(FieldMongoStatistics.TYPE);
+    result.add(FieldMongoStatistics.COUNTRY);
+    result.add(FieldMongoStatistics.PROVIDER);
+    result.add(FieldMongoStatistics.DATA_PROVIDER);
+    result.add(FieldMongoStatistics.RIGHTS);
+    result.add(FieldMongoStatistics.CONTENT_TIER);
+    result.add(FieldMongoStatistics.METADATA_TIER);
+    return result;
+  }
+
+  public static Set<FieldMongoStatistics> getRangeFields(){
+    Set<FieldMongoStatistics> result = new HashSet<>();
+    result.add(FieldMongoStatistics.CREATED_DATE);
+    result.add(FieldMongoStatistics.UPDATED_DATE);
+    return result;
   }
 }
