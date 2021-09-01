@@ -129,7 +129,7 @@ public class StatisticsFilteringRequest {
     this.updatedDate = updatedDate;
   }
 
-  public List<StatisticsValueFilter> getAllCountFilters(){
+  public List<StatisticsValueFilter> getAllValueFilters(){
     List<StatisticsValueFilter> filters = new ArrayList<>();
     filters.add(contentTier);
     filters.add(contentType);

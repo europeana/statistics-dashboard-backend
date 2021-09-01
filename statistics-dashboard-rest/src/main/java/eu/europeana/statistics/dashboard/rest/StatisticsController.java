@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.rest;
 
-import eu.europeana.statistics.dashboard.service.exception.FailedFieldException;
+import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.server.StatisticsServer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +21,7 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringR
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Controller for the Statistics Dashboard
@@ -76,7 +77,11 @@ public class StatisticsController {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
   public FilteringResult getFilters(@ApiParam(value = "The filters to be applied", required = true)
       @RequestBody FiltersWrapper filters) {
-    return statisticsServer.queryDataWithFilters(filters.getFilters());
+    try {
+      return statisticsServer.queryDataWithFilters(filters.getFilters());
+    } catch(FacetDeclarationFailException e){
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only one Facet declaration without values");
+    }
   }
 
 }

@@ -8,6 +8,7 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
+import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
 import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
@@ -75,7 +76,8 @@ public class StatisticsServer {
    * @return An object containing the result of the filtering and the available
    *    * options based on the filtering performed
    */
-  public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) {
+  public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest)
+      throws FacetDeclarationFailException {
     //Prepares the query with the requested filters
     StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
 
@@ -120,7 +122,8 @@ public class StatisticsServer {
     return queries;
   }
 
-  private StatisticsQuery prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest){
+  private StatisticsQuery prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest)
+      throws FacetDeclarationFailException {
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
 
     Map<FieldMongoStatistics, Set<String>> parsedValueFilters = RequestUtils

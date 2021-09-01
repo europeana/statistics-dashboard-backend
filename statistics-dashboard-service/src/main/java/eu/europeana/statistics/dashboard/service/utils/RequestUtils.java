@@ -3,6 +3,7 @@ package eu.europeana.statistics.dashboard.service.utils;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
+import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,15 +48,19 @@ public class RequestUtils {
   }
 
   public static List<FieldMongoStatistics> parseBreakdownsFromRequest(
-      StatisticsFilteringRequest statisticsFilteringRequest){
+      StatisticsFilteringRequest statisticsFilteringRequest) throws FacetDeclarationFailException {
 
     // We want the list ordered according to the breakdown type (from 0 to 1).
     // The list order is important for later when we do the request with breakdowns
-    List<StatisticsValueFilter> countFilters = statisticsFilteringRequest.getAllCountFilters()
+    List<StatisticsValueFilter> valueFilters = statisticsFilteringRequest.getAllValueFilters()
         .stream()
         .filter(filter -> filter.getBreakdown() != null)
         .sorted(Comparator.comparing(StatisticsValueFilter::getBreakdown))
         .collect(Collectors.toList());
+
+    if(!isFacetDefinitionCorrect(valueFilters)){
+      throw new FacetDeclarationFailException("There can only be one facet without any valued defined");
+    }
 
     List<FieldMongoStatistics> nonNullFilters = Arrays.stream(FieldMongoStatistics.values())
         .filter(field -> field.getValueFilterGetter() != null &&
@@ -64,7 +69,7 @@ public class RequestUtils {
     List<FieldMongoStatistics> result = new ArrayList<>();
 
     // To ensure the order of the list is kept the same
-    for(StatisticsValueFilter filter : countFilters){
+    for(StatisticsValueFilter filter : valueFilters){
       nonNullFilters.forEach(field -> {
         if(field.getValueFilterGetter().apply(statisticsFilteringRequest).equals(filter)){
           result.add(field);
@@ -88,6 +93,11 @@ public class RequestUtils {
     return fieldMongoStatistics.getValueFilterGetter() == null &&
         fieldMongoStatistics.getRangeFilterGetter() != null &&
         fieldMongoStatistics.getRangeFilterGetter().apply(statisticsFilteringRequest) != null;
+  }
+
+  private static boolean isFacetDefinitionCorrect(List<StatisticsValueFilter> filters){
+    return filters.stream().filter(filter -> filter.getBreakdown() == 0).count() == 1 &&
+        filters.stream().filter(filter -> filter.getBreakdown() == 0 && filter.isValuesEmpty()).count() == 1;
   }
 
 }
