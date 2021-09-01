@@ -9,7 +9,6 @@ import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
 import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
-import eu.europeana.statistics.dashboard.service.exception.FailedFieldException;
 import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
@@ -32,7 +31,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StatisticsServer {
 
-  private MongoSDDao mongoSDDao;
+  private final MongoSDDao mongoSDDao;
 
   /**
    * Constructor for the Statistics Server
@@ -46,35 +45,28 @@ public class StatisticsServer {
   /**
    * It queries the general data for all of Europeana
    * @return A list with all breakdowns and their respective value
-   * @throws FailedFieldException
    */
-  public ResultListFilters queryGeneralEuropeanaData() throws FailedFieldException {
+  public ResultListFilters queryGeneralEuropeanaData() {
+    // It returns a list of StatisticsData, where each has a list of breakdowns
     List<StatisticsData> generalQueries = prepareGeneralQueries();
+    // Get total count of records (it is the same for each group of breakdowns)
     int totalRecordCount = generalQueries.get(0).getRecordCount();
 
-    List<BreakdownResult> allBreakdowns = new ArrayList<>();
-    for (StatisticsData resultData : generalQueries) {
-
+    List<BreakdownResult> allBreakdownsEuropeana = new ArrayList<>();
+    for (StatisticsData resultBreakdown : generalQueries) {
       // Replace Field with FacetValue object
-      FacetValue breakdownBy = FacetValue.fromFieldToFacetValue(
-          resultData.getBreakdown().get(0).getField());
-
-      // Check if any FacetValue was found from Field
-      if(breakdownBy == null){
-        throw new FailedFieldException("No such field " + resultData.getBreakdown().get(0).getField()
-            + " exists");
-      }
+      FacetValue breakdownBy = resultBreakdown.getBreakdown().get(0).getField().getFacet();
 
       // Convert StatisticsData into a list of StatisticResult
-      List<StatisticsResult> statisticsResultList = resultData.getBreakdown().stream()
+      List<StatisticsResult> statisticsResultList = resultBreakdown.getBreakdown().stream()
           .map(data -> new StatisticsResult(data.getFieldValue(), data.getRecordCount(),
               getPercentage(totalRecordCount, data.getRecordCount())))
           .collect(Collectors.toList());
 
-      allBreakdowns.add(new BreakdownResult(breakdownBy, statisticsResultList));
+      allBreakdownsEuropeana.add(new BreakdownResult(breakdownBy, statisticsResultList));
 
     }
-    return new ResultListFilters(allBreakdowns);
+    return new ResultListFilters(allBreakdownsEuropeana);
   }
 
   /**
@@ -84,39 +76,46 @@ public class StatisticsServer {
    *    * options based on the filtering performed
    */
   public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) {
+    //Prepares the query with the requested filters
     StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
+
+    //Executed the query and obtains the result
     StatisticsData queryResult = readyQuery.queryForStatistics();
+
+    // The available options are based on the query that was executed previously
     Map<FieldMongoStatistics, Set<String>> valueAvailableOptions = prepareValueFilteringOptionsQuery(readyQuery);
     Map<FieldMongoStatistics, ValueRange> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(readyQuery);
 
     int totalRecords = queryResult.getRecordCount();
-    StatisticsResult statisticsResult = new StatisticsResult("ALL_RECORDS", totalRecords, 100);
+    StatisticsResult statisticsAllRecordsResult = new StatisticsResult("ALL_RECORDS", totalRecords, 100);
 
     if(!queryResult.isBreakdownListEmpty()) {
-      Pair<FacetValue, List<StatisticsResult>> breakdownParsing = parseBreakdown(queryResult, totalRecords);
-      statisticsResult.setBreakdowns(new BreakdownResult(breakdownParsing.getKey(),breakdownParsing.getValue()));
+      Pair<FacetValue, List<StatisticsResult>> breakdownParsing = parseBreakdownsAsOutput(queryResult, totalRecords);
+      statisticsAllRecordsResult.setBreakdowns(new BreakdownResult(breakdownParsing.getKey(),breakdownParsing.getValue()));
     }
 
+    // Converting the result of available options to object FilteringOptions
     FilteringOptions filteringOptions = new FilteringOptions();
     valueAvailableOptions.forEach((key, value) -> key.getValueFilterSetter().accept(filteringOptions, value));
     rangeAvailableOptions.forEach((key, value) -> key.getRangeFilterSetter()
         .accept(filteringOptions, new StatisticsRangeFilter(value.getFrom(), value.getTo())));
 
-    return new FilteringResult(statisticsResult, filteringOptions);
+    return new FilteringResult(statisticsAllRecordsResult, filteringOptions);
   }
 
   private List<StatisticsData> prepareGeneralQueries() {
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
     List<StatisticsData> queries = new ArrayList<>();
 
+    // Get all Value fields type
     List<FieldMongoStatistics> filterFieldMongoStatistics = Arrays.stream(FieldMongoStatistics.values())
         .filter(field -> field != FieldMongoStatistics.UPDATED_DATE &&
             field != FieldMongoStatistics.CREATED_DATE &&
             field != FieldMongoStatistics.DATASET_ID)
         .collect(Collectors.toUnmodifiableList());
-    for (FieldMongoStatistics fieldMongoStatistics : filterFieldMongoStatistics) {
-      queries.add(query.withBreakdowns(fieldMongoStatistics).queryForStatistics());
-    }
+
+    // Execute a breakdown query for each Value field
+    filterFieldMongoStatistics.forEach(field -> queries.add(query.withBreakdowns(field).queryForStatistics()));
 
     return queries;
   }
@@ -154,10 +153,9 @@ public class StatisticsServer {
 
   }
 
-  // TODO: Consider making a recursion method
-  private Pair<FacetValue, List<StatisticsResult>> parseBreakdown(StatisticsData queryResult, int totalRecords){
+  private Pair<FacetValue, List<StatisticsResult>> parseBreakdownsAsOutput(StatisticsData queryResult, int totalRecords){
 
-    FacetValue breakdownBy = FacetValue.fromFieldToFacetValue(queryResult.getBreakdown().get(0).getField());
+    FacetValue breakdownBy = queryResult.getBreakdown().get(0).getField().getFacet();
     List<StatisticsResult> breakdownsResults = new ArrayList<>();
 
     for (StatisticsData breakdown : queryResult.getBreakdown()) {
@@ -165,16 +163,13 @@ public class StatisticsServer {
           breakdown.getRecordCount(), getPercentage(totalRecords, breakdown.getRecordCount()));
 
       if (!breakdown.isBreakdownListEmpty()) {
-        List<StatisticsResult> listBreakdownsResult = new ArrayList<>();
-        FacetValue newFacetBreakdownValue = FacetValue.fromFieldToFacetValue(
-            breakdown.getBreakdown().get(0).getField());
+        List<StatisticsResult> newListBreakdownsResult = new ArrayList<>();
+        FacetValue newFacetBreakdownValue = breakdown.getBreakdown().get(0).getField().getFacet();
         breakdown.getBreakdown().forEach(value ->
-            listBreakdownsResult.add(new StatisticsResult(value.getFieldValue(),
+            newListBreakdownsResult.add(new StatisticsResult(value.getFieldValue(),
                 value.getRecordCount(), getPercentage(totalRecords, value.getRecordCount())))
         );
-        BreakdownResult breakdownResult = new BreakdownResult(newFacetBreakdownValue,
-            listBreakdownsResult);
-        newElement.setBreakdowns(breakdownResult);
+        newElement.setBreakdowns(new BreakdownResult(newFacetBreakdownValue, newListBreakdownsResult));
       }
 
       breakdownsResults.add(newElement);

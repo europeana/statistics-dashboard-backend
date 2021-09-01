@@ -14,7 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 @JsonIgnoreProperties(value = { "valuesEmpty" })
 @JsonSerialize
-public class StatisticsCountFilter implements StatisticsFilter{
+public class StatisticsValueFilter implements StatisticsFilter{
 
   // It is an Integer instead of an int, so it can be null
   private Integer breakdown;
@@ -23,9 +23,9 @@ public class StatisticsCountFilter implements StatisticsFilter{
   /**
    * This empty constructor is needed for deserialization
    */
-  public StatisticsCountFilter(){}
+  public StatisticsValueFilter(){}
 
-  public StatisticsCountFilter(Integer breakdown, List<String> values) {
+  public StatisticsValueFilter(Integer breakdown, List<String> values) {
     this.breakdown = breakdown;
     this.values = new ArrayList<>(values);
   }

@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.service.utils;
 
-import eu.europeana.statistics.dashboard.common.api.request.StatisticsCountFilter;
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
@@ -51,10 +51,10 @@ public class RequestUtils {
 
     // We want the list ordered according to the breakdown type (from 0 to 1).
     // The list order is important for later when we do the request with breakdowns
-    List<StatisticsCountFilter> countFilters = statisticsFilteringRequest.getAllCountFilters()
+    List<StatisticsValueFilter> countFilters = statisticsFilteringRequest.getAllCountFilters()
         .stream()
         .filter(filter -> filter.getBreakdown() != null)
-        .sorted(Comparator.comparing(StatisticsCountFilter::getBreakdown))
+        .sorted(Comparator.comparing(StatisticsValueFilter::getBreakdown))
         .collect(Collectors.toList());
 
     List<FieldMongoStatistics> nonNullFilters = Arrays.stream(FieldMongoStatistics.values())
@@ -64,7 +64,7 @@ public class RequestUtils {
     List<FieldMongoStatistics> result = new ArrayList<>();
 
     // To ensure the order of the list is kept the same
-    for(StatisticsCountFilter filter : countFilters){
+    for(StatisticsValueFilter filter : countFilters){
       nonNullFilters.forEach(field -> {
         if(field.getValueFilterGetter().apply(statisticsFilteringRequest).equals(filter)){
           result.add(field);
