@@ -32,6 +32,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class StatisticsServer {
 
+  private static final String STATISTICS_RESULT_ROOT_VALUE = "ALL_RECORDS";
+
   private final MongoSDDao mongoSDDao;
 
   /**
@@ -81,7 +83,7 @@ public class StatisticsServer {
     //Prepares the query with the requested filters
     StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
 
-    //Executed the query and obtains the result
+    //Executes the query and obtains the result
     StatisticsData queryResult = readyQuery.queryForStatistics();
 
     // The available options are based on the query that was executed previously
@@ -89,11 +91,12 @@ public class StatisticsServer {
     Map<FieldMongoStatistics, ValueRange> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(readyQuery);
 
     int totalRecords = queryResult.getRecordCount();
-    StatisticsResult statisticsAllRecordsResult = new StatisticsResult("ALL_RECORDS", totalRecords, 100);
+    StatisticsResult statisticsAllRecordsResult = new StatisticsResult(STATISTICS_RESULT_ROOT_VALUE, totalRecords, 100);
 
+    // If there are breakdowns present, parse them and set them in the final result
     if(!queryResult.isBreakdownListEmpty()) {
-      Pair<FacetValue, List<StatisticsResult>> breakdownParsing = parseBreakdownsAsOutput(queryResult, totalRecords);
-      statisticsAllRecordsResult.setBreakdowns(new BreakdownResult(breakdownParsing.getKey(),breakdownParsing.getValue()));
+      Pair<FacetValue, List<StatisticsResult>> parsedBreakdown = parseBreakdownsAsOutput(queryResult, totalRecords);
+      statisticsAllRecordsResult.setBreakdowns(new BreakdownResult(parsedBreakdown.getKey(),parsedBreakdown.getValue()));
     }
 
     // Converting the result of available options to object FilteringOptions
@@ -133,6 +136,7 @@ public class StatisticsServer {
     List<FieldMongoStatistics> breakdowns = RequestUtils
         .parseBreakdownsFromRequest(statisticsRequest);
 
+    // Set each parsed value into query
     parsedValueFilters.forEach(query::withValueFilter);
     parsedRangeFilters.forEach(
         (key, value) -> query.withRangeFilter(key, value.getFrom(), value.getTo()));
@@ -158,13 +162,16 @@ public class StatisticsServer {
 
   private Pair<FacetValue, List<StatisticsResult>> parseBreakdownsAsOutput(StatisticsData queryResult, int totalRecords){
 
+    // Get Facet for the following breakdown
     FacetValue breakdownBy = queryResult.getBreakdown().get(0).getField().getFacet();
     List<StatisticsResult> breakdownsResults = new ArrayList<>();
 
+    // For each Facet value, set up the value, record count and percentage
     for (StatisticsData breakdown : queryResult.getBreakdown()) {
       StatisticsResult newElement = new StatisticsResult(breakdown.getFieldValue(),
           breakdown.getRecordCount(), getPercentage(totalRecords, breakdown.getRecordCount()));
 
+      // If Facet value contains breakdown, apply the same steps as before
       if (!breakdown.isBreakdownListEmpty()) {
         List<StatisticsResult> newListBreakdownsResult = new ArrayList<>();
         FacetValue newFacetBreakdownValue = breakdown.getBreakdown().get(0).getField().getFacet();

@@ -8,7 +8,6 @@ import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.Val
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,31 +19,26 @@ public class RequestUtils {
   public static Map<FieldMongoStatistics, Set<String>> parseValuesFiltersFromRequest(
       StatisticsFilteringRequest statisticsFilteringRequest){
 
+    // Filter out Value type fields with values present
     List<FieldMongoStatistics> valueField = Arrays.stream(FieldMongoStatistics.values())
         .filter(value -> isValueFilterWithValues(value, statisticsFilteringRequest))
         .collect(Collectors.toList());
 
-    Map<FieldMongoStatistics, Set<String>> result = new HashMap<>();
-
-    valueField.forEach(field -> result.put(field,
-        new HashSet<>(field.getValueFilterGetter().apply(statisticsFilteringRequest).getValues())));
-
-    return result;
+    return valueField.stream().collect(Collectors.toMap(field -> field,
+        field -> new HashSet<>(field.getValueFilterGetter().apply(statisticsFilteringRequest).getValues())));
   }
 
   public static Map<FieldMongoStatistics, ValueRange> parseRangeFiltersFromRequest(
       StatisticsFilteringRequest statisticsFilteringRequest){
 
+    // Filter out Range type fields with values present
     List<FieldMongoStatistics> rangeFields = Arrays.stream(FieldMongoStatistics.values())
         .filter(value -> isRangeFilter(value, statisticsFilteringRequest))
         .collect(Collectors.toList());
 
-    Map<FieldMongoStatistics, ValueRange> result = new HashMap<>();
-
-    rangeFields.forEach(field -> result.put(field, new ValueRange(field.getRangeFilterGetter().apply(statisticsFilteringRequest).getFrom(),
-        field.getRangeFilterGetter().apply(statisticsFilteringRequest).getTo())));
-
-    return result;
+    return rangeFields.stream().collect(Collectors.toMap(field -> field,
+        field -> new ValueRange(field.getRangeFilterGetter().apply(statisticsFilteringRequest).getFrom(),
+            field.getRangeFilterGetter().apply(statisticsFilteringRequest).getTo())));
   }
 
   public static List<FieldMongoStatistics> parseBreakdownsFromRequest(
@@ -62,6 +56,7 @@ public class RequestUtils {
       throw new FacetDeclarationFailException("There can only be one facet without any valued defined");
     }
 
+    // Filter out fields that are type Value, with or without values present
     List<FieldMongoStatistics> nonNullFilters = Arrays.stream(FieldMongoStatistics.values())
         .filter(field -> field.getValueFilterGetter() != null &&
             field.getValueFilterGetter().apply(statisticsFilteringRequest) != null).collect(Collectors.toList());
