@@ -1,6 +1,5 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
  * That is, a filtering that contains range conditions
  */
 
-@JsonIgnoreProperties(value = { "valuesEmpty" })
 @JsonSerialize
 public class StatisticsRangeFilter implements StatisticsFilter{
 

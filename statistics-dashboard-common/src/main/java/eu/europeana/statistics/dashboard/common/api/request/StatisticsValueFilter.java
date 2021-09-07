@@ -1,6 +1,5 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import org.springframework.util.CollectionUtils;
  * That is, a filtering that results in a count of records with the conditions met
  */
 
-@JsonIgnoreProperties(value = { "valuesEmpty" })
 @JsonSerialize
 public class StatisticsValueFilter implements StatisticsFilter{
 

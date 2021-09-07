@@ -1,7 +1,7 @@
 package eu.europeana.statistics.dashboard.rest;
 
 import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
-import eu.europeana.statistics.dashboard.service.server.StatisticsServer;
+import eu.europeana.statistics.dashboard.service.StatisticsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -38,14 +38,14 @@ public class StatisticsController {
   public static final String APPLICATION_JSON = "application/json";
   public static final String CONTROLLER_TAG_NAME = "StatisticsController";
 
-  private final StatisticsServer statisticsServer;
+  private final StatisticsService statisticsService;
 
   /**
    * Autowired constructor
    */
   @Autowired
-  public StatisticsController(StatisticsServer statisticsServer){
-    this.statisticsServer = statisticsServer;
+  public StatisticsController(StatisticsService statisticsService){
+    this.statisticsService = statisticsService;
   }
 
 
@@ -60,7 +60,7 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
   public ResultListFilters getGeneralStatistics(){
-    return statisticsServer.queryGeneralEuropeanaData();
+    return statisticsService.queryGeneralEuropeanaData();
   }
 
   /**
@@ -78,7 +78,7 @@ public class StatisticsController {
   public FilteringResult getFilters(@ApiParam(value = "The filters to be applied", required = true)
       @RequestBody FiltersWrapper filters) {
     try {
-      return statisticsServer.queryDataWithFilters(filters.getFilters());
+      return statisticsService.queryDataWithFilters(filters.getFilters());
     } catch(FacetDeclarationFailException e){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only one Facet declaration without values");
     }

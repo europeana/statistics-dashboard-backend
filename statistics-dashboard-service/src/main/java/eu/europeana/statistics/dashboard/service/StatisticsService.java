@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.service.server;
+package eu.europeana.statistics.dashboard.service;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
  * This class is responsible for retrieving the statistics data that is requested
  */
 @Service
-public class StatisticsServer {
+public class StatisticsService {
 
   private static final String STATISTICS_RESULT_ROOT_VALUE = "ALL_RECORDS";
 
@@ -41,7 +41,7 @@ public class StatisticsServer {
    *
    * @param mongoSDDao - The mongo database it connects to
    */
-  public StatisticsServer(MongoSDDao mongoSDDao) {
+  public StatisticsService(MongoSDDao mongoSDDao) {
     this.mongoSDDao = mongoSDDao;
   }
 
