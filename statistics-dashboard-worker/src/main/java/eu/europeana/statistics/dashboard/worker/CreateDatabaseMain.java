@@ -7,7 +7,7 @@ import eu.europeana.metis.solr.connection.SolrClientProvider;
 import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import eu.europeana.statistics.dashboard.worker.harvest.SolrHarvester;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
-import eu.europeana.statistics.dashboard.service.persistence.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.iternal.StatisticsRecordModel;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;

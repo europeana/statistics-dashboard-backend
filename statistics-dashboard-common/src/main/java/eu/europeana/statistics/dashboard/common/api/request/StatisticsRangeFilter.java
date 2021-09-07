@@ -1,6 +1,7 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Class that represents a filter type range.
@@ -37,5 +38,10 @@ public class StatisticsRangeFilter implements StatisticsFilter{
 
   public void setTo(String to) {
     this.to = to;
+  }
+
+  @Override
+  public boolean isValuesEmpty() {
+    return StringUtils.isEmpty(from) && StringUtils.isEmpty(to);
   }
 }

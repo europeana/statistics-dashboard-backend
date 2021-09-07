@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Class that represents a filter type count.
@@ -11,7 +12,7 @@ import java.util.List;
  */
 
 @JsonSerialize
-public class StatisticsCountFilter implements StatisticsFilter{
+public class StatisticsValueFilter implements StatisticsFilter{
 
   // It is an Integer instead of an int, so it can be null
   private Integer breakdown;
@@ -20,9 +21,9 @@ public class StatisticsCountFilter implements StatisticsFilter{
   /**
    * This empty constructor is needed for deserialization
    */
-  public StatisticsCountFilter(){}
+  public StatisticsValueFilter(){}
 
-  public StatisticsCountFilter(Integer breakdown, List<String> values) {
+  public StatisticsValueFilter(Integer breakdown, List<String> values) {
     this.breakdown = breakdown;
     this.values = new ArrayList<>(values);
   }
@@ -41,5 +42,10 @@ public class StatisticsCountFilter implements StatisticsFilter{
 
   public void setValues(List<String> values) {
     this.values = new ArrayList<>(values);
+  }
+
+  @Override
+  public boolean isValuesEmpty() {
+    return CollectionUtils.isEmpty(values);
   }
 }

@@ -1,9 +1,11 @@
 package eu.europeana.statistics.dashboard.service.persistence;
 
+import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.util.CollectionUtils;
 
 /**
  * This is the result of a statistics query. Various instances of this object form trees that
@@ -11,7 +13,7 @@ import java.util.Optional;
  */
 public class StatisticsData {
 
-  private final Field field;
+  private final MongoStatisticsField field;
   private final String fieldValue;
   private final int recordCount;
   private final List<StatisticsData> breakdown;
@@ -27,7 +29,7 @@ public class StatisticsData {
    * @param breakdown  The breakdown of the data represented by this node (by another field). Is
    *                   null in case of leaf nodes.
    */
-  StatisticsData(Field field, String fieldValue, List<StatisticsData> breakdown) {
+  StatisticsData(MongoStatisticsField field, String fieldValue, List<StatisticsData> breakdown) {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = Optional.ofNullable(breakdown)
@@ -45,7 +47,7 @@ public class StatisticsData {
    *                    distinguishes it from its siblings. Is null for the top level node.
    * @param recordCount The number of records represented by this node. Should be greater than 1.
    */
-  StatisticsData(Field field, String fieldValue, int recordCount) {
+  StatisticsData(MongoStatisticsField field, String fieldValue, int recordCount) {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = recordCount;
@@ -56,7 +58,7 @@ public class StatisticsData {
    * @return The field on which this object and its siblings are broken down. Is null for the top
    * level node.
    */
-  public Field getField() {
+  public MongoStatisticsField getField() {
     return field;
   }
 
@@ -81,5 +83,12 @@ public class StatisticsData {
    */
   public List<StatisticsData> getBreakdown() {
     return Collections.unmodifiableList(breakdown);
+  }
+
+  /**
+   * @return False if the breakdown list is not empty; True otherwise
+   */
+  public boolean isBreakdownListEmpty(){
+    return CollectionUtils.isEmpty(breakdown);
   }
 }

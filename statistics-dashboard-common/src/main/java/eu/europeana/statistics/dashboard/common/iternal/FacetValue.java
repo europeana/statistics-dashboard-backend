@@ -14,17 +14,17 @@ public enum FacetValue {
 
   private final String name;
 
-  FacetValue(String name){
+  FacetValue(String name) {
     this.name = name;
   }
 
-  public boolean equalValues(FacetValue otherValue){
+  public boolean equalValues(FacetValue otherValue) {
     return name.equals(otherValue.name);
   }
 
   @JsonValue
   @Override
-  public String toString(){
+  public String toString() {
     return name;
   }
 }

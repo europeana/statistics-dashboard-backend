@@ -14,14 +14,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>eu.europeana.metis</groupId>
-      <artifactId>metis-common-mongo</artifactId>
-      <version>${version.metis}</version>
+      <groupId>eu.europeana.statistics.backend</groupId>
+      <artifactId>statistics-dashboard-common</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>eu.europeana.metis</groupId>
-      <artifactId>metis-common-network</artifactId>
-      <version>${version.metis}</version>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>5.3.7</version>
     </dependency>
   </dependencies>
 </project>

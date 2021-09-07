@@ -3,6 +3,10 @@ package eu.europeana.statistics.dashboard.common.api.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Class that encapsulates all types of statistics filters, each of them with their conditions
@@ -12,19 +16,19 @@ import eu.europeana.statistics.dashboard.common.utils.FilterNames;
 public class StatisticsFilteringRequest {
 
   @JsonProperty(FilterNames.CONTENT_TIER)
-  private StatisticsCountFilter contentTier;
+  private StatisticsValueFilter contentTier;
   @JsonProperty(FilterNames.CONTENT_TYPE)
-  private StatisticsCountFilter contentType;
+  private StatisticsValueFilter contentType;
   @JsonProperty(FilterNames.COUNTRY)
-  private StatisticsCountFilter country;
+  private StatisticsValueFilter country;
   @JsonProperty(FilterNames.DATA_PROVIDER)
-  private StatisticsCountFilter dataProvider;
+  private StatisticsValueFilter dataProvider;
   @JsonProperty(FilterNames.METADATA_TIER)
-  private StatisticsCountFilter metadataTier;
+  private StatisticsValueFilter metadataTier;
   @JsonProperty(FilterNames.PROVIDER)
-  private StatisticsCountFilter provider;
+  private StatisticsValueFilter provider;
   @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
-  private StatisticsCountFilter rightsStatements;
+  private StatisticsValueFilter rightsStatements;
   @JsonProperty(FilterNames.CREATED_DATE)
   private StatisticsRangeFilter createdDate;
   @JsonProperty(FilterNames.UPDATED_DATE)
@@ -36,10 +40,10 @@ public class StatisticsFilteringRequest {
   public StatisticsFilteringRequest() {
   }
 
-  public StatisticsFilteringRequest(StatisticsCountFilter contentTier,
-      StatisticsCountFilter contentType, StatisticsCountFilter country,
-      StatisticsCountFilter dataProvider, StatisticsCountFilter metadataTier,
-      StatisticsCountFilter provider, StatisticsCountFilter rightsStatements,
+  public StatisticsFilteringRequest(StatisticsValueFilter contentTier,
+      StatisticsValueFilter contentType, StatisticsValueFilter country,
+      StatisticsValueFilter dataProvider, StatisticsValueFilter metadataTier,
+      StatisticsValueFilter provider, StatisticsValueFilter rightsStatements,
       StatisticsRangeFilter createdDate, StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.contentType = contentType;
@@ -52,60 +56,60 @@ public class StatisticsFilteringRequest {
     this.updatedDate = updatedDate;
   }
 
-  public StatisticsCountFilter getContentTier() {
+  public StatisticsValueFilter getContentTier() {
     return contentTier;
   }
 
-  public void setContentTier(StatisticsCountFilter contentTier) {
+  public void setContentTier(StatisticsValueFilter contentTier) {
     this.contentTier = contentTier;
   }
 
-  public StatisticsCountFilter getContentType() {
+  public StatisticsValueFilter getContentType() {
     return contentType;
   }
 
-  public void setContentType(StatisticsCountFilter contentType) {
+  public void setContentType(StatisticsValueFilter contentType) {
     this.contentType = contentType;
   }
 
-  public StatisticsCountFilter getCountry() {
+  public StatisticsValueFilter getCountry() {
     return country;
   }
 
-  public void setCountry(StatisticsCountFilter country) {
+  public void setCountry(StatisticsValueFilter country) {
     this.country = country;
   }
 
-  public StatisticsCountFilter getDataProvider() {
+  public StatisticsValueFilter getDataProvider() {
     return dataProvider;
   }
 
-  public void setDataProvider(StatisticsCountFilter dataProvider) {
+  public void setDataProvider(StatisticsValueFilter dataProvider) {
     this.dataProvider = dataProvider;
   }
 
-  public StatisticsCountFilter getMetadataTier() {
+  public StatisticsValueFilter getMetadataTier() {
     return metadataTier;
   }
 
-  public void setMetadataTier(StatisticsCountFilter metadataTier) {
+  public void setMetadataTier(StatisticsValueFilter metadataTier) {
     this.metadataTier = metadataTier;
   }
 
-  public StatisticsCountFilter getProvider() {
+  public StatisticsValueFilter getProvider() {
     return provider;
   }
 
-  public void setProvider(StatisticsCountFilter provider) {
+  public void setProvider(StatisticsValueFilter provider) {
     this.provider = provider;
   }
 
-  public StatisticsCountFilter getRightsStatements() {
+  public StatisticsValueFilter getRightsStatements() {
     return rightsStatements;
   }
 
   public void setRightsStatements(
-      StatisticsCountFilter rightsStatements) {
+      StatisticsValueFilter rightsStatements) {
     this.rightsStatements = rightsStatements;
   }
 
@@ -123,5 +127,26 @@ public class StatisticsFilteringRequest {
 
   public void setUpdatedDate(StatisticsRangeFilter updatedDate) {
     this.updatedDate = updatedDate;
+  }
+
+  public List<StatisticsValueFilter> getAllValueFilters(){
+    List<StatisticsValueFilter> filters = new ArrayList<>();
+    filters.add(contentTier);
+    filters.add(contentType);
+    filters.add(country);
+    filters.add(dataProvider);
+    filters.add(metadataTier);
+    filters.add(provider);
+    filters.add(rightsStatements);
+
+    return filters.stream().filter(Objects::nonNull).collect(Collectors.toList());
+  }
+
+  public List<StatisticsRangeFilter> getAllRangeFilters(){
+    List<StatisticsRangeFilter> filters = new ArrayList<>();
+    filters.add(createdDate);
+    filters.add(updatedDate);
+
+    return filters.stream().filter(Objects::nonNull).collect(Collectors.toList());
   }
 }

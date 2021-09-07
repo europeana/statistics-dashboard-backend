@@ -2,10 +2,10 @@ package eu.europeana.statistics.dashboard.common.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
+import java.util.Set;
 
 /**
  * Class that contains the available options after filtering the results
@@ -14,93 +14,95 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilte
 public class FilteringOptions {
 
   @JsonProperty(FilterNames.CONTENT_TIER)
-  private List<String> contentTier;
+  private Set<String> contentTier;
   @JsonProperty(FilterNames.COUNTRY)
-  private List<String> country;
+  private Set<String> country;
   @JsonProperty(FilterNames.DATA_PROVIDER)
-  private List<String> dataProvider;
+  private Set<String> dataProvider;
   @JsonProperty(FilterNames.METADATA_TIER)
-  private List<String> metadataTier;
+  private Set<String> metadataTier;
   @JsonProperty(FilterNames.PROVIDER)
-  private List<String> provider;
+  private Set<String> provider;
   @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
-  private List<String> rights;
+  private Set<String> rights;
   @JsonProperty(FilterNames.CONTENT_TYPE)
-  private List<String> contentType;
+  private Set<String> contentType;
   @JsonProperty(FilterNames.CREATED_DATE)
   private StatisticsRangeFilter createdDate;
   @JsonProperty(FilterNames.UPDATED_DATE)
   private StatisticsRangeFilter updatedDate;
 
-  public FilteringOptions(List<String> contentTier, List<String> country,
-      List<String> dataProvider, List<String> metadataTier, List<String> provider,
-      List<String> rights, List<String> contentType, StatisticsRangeFilter createdDate,
+  public FilteringOptions() {}
+
+  public FilteringOptions(Set<String> contentTier, Set<String> country,
+      Set<String> dataProvider, Set<String> metadataTier, Set<String> provider,
+      Set<String> rights, Set<String> contentType, StatisticsRangeFilter createdDate,
       StatisticsRangeFilter updatedDate) {
-    this.contentTier = new ArrayList<>(contentTier);
-    this.country = new ArrayList<>(country);
-    this.dataProvider = new ArrayList<>(dataProvider);
-    this.metadataTier = new ArrayList<>(metadataTier);
-    this.provider = new ArrayList<>(provider);
-    this.rights = new ArrayList<>(rights);
-    this.contentType = new ArrayList<>(contentType);
+    this.contentTier = new HashSet<>(contentTier);
+    this.country = new HashSet<>(country);
+    this.dataProvider = new HashSet<>(dataProvider);
+    this.metadataTier = new HashSet<>(metadataTier);
+    this.provider = new HashSet<>(provider);
+    this.rights = new HashSet<>(rights);
+    this.contentType = new HashSet<>(contentType);
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
   }
 
-  public List<String> getContentTier() {
-    return Collections.unmodifiableList(contentTier);
+  public Set<String> getContentTier() {
+    return Collections.unmodifiableSet(contentTier);
   }
 
-  public void setContentTier(List<String> contentTier) {
-    this.contentTier = new ArrayList<>(contentTier);
+  public void setContentTier(Set<String> contentTier) {
+    this.contentTier = new HashSet<>(contentTier);
   }
 
-  public List<String> getCountry() {
-    return Collections.unmodifiableList(country);
+  public Set<String> getCountry() {
+    return Collections.unmodifiableSet(country);
   }
 
-  public void setCountry(List<String> country) {
-    this.country = new ArrayList<>(country);
+  public void setCountry(Set<String> country) {
+    this.country = new HashSet<>(country);
   }
 
-  public List<String> getDataProvider() {
-    return Collections.unmodifiableList(dataProvider);
+  public Set<String> getDataProvider() {
+    return Collections.unmodifiableSet(dataProvider);
   }
 
-  public void setDataProvider(List<String> dataProvider) {
-    this.dataProvider = new ArrayList<>(dataProvider);
+  public void setDataProvider(Set<String> dataProvider) {
+    this.dataProvider = new HashSet<>(dataProvider);
   }
 
-  public List<String> getMetadataTier() {
-    return Collections.unmodifiableList(metadataTier);
+  public Set<String> getMetadataTier() {
+    return Collections.unmodifiableSet(metadataTier);
   }
 
-  public void setMetadataTier(List<String> metadataTier) {
-    this.metadataTier = new ArrayList<>(metadataTier);
+  public void setMetadataTier(Set<String> metadataTier) {
+    this.metadataTier = new HashSet<>(metadataTier);
   }
 
-  public List<String> getProvider() {
-    return Collections.unmodifiableList(provider);
+  public Set<String> getProvider() {
+    return Collections.unmodifiableSet(provider);
   }
 
-  public void setProvider(List<String> provider) {
-    this.provider = new ArrayList<>(provider);
+  public void setProvider(Set<String> provider) {
+    this.provider = new HashSet<>(provider);
   }
 
-  public List<String> getRights() {
-    return Collections.unmodifiableList(rights);
+  public Set<String> getRights() {
+    return Collections.unmodifiableSet(rights);
   }
 
-  public void setRights(List<String> rights) {
-    this.rights = new ArrayList<>(rights);
+  public void setRights(Set<String> rights) {
+    this.rights = new HashSet<>(rights);
   }
 
-  public List<String> getContentType() {
-    return Collections.unmodifiableList(contentType);
+  public Set<String> getContentType() {
+    return Collections.unmodifiableSet(contentType);
   }
 
-  public void setContentType(List<String> contentType) {
-    this.contentType = new ArrayList<>(contentType);
+  public void setContentType(Set<String> contentType) {
+    this.contentType = new HashSet<>(contentType);
   }
 
   public StatisticsRangeFilter getCreatedDate() {

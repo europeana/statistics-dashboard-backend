@@ -1,19 +1,17 @@
 package eu.europeana.statistics.dashboard.rest.config;
 
 import com.mongodb.client.MongoClient;
-//import eu.europeana.corelib.web.socks.SocksProxy;
-//import eu.europeana.metis.mongo.connection.MongoClientProvider;
-//import eu.europeana.metis.mongo.connection.MongoProperties;
-//import eu.europeana.metis.mongo.connection.MongoProperties.ReadPreferenceValue;
-//import eu.europeana.metis.repository.dao.RecordDao;
-//import eu.europeana.metis.utils.CustomTruststoreAppender;
-//import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
+import eu.europeana.corelib.web.socks.SocksProxy;
+import eu.europeana.metis.mongo.connection.MongoClientProvider;
+import eu.europeana.metis.mongo.connection.MongoProperties;
+import eu.europeana.metis.utils.CustomTruststoreAppender;
+import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
+import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import java.util.Collections;
 import javax.annotation.PreDestroy;
-//import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,14 +37,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
-@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest"})
+@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest",
+    "eu.europeana.statistics.dashboard.service"})
 public class StatisticsRestApplication implements WebMvcConfigurer, InitializingBean {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRestApplication.class);
 
   private final ApplicationProperties properties;
 
-  private MongoClient mongoClientForEntities;
+  private MongoClient mongoClientSD;
 
   /**
    * Constructor.
@@ -59,35 +58,38 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
   }
 
   @Override
-  public void afterPropertiesSet() {
+  public void afterPropertiesSet() throws TrustStoreConfigurationException {
+
+    // Set the SOCKS proxy
+    if (properties.isSocksProxyEnabled()) {
+      new SocksProxy(properties.getSocksProxyHost(), properties.getSocksProxyPort(),
+              properties.getSocksProxyUsername(), properties.getSocksProxyPassword()).init();
+    }
+
+    // Set the truststore.
+    LOGGER.info("Append default truststore with custom truststore");
+    if (StringUtils.isNotEmpty(properties.getTruststorePath())
+            && StringUtils.isNotEmpty(properties.getTruststorePassword())) {
+      CustomTruststoreAppender.appendCustomTrustoreToDefault(properties.getTruststorePath(),
+              properties.getTruststorePassword());
+    }
+
+    // Create the mongo connection
+    LOGGER.info("Creating Mongo connection");
+    final MongoProperties<IllegalArgumentException> mongoProperties = new MongoProperties<>(
+            IllegalArgumentException::new);
+    mongoProperties
+            .setAllProperties(properties.getMongoHosts(), new int[]{properties.getMongoPort()},
+                    properties.getMongoAuthenticationDb(), properties.getMongoUsername(),
+                    properties.getMongoPassword(), properties.isMongoEnableSsl(),
+                    null, properties.getMongoApplicationName());
+    mongoClientSD = new MongoClientProvider<>(mongoProperties).createMongoClient();
   }
 
-//
-//    // Set the SOCKS proxy
-//    if (properties.isSocksProxyEnabled()) {
-//      new SocksProxy(properties.getSocksProxyHost(), properties.getSocksProxyPort(),
-//              properties.getSocksProxyUsername(), properties.getSocksProxyPassword()).init();
-//    }
-//
-//    // Set the truststore.
-//    LOGGER.info("Append default truststore with custom truststore");
-//    if (StringUtils.isNotEmpty(properties.getTruststorePath())
-//            && StringUtils.isNotEmpty(properties.getTruststorePassword())) {
-//      CustomTruststoreAppender.appendCustomTrustoreToDefault(properties.getTruststorePath(),
-//              properties.getTruststorePassword());
-//    }
-//
-//    // Create the mongo connection
-//    LOGGER.info("Creating Mongo connection");
-//    final MongoProperties<IllegalArgumentException> mongoProperties = new MongoProperties<>(
-//            IllegalArgumentException::new);
-//    mongoProperties
-//            .setAllProperties(properties.getMongoHosts(), new int[]{properties.getMongoPort()},
-//                    properties.getMongoAuthenticationDb(), properties.getMongoUsername(),
-//                    properties.getMongoPassword(), properties.isMongoEnableSsl(),
-//                    ReadPreferenceValue.PRIMARY_PREFERRED, properties.getMongoApplicationName());
-//    mongoClientForEntities = new MongoClientProvider<>(mongoProperties).createMongoClient();
-//  }
+  @Bean
+  public MongoSDDao getMongoSDDao(){
+    return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName());
+  }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -129,8 +131,8 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
    */
   @PreDestroy
   public void close() {
-    if (mongoClientForEntities != null) {
-      mongoClientForEntities.close();
+    if (mongoClientSD != null) {
+      mongoClientSD.close();
     }
   }
 }

@@ -28,6 +28,16 @@
       <artifactId>swagger-annotations</artifactId>
       <version>${version.swagger.annotations}</version>
     </dependency>
+    <dependency>
+      <groupId>eu.europeana.metis</groupId>
+      <artifactId>metis-common-network</artifactId>
+      <version>${version.metis}</version>
+    </dependency>
+    <dependency>
+      <groupId>eu.europeana.metis</groupId>
+      <artifactId>metis-common-mongo</artifactId>
+      <version>${version.metis}</version>
+    </dependency>
   </dependencies>
 
 </project>

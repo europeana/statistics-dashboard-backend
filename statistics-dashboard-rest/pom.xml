@@ -65,14 +65,14 @@
       <version>${version.swagger}</version>
     </dependency>
     <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongo-java-driver</artifactId>
-      <version>${version.mongodb}</version>
-    </dependency>
-    <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <version>${version.javax.annotation}</version>
+    </dependency>
+    <dependency>
+      <groupId>eu.europeana.statistics.backend</groupId>
+      <artifactId>statistics-dashboard-service</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
