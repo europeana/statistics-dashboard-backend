@@ -10,7 +10,7 @@ import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
 import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
-import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
+import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
@@ -24,12 +24,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * This class is responsible for retrieving the statistics data that is requested
  */
-@Component
+@Service
 public class StatisticsServer {
 
   private static final String STATISTICS_RESULT_ROOT_VALUE = "ALL_RECORDS";
@@ -87,8 +87,8 @@ public class StatisticsServer {
     StatisticsData queryResult = readyQuery.queryForStatistics();
 
     // The available options are based on the query that was executed previously
-    Map<FieldMongoStatistics, Set<String>> valueAvailableOptions = prepareValueFilteringOptionsQuery(readyQuery);
-    Map<FieldMongoStatistics, ValueRange> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(readyQuery);
+    Map<MongoStatisticsField, Set<String>> valueAvailableOptions = prepareValueFilteringOptionsQuery(readyQuery);
+    Map<MongoStatisticsField, ValueRange> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(readyQuery);
 
     int totalRecords = queryResult.getRecordCount();
     StatisticsResult statisticsAllRecordsResult = new StatisticsResult(STATISTICS_RESULT_ROOT_VALUE, totalRecords, 100);
@@ -113,14 +113,14 @@ public class StatisticsServer {
     List<StatisticsData> queries = new ArrayList<>();
 
     // Get all Value fields type
-    List<FieldMongoStatistics> filterFieldMongoStatistics = Arrays.stream(FieldMongoStatistics.values())
-        .filter(field -> field != FieldMongoStatistics.UPDATED_DATE &&
-            field != FieldMongoStatistics.CREATED_DATE &&
-            field != FieldMongoStatistics.DATASET_ID)
+    List<MongoStatisticsField> filterMongoStatisticFields = Arrays.stream(MongoStatisticsField.values())
+        .filter(field -> field != MongoStatisticsField.UPDATED_DATE &&
+            field != MongoStatisticsField.CREATED_DATE &&
+            field != MongoStatisticsField.DATASET_ID)
         .collect(Collectors.toUnmodifiableList());
 
     // Execute a breakdown query for each Value field
-    filterFieldMongoStatistics.forEach(field -> queries.add(query.withBreakdowns(field).queryForStatistics()));
+    filterMongoStatisticFields.forEach(field -> queries.add(query.withBreakdowns(field).queryForStatistics()));
 
     return queries;
   }
@@ -129,33 +129,33 @@ public class StatisticsServer {
       throws FacetDeclarationFailException {
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
 
-    Map<FieldMongoStatistics, Set<String>> parsedValueFilters = RequestUtils
+    Map<MongoStatisticsField, Set<String>> parsedValueFilters = RequestUtils
         .parseValuesFiltersFromRequest(statisticsRequest);
-    Map<FieldMongoStatistics, ValueRange> parsedRangeFilters = RequestUtils
+    Map<MongoStatisticsField, ValueRange> parsedRangeFilters = RequestUtils
         .parseRangeFiltersFromRequest(statisticsRequest);
-    List<FieldMongoStatistics> breakdowns = RequestUtils
+    List<MongoStatisticsField> breakdowns = RequestUtils
         .parseBreakdownsFromRequest(statisticsRequest);
 
     // Set each parsed value into query
     parsedValueFilters.forEach(query::withValueFilter);
     parsedRangeFilters.forEach(
         (key, value) -> query.withRangeFilter(key, value.getFrom(), value.getTo()));
-    query.withBreakdowns(breakdowns.toArray(FieldMongoStatistics[]::new));
+    query.withBreakdowns(breakdowns.toArray(MongoStatisticsField[]::new));
 
     return query;
 
   }
 
-  private Map<FieldMongoStatistics, Set<String>> prepareValueFilteringOptionsQuery(StatisticsQuery query){
-    Map<FieldMongoStatistics, Set<String>> result = new HashMap<>();
-    FieldMongoStatistics.getValueFields().forEach(field -> result.put(field, query.queryForValueOptions(field)));
+  private Map<MongoStatisticsField, Set<String>> prepareValueFilteringOptionsQuery(StatisticsQuery query){
+    Map<MongoStatisticsField, Set<String>> result = new HashMap<>();
+    MongoStatisticsField.getValueFields().forEach(field -> result.put(field, query.queryForValueOptions(field)));
     return result;
 
   }
 
-  private Map<FieldMongoStatistics, ValueRange> prepareRangeFilteringOptionsQuery(StatisticsQuery query){
-    Map<FieldMongoStatistics, ValueRange> result = new HashMap<>();
-    FieldMongoStatistics.getRangeFields().forEach(field -> result.put(field, query.queryForValueRange(field)));
+  private Map<MongoStatisticsField, ValueRange> prepareRangeFilteringOptionsQuery(StatisticsQuery query){
+    Map<MongoStatisticsField, ValueRange> result = new HashMap<>();
+    MongoStatisticsField.getRangeFields().forEach(field -> result.put(field, query.queryForValueRange(field)));
     return result;
 
   }

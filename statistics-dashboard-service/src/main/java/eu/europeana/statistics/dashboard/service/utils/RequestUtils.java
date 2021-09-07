@@ -2,7 +2,7 @@ package eu.europeana.statistics.dashboard.service.utils;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
-import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
+import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import java.util.ArrayList;
@@ -14,13 +14,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class RequestUtils {
+public final class RequestUtils {
 
-  public static Map<FieldMongoStatistics, Set<String>> parseValuesFiltersFromRequest(
+  private RequestUtils(){}
+
+  public static Map<MongoStatisticsField, Set<String>> parseValuesFiltersFromRequest(
       StatisticsFilteringRequest statisticsFilteringRequest){
 
     // Filter out Value type fields with values present
-    List<FieldMongoStatistics> valueField = Arrays.stream(FieldMongoStatistics.values())
+    List<MongoStatisticsField> valueField = Arrays.stream(MongoStatisticsField.values())
         .filter(value -> isValueFilterWithValues(value, statisticsFilteringRequest))
         .collect(Collectors.toList());
 
@@ -28,11 +30,11 @@ public class RequestUtils {
         field -> new HashSet<>(field.getValueFilterGetter().apply(statisticsFilteringRequest).getValues())));
   }
 
-  public static Map<FieldMongoStatistics, ValueRange> parseRangeFiltersFromRequest(
+  public static Map<MongoStatisticsField, ValueRange> parseRangeFiltersFromRequest(
       StatisticsFilteringRequest statisticsFilteringRequest){
 
     // Filter out Range type fields with values present
-    List<FieldMongoStatistics> rangeFields = Arrays.stream(FieldMongoStatistics.values())
+    List<MongoStatisticsField> rangeFields = Arrays.stream(MongoStatisticsField.values())
         .filter(value -> isRangeFilter(value, statisticsFilteringRequest))
         .collect(Collectors.toList());
 
@@ -41,7 +43,7 @@ public class RequestUtils {
             field.getRangeFilterGetter().apply(statisticsFilteringRequest).getTo())));
   }
 
-  public static List<FieldMongoStatistics> parseBreakdownsFromRequest(
+  public static List<MongoStatisticsField> parseBreakdownsFromRequest(
       StatisticsFilteringRequest statisticsFilteringRequest) throws FacetDeclarationFailException {
 
     // We want the list ordered according to the breakdown type (from 0 to 1).
@@ -57,15 +59,15 @@ public class RequestUtils {
     }
 
     // Filter out fields that are type Value, with or without values present
-    List<FieldMongoStatistics> nonNullFilters = Arrays.stream(FieldMongoStatistics.values())
+    List<MongoStatisticsField> nonNullFields = Arrays.stream(MongoStatisticsField.values())
         .filter(field -> field.getValueFilterGetter() != null &&
             field.getValueFilterGetter().apply(statisticsFilteringRequest) != null).collect(Collectors.toList());
 
-    List<FieldMongoStatistics> result = new ArrayList<>();
+    List<MongoStatisticsField> result = new ArrayList<>();
 
     // To ensure the order of the list is kept the same
     for(StatisticsValueFilter filter : valueFilters){
-      nonNullFilters.forEach(field -> {
+      nonNullFields.forEach(field -> {
         if(field.getValueFilterGetter().apply(statisticsFilteringRequest).equals(filter)){
           result.add(field);
         }
@@ -75,19 +77,19 @@ public class RequestUtils {
     return result;
   }
 
-  private static boolean isValueFilterWithValues(FieldMongoStatistics fieldMongoStatistics,
+  private static boolean isValueFilterWithValues(MongoStatisticsField mongoStatisticsField,
       StatisticsFilteringRequest statisticsFilteringRequest){
-    return fieldMongoStatistics.getRangeFilterGetter() == null &&
-        fieldMongoStatistics.getValueFilterGetter() != null &&
-        fieldMongoStatistics.getValueFilterGetter().apply(statisticsFilteringRequest) != null &&
-        !fieldMongoStatistics.getValueFilterGetter().apply(statisticsFilteringRequest).isValuesEmpty();
+    return mongoStatisticsField.getRangeFilterGetter() == null &&
+        mongoStatisticsField.getValueFilterGetter() != null &&
+        mongoStatisticsField.getValueFilterGetter().apply(statisticsFilteringRequest) != null &&
+        !mongoStatisticsField.getValueFilterGetter().apply(statisticsFilteringRequest).isValuesEmpty();
   }
 
-  private static boolean isRangeFilter(FieldMongoStatistics fieldMongoStatistics,
+  private static boolean isRangeFilter(MongoStatisticsField mongoStatisticsField,
       StatisticsFilteringRequest statisticsFilteringRequest){
-    return fieldMongoStatistics.getValueFilterGetter() == null &&
-        fieldMongoStatistics.getRangeFilterGetter() != null &&
-        fieldMongoStatistics.getRangeFilterGetter().apply(statisticsFilteringRequest) != null;
+    return mongoStatisticsField.getValueFilterGetter() == null &&
+        mongoStatisticsField.getRangeFilterGetter() != null &&
+        mongoStatisticsField.getRangeFilterGetter().apply(statisticsFilteringRequest) != null;
   }
 
   private static boolean isFacetDefinitionCorrect(List<StatisticsValueFilter> filters){

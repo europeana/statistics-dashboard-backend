@@ -12,7 +12,7 @@ import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Property;
 import dev.morphia.query.experimental.filters.Filter;
 import dev.morphia.query.experimental.filters.Filters;
-import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
+import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.common.iternal.StatisticsRecordModel;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.ArrayList;
@@ -41,11 +41,11 @@ public class StatisticsQuery {
 
   private final Supplier<Aggregation<StatisticsRecordModel>> aggregationSupplier;
 
-  private final Map<FieldMongoStatistics, Set<String>> filterValues = new EnumMap<>(
-      FieldMongoStatistics.class);
-  private final Map<FieldMongoStatistics, ValueRange> filterRanges = new EnumMap<>(
-      FieldMongoStatistics.class);
-  private final List<FieldMongoStatistics> breakdownFieldMongoStatistics = new ArrayList<>();
+  private final Map<MongoStatisticsField, Set<String>> filterValues = new EnumMap<>(
+      MongoStatisticsField.class);
+  private final Map<MongoStatisticsField, ValueRange> filterRanges = new EnumMap<>(
+      MongoStatisticsField.class);
+  private final List<MongoStatisticsField> breakdownMongoStatisticFields = new ArrayList<>();
 
   StatisticsQuery(Supplier<Aggregation<StatisticsRecordModel>> aggregationSupplier) {
     this.aggregationSupplier = aggregationSupplier;
@@ -54,16 +54,16 @@ public class StatisticsQuery {
   /**
    * Add a range filter for this query. Replaces any filter set earlier for this field.
    *
-   * @param fieldMongoStatistics The field for which to set the range filter.
+   * @param mongoStatisticsField The field for which to set the range filter.
    * @param from  The lower limit (inclusive) of this range (in String ordering). Can be null, in
    *              which case no lower limit is applied.
    * @param to    The upper limit (inclusive) of this range (in String ordering). Can be null, in
    *              which case no upper limit is applied.
    * @return This instance (for chaining).
    */
-  public StatisticsQuery withRangeFilter(FieldMongoStatistics fieldMongoStatistics, String from, String to) {
-    filterValues.remove(fieldMongoStatistics);
-    filterRanges.put(fieldMongoStatistics, new ValueRange(from, to));
+  public StatisticsQuery withRangeFilter(MongoStatisticsField mongoStatisticsField, String from, String to) {
+    filterValues.remove(mongoStatisticsField);
+    filterRanges.put(mongoStatisticsField, new ValueRange(from, to));
     return this;
   }
 
@@ -74,7 +74,7 @@ public class StatisticsQuery {
    * @param values The values on which to filter.
    * @return This instance (for chaining).
    */
-  public StatisticsQuery withValueFilter(FieldMongoStatistics field, Collection<String> values) {
+  public StatisticsQuery withValueFilter(MongoStatisticsField field, Collection<String> values) {
     filterRanges.remove(field);
     filterValues.put(field, new HashSet<>(values));
     return this;
@@ -88,27 +88,27 @@ public class StatisticsQuery {
    * @param breakdownField The fields to apply breakdowns to. Is not null but can be empty.
    * @return This instance (for chaining).
    */
-  public StatisticsQuery withBreakdowns(FieldMongoStatistics... breakdownField) {
-    this.breakdownFieldMongoStatistics.clear();
-    this.breakdownFieldMongoStatistics.addAll(Arrays.asList(breakdownField));
+  public StatisticsQuery withBreakdowns(MongoStatisticsField... breakdownField) {
+    this.breakdownMongoStatisticFields.clear();
+    this.breakdownMongoStatisticFields.addAll(Arrays.asList(breakdownField));
     return this;
   }
 
   private Aggregation<StatisticsRecordModel> createFilteredAggregation(
-      FieldMongoStatistics excludeFieldMongoStatistics) {
+      MongoStatisticsField excludeMongoStatisticsField) {
 
     // Compile the filters.
-    final List<Filter> filters = new ArrayList<>(FieldMongoStatistics.values().length * 2);
+    final List<Filter> filters = new ArrayList<>(MongoStatisticsField.values().length * 2);
     filterValues.forEach((field, values) -> {
-      if (field != excludeFieldMongoStatistics) {
+      if (field != excludeMongoStatisticsField) {
         filters.add(Filters.in(field.getFieldName(), values));
       }
     });
     filterRanges.forEach((field, range) -> {
-      if (field != excludeFieldMongoStatistics && range.getFrom() != null) {
+      if (field != excludeMongoStatisticsField && range.getFrom() != null) {
         filters.add(Filters.gte(field.getFieldName(), range.getFrom()));
       }
-      if (field != excludeFieldMongoStatistics && range.getTo() != null) {
+      if (field != excludeMongoStatisticsField && range.getTo() != null) {
         filters.add(Filters.lte(field.getFieldName(), range.getTo()));
       }
     });
@@ -133,7 +133,7 @@ public class StatisticsQuery {
 
     // Add the breakdowns as a grouping with a sum over the record count values.
     final GroupId groupId = Group.id();
-    breakdownFieldMongoStatistics.forEach(field -> groupId.field(field.getFieldName()));
+    breakdownMongoStatisticFields.forEach(field -> groupId.field(field.getFieldName()));
     pipeline.group(Group.group(groupId).field(MongoFieldNames.RECORD_COUNT_FIELD,
         AccumulatorExpressions.sum(Expressions.field(MongoFieldNames.RECORD_COUNT_FIELD))));
 
@@ -143,7 +143,7 @@ public class StatisticsQuery {
 
     // Compile the result
     final StatisticsData result;
-    if (breakdownFieldMongoStatistics.isEmpty()) {
+    if (breakdownMongoStatisticFields.isEmpty()) {
       result = new StatisticsData(null, null, queryResults.get(0).getRecordCount());
     } else {
       result = new StatisticsData(null, null, convert(0, queryResults));
@@ -154,22 +154,22 @@ public class StatisticsQuery {
   private List<StatisticsData> convert(int breakdownPosition, List<StatisticsResult> queryResults) {
 
     // Sanity check. We don't recurse beyond the length of the list.
-    if (breakdownPosition >= breakdownFieldMongoStatistics.size()) {
+    if (breakdownPosition >= breakdownMongoStatisticFields.size()) {
       throw new IllegalStateException("Should not have recursed beyond the list length.");
     }
-    final FieldMongoStatistics currentFieldMongoStatistics = breakdownFieldMongoStatistics.get(breakdownPosition);
+    final MongoStatisticsField currentMongoStatisticsField = breakdownMongoStatisticFields.get(breakdownPosition);
 
     // If we have reached the last breakdown value, we convert the results and return.
-    if (breakdownPosition == breakdownFieldMongoStatistics.size() - 1) {
-      return queryResults.stream().map(result -> new StatisticsData(currentFieldMongoStatistics,
-          result.getValue(currentFieldMongoStatistics), result.getRecordCount())).collect(Collectors.toList());
+    if (breakdownPosition == breakdownMongoStatisticFields.size() - 1) {
+      return queryResults.stream().map(result -> new StatisticsData(currentMongoStatisticsField,
+          result.getValue(currentMongoStatisticsField), result.getRecordCount())).collect(Collectors.toList());
     }
 
     // Perform the breakdown (split results by field value) and recurse.
     final Map<String, List<StatisticsResult>> breakdown = queryResults.stream()
-        .collect(Collectors.groupingBy(result -> result.getValue(currentFieldMongoStatistics)));
+        .collect(Collectors.groupingBy(result -> result.getValue(currentMongoStatisticsField)));
     return breakdown.entrySet().stream().map(
-        entry -> new StatisticsData(currentFieldMongoStatistics, entry.getKey(),
+        entry -> new StatisticsData(currentMongoStatisticsField, entry.getKey(),
             convert(breakdownPosition + 1, entry.getValue()))).collect(Collectors.toList());
   }
 
@@ -177,21 +177,21 @@ public class StatisticsQuery {
    * Executes the query and return the value range for the given field. Note that any filter set
    * for this field will be ignored (i.e. the range will be taken over the data that satisfies all
    * filters except the one for this field). Also, the breakdown field settings are not relevant.
-   * @param fieldMongoStatistics The field for which to determine the range.
+   * @param mongoStatisticsField The field for which to determine the range.
    * @return The value range that exists in the data for the given field.
    */
-  public ValueRange queryForValueRange(FieldMongoStatistics fieldMongoStatistics) {
+  public ValueRange queryForValueRange(MongoStatisticsField mongoStatisticsField) {
 
     // Create the aggregation and add the value filters.
     final Aggregation<StatisticsRecordModel> pipeline = createFilteredAggregation(
-        fieldMongoStatistics);
+        mongoStatisticsField);
 
     // Add a grouping for all data with expressions for the minimum and maximum values.
     pipeline.group(Group.group(Group.id())
         .field(MIN_VALUE_FIELD_NAME,
-            AccumulatorExpressions.min(Expressions.field(fieldMongoStatistics.getFieldName())))
+            AccumulatorExpressions.min(Expressions.field(mongoStatisticsField.getFieldName())))
         .field(MAX_VALUE_FIELD_NAME,
-            AccumulatorExpressions.max(Expressions.field(fieldMongoStatistics.getFieldName()))));
+            AccumulatorExpressions.max(Expressions.field(mongoStatisticsField.getFieldName()))));
 
     // Execute the query.
     final List<ValueRangeResult> queryResults = retryableExternalRequestForNetworkExceptions(
@@ -209,17 +209,17 @@ public class StatisticsQuery {
    * Executes the query and return the value options for the given field. Note that any filter set
    * for this field will be ignored (i.e. the options will be taken from the data that satisfies all
    * filters except the one for this field). Also, the breakdown field settings are not relevant.
-   * @param fieldMongoStatistics The field for which to determine the options.
+   * @param mongoStatisticsField The field for which to determine the options.
    * @return The value options that exists in the data for the given field.
    */
-  public Set<String> queryForValueOptions(FieldMongoStatistics fieldMongoStatistics) {
+  public Set<String> queryForValueOptions(MongoStatisticsField mongoStatisticsField) {
 
     // Create the aggregation and add the value filters.
     final Aggregation<StatisticsRecordModel> pipeline = createFilteredAggregation(
-        fieldMongoStatistics);
+        mongoStatisticsField);
 
     // Add the field as a grouping so that we get the distinct values.
-    pipeline.group(Group.group(Group.id(fieldMongoStatistics.getFieldName())));
+    pipeline.group(Group.group(Group.id(mongoStatisticsField.getFieldName())));
 
     // Execute the query.
     final Iterator<ValueOptionsResult> queryResults = retryableExternalRequestForNetworkExceptions(
@@ -270,8 +270,8 @@ public class StatisticsQuery {
       return recordCount;
     }
 
-    public String getValue(FieldMongoStatistics fieldMongoStatistics) {
-      return getBreakdownValues().get(fieldMongoStatistics.getFieldName());
+    public String getValue(MongoStatisticsField mongoStatisticsField) {
+      return getBreakdownValues().get(mongoStatisticsField.getFieldName());
     }
   }
 

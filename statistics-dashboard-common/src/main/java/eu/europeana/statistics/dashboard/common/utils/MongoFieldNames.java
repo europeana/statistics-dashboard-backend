@@ -2,6 +2,8 @@ package eu.europeana.statistics.dashboard.common.utils;
 
 public final class MongoFieldNames {
 
+  private MongoFieldNames(){}
+
   // MONGO FIELDS AS STRING
   public static final String DATASET_ID_FIELD = "datasetId";
   public static final String TYPE_FIELD = "type";

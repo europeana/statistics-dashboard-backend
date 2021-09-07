@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.service.persistence;
 
-import eu.europeana.statistics.dashboard.common.iternal.FieldMongoStatistics;
+import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
  */
 public class StatisticsData {
 
-  private final FieldMongoStatistics field;
+  private final MongoStatisticsField field;
   private final String fieldValue;
   private final int recordCount;
   private final List<StatisticsData> breakdown;
@@ -29,7 +29,7 @@ public class StatisticsData {
    * @param breakdown  The breakdown of the data represented by this node (by another field). Is
    *                   null in case of leaf nodes.
    */
-  StatisticsData(FieldMongoStatistics field, String fieldValue, List<StatisticsData> breakdown) {
+  StatisticsData(MongoStatisticsField field, String fieldValue, List<StatisticsData> breakdown) {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = Optional.ofNullable(breakdown)
@@ -47,7 +47,7 @@ public class StatisticsData {
    *                    distinguishes it from its siblings. Is null for the top level node.
    * @param recordCount The number of records represented by this node. Should be greater than 1.
    */
-  StatisticsData(FieldMongoStatistics field, String fieldValue, int recordCount) {
+  StatisticsData(MongoStatisticsField field, String fieldValue, int recordCount) {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = recordCount;
@@ -58,7 +58,7 @@ public class StatisticsData {
    * @return The field on which this object and its siblings are broken down. Is null for the top
    * level node.
    */
-  public FieldMongoStatistics getField() {
+  public MongoStatisticsField getField() {
     return field;
   }
 

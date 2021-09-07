@@ -15,7 +15,7 @@ import java.util.function.Function;
 /**
  * This enum contains the different fields that can be queried in StatisticsQuery object.
  */
-public enum FieldMongoStatistics {
+public enum MongoStatisticsField {
 
   DATASET_ID(MongoFieldNames.DATASET_ID_FIELD, null, null, null, null, null),
   TYPE(MongoFieldNames.TYPE_FIELD, FacetValue.CONTENT_TYPE, StatisticsFilteringRequest::getContentType,
@@ -44,7 +44,7 @@ public enum FieldMongoStatistics {
   private final BiConsumer<FilteringOptions, Set<String>> valueFilterSetter;
   private final BiConsumer<FilteringOptions, StatisticsRangeFilter> rangeFilterSetter;
 
-  FieldMongoStatistics(String fieldName, FacetValue facet,
+  MongoStatisticsField(String fieldName, FacetValue facet,
       Function<StatisticsFilteringRequest, StatisticsValueFilter> valueFilterGetter,
       Function<StatisticsFilteringRequest, StatisticsRangeFilter> rangeFilterGetter,
       BiConsumer<FilteringOptions, Set<String>> valueFilterSetter,
@@ -86,22 +86,22 @@ public enum FieldMongoStatistics {
     return facet;
   }
 
-  public static Set<FieldMongoStatistics> getValueFields() {
-    Set<FieldMongoStatistics> result = new HashSet<>();
-    result.add(FieldMongoStatistics.TYPE);
-    result.add(FieldMongoStatistics.COUNTRY);
-    result.add(FieldMongoStatistics.PROVIDER);
-    result.add(FieldMongoStatistics.DATA_PROVIDER);
-    result.add(FieldMongoStatistics.RIGHTS);
-    result.add(FieldMongoStatistics.CONTENT_TIER);
-    result.add(FieldMongoStatistics.METADATA_TIER);
+  public static Set<MongoStatisticsField> getValueFields() {
+    Set<MongoStatisticsField> result = new HashSet<>();
+    result.add(MongoStatisticsField.TYPE);
+    result.add(MongoStatisticsField.COUNTRY);
+    result.add(MongoStatisticsField.PROVIDER);
+    result.add(MongoStatisticsField.DATA_PROVIDER);
+    result.add(MongoStatisticsField.RIGHTS);
+    result.add(MongoStatisticsField.CONTENT_TIER);
+    result.add(MongoStatisticsField.METADATA_TIER);
     return result;
   }
 
-  public static Set<FieldMongoStatistics> getRangeFields() {
-    Set<FieldMongoStatistics> result = new HashSet<>();
-    result.add(FieldMongoStatistics.CREATED_DATE);
-    result.add(FieldMongoStatistics.UPDATED_DATE);
+  public static Set<MongoStatisticsField> getRangeFields() {
+    Set<MongoStatisticsField> result = new HashSet<>();
+    result.add(MongoStatisticsField.CREATED_DATE);
+    result.add(MongoStatisticsField.UPDATED_DATE);
     return result;
   }
 }

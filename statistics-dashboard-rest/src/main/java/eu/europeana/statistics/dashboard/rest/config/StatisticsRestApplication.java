@@ -79,16 +79,16 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
     final MongoProperties<IllegalArgumentException> mongoProperties = new MongoProperties<>(
             IllegalArgumentException::new);
     mongoProperties
-            .setAllProperties(properties.getMongoSDHosts(), new int[]{properties.getMongoSDPort()},
-                    properties.getMongoSDAuthenticationDb(), properties.getMongoSDUsername(),
-                    properties.getMongoSDPassword(), properties.isMongoSDEnableSsl(),
-                    null, properties.getMongoSDApplicationName());
+            .setAllProperties(properties.getMongoHosts(), new int[]{properties.getMongoPort()},
+                    properties.getMongoAuthenticationDb(), properties.getMongoUsername(),
+                    properties.getMongoPassword(), properties.isMongoEnableSsl(),
+                    null, properties.getMongoApplicationName());
     mongoClientSD = new MongoClientProvider<>(mongoProperties).createMongoClient();
   }
 
   @Bean
   public MongoSDDao getMongoSDDao(){
-    return new MongoSDDao(mongoClientSD, properties.getMongoSDDatabaseName());
+    return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName());
   }
 
   @Override

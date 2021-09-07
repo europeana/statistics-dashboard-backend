@@ -72,8 +72,7 @@
     <dependency>
       <groupId>eu.europeana.statistics.backend</groupId>
       <artifactId>statistics-dashboard-service</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
