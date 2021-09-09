@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -84,6 +85,12 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
                     properties.getMongoPassword(), properties.isMongoEnableSsl(),
                     null, properties.getMongoApplicationName());
     mongoClientSD = new MongoClientProvider<>(mongoProperties).createMongoClient();
+  }
+
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**").allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+        .allowedOrigins(properties.getAllowedCorsHosts());
   }
 
   @Bean

@@ -47,6 +47,9 @@ public class ApplicationProperties {
   @Value("${truststore.password}")
   private String truststorePassword;
 
+  @Value("${allowed.cors.hosts}")
+  private String[] allowedCorsHosts;
+
   public boolean isSocksProxyEnabled() {
     return socksProxyEnabled;
   }
@@ -105,5 +108,9 @@ public class ApplicationProperties {
 
   public String getTruststorePassword() {
     return truststorePassword;
+  }
+
+  public String[] getAllowedCorsHosts() {
+    return allowedCorsHosts;
   }
 }
