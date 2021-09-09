@@ -18,3 +18,5 @@ mongo.database.name=
 #Truststore
 truststore.path=
 truststore.password=
+
+allowed.cors.hosts=
