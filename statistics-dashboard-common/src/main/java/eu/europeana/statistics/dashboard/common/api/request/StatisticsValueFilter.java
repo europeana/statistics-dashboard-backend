@@ -7,12 +7,11 @@ import java.util.List;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Class that represents a filter type count.
- * That is, a filtering that results in a count of records with the conditions met
+ * Class that represents a filter type count. That is, a filtering that results in a count of records with the conditions met
  */
 
 @JsonSerialize
-public class StatisticsValueFilter implements StatisticsFilter{
+public class StatisticsValueFilter implements StatisticsFilter {
 
   // It is an Integer instead of an int, so it can be null
   private Integer breakdown;
@@ -21,7 +20,8 @@ public class StatisticsValueFilter implements StatisticsFilter{
   /**
    * This empty constructor is needed for deserialization
    */
-  public StatisticsValueFilter(){}
+  public StatisticsValueFilter() {
+  }
 
   public StatisticsValueFilter(Integer breakdown, List<String> values) {
     this.breakdown = breakdown;
@@ -37,7 +37,7 @@ public class StatisticsValueFilter implements StatisticsFilter{
   }
 
   public List<String> getValues() {
-    return Collections.unmodifiableList(values);
+    return values == null ? new ArrayList<>() : Collections.unmodifiableList(values);
   }
 
   public void setValues(List<String> values) {
