@@ -21,14 +21,12 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringR
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Controller for the Statistics Dashboard
  */
 
-@Tags(@Tag(name = StatisticsController.CONTROLLER_TAG_NAME,
-    description = "Controller providing statistics values throughout Europeana database"))
+@Tags(@Tag(name = StatisticsController.CONTROLLER_TAG_NAME, description = "Controller providing statistics values throughout Europeana database"))
 @Api(tags = StatisticsController.CONTROLLER_TAG_NAME)
 @Controller
 public class StatisticsController {
@@ -44,7 +42,7 @@ public class StatisticsController {
    * Autowired constructor
    */
   @Autowired
-  public StatisticsController(StatisticsService statisticsService){
+  public StatisticsController(StatisticsService statisticsService) {
     this.statisticsService = statisticsService;
   }
 
@@ -58,8 +56,7 @@ public class StatisticsController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
-  @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
-  public ResultListFilters getGeneralStatistics(){
+  public ResultListFilters getGeneralStatistics() {
     return statisticsService.queryGeneralEuropeanaData();
   }
 
@@ -69,19 +66,15 @@ public class StatisticsController {
    * @param filters - The filters and its values to apply
    * @return the statistics where the filters were applied
    */
-  @PostMapping(value = FILTERING_STATISTICS, consumes = {APPLICATION_JSON},
-      produces = {APPLICATION_JSON})
+  @PostMapping(value = FILTERING_STATISTICS, consumes = {APPLICATION_JSON}, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiOperation(value = "Returns the results of the given filtering options", response = FilteringResult.class)
-  @ApiResponses(value = {@ApiResponse(code = 400, message = "Error processing the result")})
-  public FilteringResult getFilters(@ApiParam(value = "The filters to be applied", required = true)
-      @RequestBody FiltersWrapper filters) {
-    try {
-      return statisticsService.queryDataWithFilters(filters.getFilters());
-    } catch(FacetDeclarationFailException e){
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only one Facet declaration without values");
-    }
+  @ApiResponses(value = {@ApiResponse(code = 400, message = "Facet declaration failed")})
+  public FilteringResult getFilters(
+      @ApiParam(value = "The filters to be applied", required = true) @RequestBody FiltersWrapper filters)
+      throws FacetDeclarationFailException {
+    return statisticsService.queryDataWithFilters(filters.getFilters());
   }
 
 }
