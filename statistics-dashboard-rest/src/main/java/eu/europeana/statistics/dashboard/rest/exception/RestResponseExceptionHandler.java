@@ -1,7 +1,7 @@
 package eu.europeana.statistics.dashboard.rest.exception;
 
 import eu.europeana.metis.exception.StructuredExceptionWrapper;
-import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
+import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,14 +16,14 @@ public class RestResponseExceptionHandler {
 
 
   /**
-   * Handler for {@link FacetDeclarationFailException}.
+   * Handler for {@link BreakdownDeclarationFailException}.
    *
    * @param exception the exception thrown
    * @return {@link StructuredExceptionWrapper} a json friendly class that contains the error message for the client
    */
-  @ExceptionHandler(FacetDeclarationFailException.class)
+  @ExceptionHandler(BreakdownDeclarationFailException.class)
   @ResponseBody
-  public StructuredExceptionWrapper facetDeclarationFailHandler(FacetDeclarationFailException exception) {
+  public StructuredExceptionWrapper facetDeclarationFailHandler(BreakdownDeclarationFailException exception) {
     return new StructuredExceptionWrapper(exception.getMessage());
   }
 

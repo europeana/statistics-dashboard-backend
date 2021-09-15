@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.rest;
 
-import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
+import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -73,7 +73,7 @@ public class StatisticsController {
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Facet declaration failed")})
   public FilteringResult getFilters(
       @ApiParam(value = "The filters to be applied", required = true) @RequestBody FiltersWrapper filters)
-      throws FacetDeclarationFailException {
+      throws BreakdownDeclarationFailException {
     return statisticsService.queryDataWithFilters(filters.getFilters());
   }
 

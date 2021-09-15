@@ -8,7 +8,7 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
-import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
+import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
 import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
@@ -78,7 +78,7 @@ public class StatisticsService {
    * @param statisticsRequest The filters and its respective values to query
    * @return An object containing the result of the filtering and the available options based on the filtering performed
    */
-  public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) throws FacetDeclarationFailException {
+  public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) throws BreakdownDeclarationFailException {
     //Prepares the query with the requested filters
     StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
 
@@ -123,7 +123,7 @@ public class StatisticsService {
   }
 
   private StatisticsQuery prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest)
-      throws FacetDeclarationFailException {
+      throws BreakdownDeclarationFailException {
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
 
     Map<MongoStatisticsField, Set<String>> parsedValueFilters = RequestUtils.parseValuesFiltersFromRequest(statisticsRequest);

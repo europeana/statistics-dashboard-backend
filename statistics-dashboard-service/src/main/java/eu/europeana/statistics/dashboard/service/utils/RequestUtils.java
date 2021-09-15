@@ -3,7 +3,7 @@ package eu.europeana.statistics.dashboard.service.utils;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
-import eu.europeana.statistics.dashboard.service.exception.FacetDeclarationFailException;
+import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public final class RequestUtils {
   }
 
   public static List<MongoStatisticsField> parseBreakdownsFromRequest(StatisticsFilteringRequest statisticsFilteringRequest)
-      throws FacetDeclarationFailException {
+      throws BreakdownDeclarationFailException {
 
     // We want the list ordered according to the breakdown value.
     // The list order is important for later when we do the request with breakdowns
@@ -52,8 +52,8 @@ public final class RequestUtils {
         .filter(filter -> filter.getBreakdown() != null).sorted(Comparator.comparing(StatisticsValueFilter::getBreakdown))
         .collect(Collectors.toList());
 
-    if (!isFacetDefinitionCorrect(valueFiltersWithBreakdowns)) {
-      throw new FacetDeclarationFailException("There are duplicate or negative breakdowns");
+    if (!isBreakdownDefinitionCorrect(valueFiltersWithBreakdowns)) {
+      throw new BreakdownDeclarationFailException("There are duplicate or negative breakdowns");
     }
 
     // Filter out fields that are type Value, with or without values present
@@ -87,7 +87,7 @@ public final class RequestUtils {
         && mongoStatisticsField.getRangeFilterGetter().apply(statisticsFilteringRequest) != null;
   }
 
-  private static boolean isFacetDefinitionCorrect(List<StatisticsValueFilter> filters) {
+  private static boolean isBreakdownDefinitionCorrect(List<StatisticsValueFilter> filters) {
 
     //Make sure there are no duplicate values of the breakdown
     List<Integer> list = filters.stream().map(StatisticsValueFilter::getBreakdown).filter(Objects::nonNull)
