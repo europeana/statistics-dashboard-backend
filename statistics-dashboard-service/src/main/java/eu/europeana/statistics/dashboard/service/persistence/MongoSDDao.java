@@ -29,8 +29,7 @@ public class MongoSDDao {
    * @param mongoDatabaseName The name of the database in the Mongo.
    */
   public MongoSDDao(MongoClient mongoClient, String mongoDatabaseName) {
-    final MapperOptions mapperOptions = MapperOptions.builder().discriminatorKey("className")
-        .discriminator(DiscriminatorFunction.className())
+    final MapperOptions mapperOptions = MapperOptions.builder()
         .collectionNaming(NamingStrategy.identity()).build();
     this.datastore = Morphia.createDatastore(mongoClient, mongoDatabaseName, mapperOptions);
     this.datastore.getMapper().map(StatisticsRecordModel.class);
