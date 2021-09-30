@@ -15,6 +15,7 @@ import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 public class StatisticsService {
 
   private static final String STATISTICS_RESULT_ROOT_VALUE = "ALL_RECORDS";
+  private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("0.00");
 
   private final MongoSDDao mongoSDDao;
 
@@ -64,7 +66,7 @@ public class StatisticsService {
       // Convert StatisticsData into a list of StatisticResult
       List<StatisticsResult> statisticsResultList = resultBreakdown.getBreakdown().stream().map(
           data -> new StatisticsResult(data.getFieldValue(), data.getRecordCount(),
-              getPercentage(totalRecordCount, data.getRecordCount()))).collect(Collectors.toList());
+              calculatePercentage(totalRecordCount, data.getRecordCount()))).collect(Collectors.toList());
 
       allBreakdownsEuropeana.add(new BreakdownResult(breakdownBy, statisticsResultList));
 
@@ -162,7 +164,7 @@ public class StatisticsService {
     // For each Facet value, set up the value, record count and percentage
     for (StatisticsData breakdown : queryResult.getBreakdown()) {
       StatisticsResult newElement = new StatisticsResult(breakdown.getFieldValue(), breakdown.getRecordCount(),
-          getPercentage(totalRecords, breakdown.getRecordCount()));
+          calculatePercentage(totalRecords, breakdown.getRecordCount()));
 
       // If Facet value contains breakdown, apply the same steps as before
       if (!breakdown.isBreakdownListEmpty()) {
@@ -170,7 +172,7 @@ public class StatisticsService {
         FacetValue newFacetBreakdownValue = breakdown.getBreakdown().get(0).getField().getFacet();
         breakdown.getBreakdown().forEach(value -> newListBreakdownsResult.add(
             new StatisticsResult(value.getFieldValue(), value.getRecordCount(),
-                getPercentage(totalRecords, value.getRecordCount()))));
+                calculatePercentage(totalRecords, value.getRecordCount()))));
         newElement.setBreakdowns(new BreakdownResult(newFacetBreakdownValue, newListBreakdownsResult));
       }
 
@@ -180,8 +182,8 @@ public class StatisticsService {
     return new ImmutablePair<>(breakdownBy, breakdownsResults);
   }
 
-  private double getPercentage(double totalCount, double count) {
-    return (count / totalCount) * 100;
+  private double calculatePercentage(double totalCount, double count) {
+    return Double.parseDouble(PERCENTAGE_FORMAT.format((count / totalCount) * 100.0));
   }
 
 }
