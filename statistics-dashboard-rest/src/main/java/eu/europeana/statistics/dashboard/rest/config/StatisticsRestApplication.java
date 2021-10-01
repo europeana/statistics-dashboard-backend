@@ -95,7 +95,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
 
   @Bean
   public MongoSDDao getMongoSDDao(){
-    return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName());
+    return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName(), false);
   }
 
   @Override

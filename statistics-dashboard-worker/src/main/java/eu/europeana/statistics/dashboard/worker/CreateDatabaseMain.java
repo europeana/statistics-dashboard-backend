@@ -53,7 +53,7 @@ public class CreateDatabaseMain {
       @SuppressWarnings("findbugs:RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
       final SolrClient nativeSolrClient = solrClient.getSolrClient();
       analyzeDatasets(new SolrHarvester(nativeSolrClient),
-          new MongoSDDao(mongoSDClient, properties.getMongoSDDatabase()), datasetIds);
+          new MongoSDDao(mongoSDClient, properties.getMongoSDDatabase(), true), datasetIds);
     } catch (IOException e) {
       throw new DataHarvestingException("Could not close mongo or solr client.", e);
     }

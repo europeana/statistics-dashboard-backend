@@ -2,6 +2,7 @@ package eu.europeana.statistics.dashboard.worker;
 
 import eu.europeana.metis.mongo.connection.MongoProperties;
 import eu.europeana.metis.solr.connection.SolrProperties;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -53,10 +54,14 @@ public class PropertiesHolder {
    */
   public PropertiesHolder() {
 
-    // Load properties file.
+    // Find properties file
     final Properties properties = new Properties();
-    try (final InputStream stream =
-        Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIGURATION_FILE)) {
+    InputStream stream = getClass().getClassLoader().getResourceAsStream(CONFIGURATION_FILE);
+    try {
+      if (stream == null) {
+        stream = new FileInputStream(CONFIGURATION_FILE);
+      }
+      // Load properties file.
       properties.load(stream);
     } catch (IOException e) {
       throw new ExceptionInInitializerError(e);
