@@ -27,12 +27,16 @@ public class MongoSDDao {
    *
    * @param mongoClient       The mongo client.
    * @param mongoDatabaseName The name of the database in the Mongo.
+   * @param createIndexes     The flag that initiates the database indexes
    */
-  public MongoSDDao(MongoClient mongoClient, String mongoDatabaseName) {
+  public MongoSDDao(MongoClient mongoClient, String mongoDatabaseName, boolean createIndexes) {
     final MapperOptions mapperOptions = MapperOptions.builder()
         .collectionNaming(NamingStrategy.identity()).build();
     this.datastore = Morphia.createDatastore(mongoClient, mongoDatabaseName, mapperOptions);
     this.datastore.getMapper().map(StatisticsRecordModel.class);
+    if(createIndexes){
+      datastore.ensureIndexes();
+    }
   }
 
   /**
