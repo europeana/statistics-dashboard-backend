@@ -1,7 +1,9 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import eu.europeana.statistics.dashboard.common.utils.FilterNames;
 
 /**
  * A wrapper class for the filters as the input
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize
 public class FiltersWrapper {
 
+  @JsonProperty(FilterNames.DATASET_ID)
+  private String datasetId;
   private StatisticsFilteringRequest filters;
 
   /**
@@ -28,5 +32,13 @@ public class FiltersWrapper {
 
   public void setFilters(StatisticsFilteringRequest filters) {
     this.filters = filters;
+  }
+
+  public String getDatasetId() {
+    return datasetId;
+  }
+
+  public void setDatasetId(String datasetId) {
+    this.datasetId = datasetId;
   }
 }

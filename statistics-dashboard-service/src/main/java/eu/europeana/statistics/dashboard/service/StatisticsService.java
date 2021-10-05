@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.service;
 
+import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
 import eu.europeana.statistics.dashboard.common.api.response.BreakdownResult;
@@ -18,11 +19,13 @@ import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.Val
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -77,10 +80,10 @@ public class StatisticsService {
   /**
    * It queries the requested data taking into account the filters
    *
-   * @param statisticsRequest The filters and its respective values to query
+   * @param statisticsRequest The wrapper that contains the datasetId and the filters and its respective values to query
    * @return An object containing the result of the filtering and the available options based on the filtering performed
    */
-  public FilteringResult queryDataWithFilters(StatisticsFilteringRequest statisticsRequest) throws BreakdownDeclarationFailException {
+  public FilteringResult queryDataWithFilters(FiltersWrapper statisticsRequest) throws BreakdownDeclarationFailException {
     //Prepares the query with the requested filters
     StatisticsQuery readyQuery = prepareFilteringQuery(statisticsRequest);
 
@@ -124,18 +127,23 @@ public class StatisticsService {
     return queries;
   }
 
-  private StatisticsQuery prepareFilteringQuery(StatisticsFilteringRequest statisticsRequest)
+  private StatisticsQuery prepareFilteringQuery(FiltersWrapper statisticsRequest)
       throws BreakdownDeclarationFailException {
+    StatisticsFilteringRequest filters = statisticsRequest.getFilters();
     StatisticsQuery query = mongoSDDao.createStatisticsQuery();
 
-    Map<MongoStatisticsField, Set<String>> parsedValueFilters = RequestUtils.parseValuesFiltersFromRequest(statisticsRequest);
-    Map<MongoStatisticsField, ValueRange> parsedRangeFilters = RequestUtils.parseRangeFiltersFromRequest(statisticsRequest);
-    List<MongoStatisticsField> breakdowns = RequestUtils.parseBreakdownsFromRequest(statisticsRequest);
+    Map<MongoStatisticsField, Set<String>> parsedValueFilters = RequestUtils.parseValuesFiltersFromRequest(filters);
+    Map<MongoStatisticsField, ValueRange> parsedRangeFilters = RequestUtils.parseRangeFiltersFromRequest(filters);
+    List<MongoStatisticsField> breakdowns = RequestUtils.parseBreakdownsFromRequest(filters);
 
     // Set each parsed value into query
     parsedValueFilters.forEach(query::withValueFilter);
     parsedRangeFilters.forEach((key, value) -> query.withRangeFilter(key, value.getFrom(), value.getTo()));
     query.withBreakdowns(breakdowns.toArray(MongoStatisticsField[]::new));
+
+    if(!StringUtils.isEmpty(statisticsRequest.getDatasetId())){
+      query.withValueFilter(MongoStatisticsField.DATASET_ID, Collections.singletonList(statisticsRequest.getDatasetId()));
+    }
 
     return query;
 
