@@ -21,9 +21,8 @@ public class BreakdownResult {
     this.breakdownBy = breakdownBy;
     // By ordering first and reversing after, we ensure that the highest value is the first element
     this.results = new ArrayList<>(results).stream()
-        .sorted(Comparator.comparing(StatisticsResult::getCount))
+        .sorted(Comparator.comparing(StatisticsResult::getCount).reversed())
         .collect(Collectors.toList());
-    Collections.reverse(this.results);
   }
 
   public FacetValue getBreakdownBy() {
@@ -39,7 +38,9 @@ public class BreakdownResult {
   }
 
   public void setResults(List<StatisticsResult> results) {
-    this.results = new ArrayList<>(results);
+    this.results = new ArrayList<>(results).stream()
+        .sorted(Comparator.comparing(StatisticsResult::getCount).reversed())
+        .collect(Collectors.toList());
   }
 
 }
