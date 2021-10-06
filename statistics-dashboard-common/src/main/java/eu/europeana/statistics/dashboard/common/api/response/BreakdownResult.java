@@ -3,7 +3,9 @@ package eu.europeana.statistics.dashboard.common.api.response;
 import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *  Class that represents the filtering results by breakdown.
@@ -17,7 +19,10 @@ public class BreakdownResult {
 
   public BreakdownResult(FacetValue breakdownBy, List<StatisticsResult> results) {
     this.breakdownBy = breakdownBy;
-    this.results = new ArrayList<>(results);
+    // By ordering first and reversing after, we ensure that the highest value is the first element
+    this.results = new ArrayList<>(results).stream()
+        .sorted(Comparator.comparing(StatisticsResult::getCount).reversed())
+        .collect(Collectors.toList());
   }
 
   public FacetValue getBreakdownBy() {
@@ -33,7 +38,9 @@ public class BreakdownResult {
   }
 
   public void setResults(List<StatisticsResult> results) {
-    this.results = new ArrayList<>(results);
+    this.results = new ArrayList<>(results).stream()
+        .sorted(Comparator.comparing(StatisticsResult::getCount).reversed())
+        .collect(Collectors.toList());
   }
 
 }
