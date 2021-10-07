@@ -95,7 +95,15 @@ public class StatisticsService {
     Map<MongoStatisticsField, ValueRange> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(readyQuery);
 
     int totalRecords = queryResult.getRecordCount();
-    StatisticsResult statisticsAllRecordsResult = new StatisticsResult(STATISTICS_RESULT_ROOT_VALUE, totalRecords, 100);
+
+    StatisticsResult statisticsAllRecordsResult;
+    if(totalRecords == 0) {
+      statisticsAllRecordsResult = new StatisticsResult(
+          STATISTICS_RESULT_ROOT_VALUE, totalRecords, 0);
+    } else {
+      statisticsAllRecordsResult = new StatisticsResult(
+          STATISTICS_RESULT_ROOT_VALUE, totalRecords, 100);
+    }
 
     // If there are breakdowns present, parse them and set them in the final result
     if (!queryResult.isBreakdownListEmpty()) {
@@ -158,7 +166,17 @@ public class StatisticsService {
 
   private Map<MongoStatisticsField, ValueRange> prepareRangeFilteringOptionsQuery(StatisticsQuery query) {
     Map<MongoStatisticsField, ValueRange> result = new EnumMap<>(MongoStatisticsField.class);
-    MongoStatisticsField.getRangeFields().forEach(field -> result.put(field, query.queryForValueRange(field)));
+    MongoStatisticsField.getRangeFields().forEach(field ->
+        {
+            ValueRange valueRange;
+            if (query.queryForValueRange(field) == null){
+              valueRange = new ValueRange("", "");
+            } else {
+              valueRange = query.queryForValueRange(field);
+            }
+
+       result.put(field, valueRange);
+        });
     return result;
 
   }

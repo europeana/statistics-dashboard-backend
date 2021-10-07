@@ -1,11 +1,15 @@
 package eu.europeana.statistics.dashboard.common.api.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * Class that represents a single filtering result with its
  * value, the count of records, the percentage of that count, and
  * breakdowns if there are any
  */
 
+@JsonInclude(Include.NON_NULL)
 public class StatisticsResult {
 
   private String value;
