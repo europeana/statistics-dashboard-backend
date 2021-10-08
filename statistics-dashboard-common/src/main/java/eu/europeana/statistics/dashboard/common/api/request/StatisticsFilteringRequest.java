@@ -29,6 +29,8 @@ public class StatisticsFilteringRequest {
   private StatisticsValueFilter provider;
   @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
   private StatisticsValueFilter rightsStatements;
+  @JsonProperty(FilterNames.DATASET_ID)
+  private StatisticsNonBreakdownValueFilter datasetId;
   @JsonProperty(FilterNames.CREATED_DATE)
   private StatisticsRangeFilter createdDate;
   @JsonProperty(FilterNames.UPDATED_DATE)
@@ -44,7 +46,8 @@ public class StatisticsFilteringRequest {
       StatisticsValueFilter contentType, StatisticsValueFilter country,
       StatisticsValueFilter dataProvider, StatisticsValueFilter metadataTier,
       StatisticsValueFilter provider, StatisticsValueFilter rightsStatements,
-      StatisticsRangeFilter createdDate, StatisticsRangeFilter updatedDate) {
+      StatisticsNonBreakdownValueFilter datasetId, StatisticsRangeFilter createdDate,
+      StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.contentType = contentType;
     this.country = country;
@@ -52,6 +55,7 @@ public class StatisticsFilteringRequest {
     this.metadataTier = metadataTier;
     this.provider = provider;
     this.rightsStatements = rightsStatements;
+    this.datasetId = datasetId;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
   }
@@ -127,6 +131,14 @@ public class StatisticsFilteringRequest {
 
   public void setUpdatedDate(StatisticsRangeFilter updatedDate) {
     this.updatedDate = updatedDate;
+  }
+
+  public StatisticsNonBreakdownValueFilter getDatasetId() {
+    return datasetId;
+  }
+
+  public void setDatasetId(StatisticsNonBreakdownValueFilter datasetId) {
+    this.datasetId = datasetId;
   }
 
   public List<StatisticsValueFilter> getAllValueFilters(){
