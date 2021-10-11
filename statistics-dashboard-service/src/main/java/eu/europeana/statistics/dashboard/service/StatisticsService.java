@@ -19,7 +19,6 @@ import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.Val
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 /**
  * This class is responsible for retrieving the statistics data that is requested
@@ -160,12 +158,6 @@ public class StatisticsService {
     parsedRangeFilters.forEach(
         (key, value) -> query.withRangeFilter(key, value.getFrom(), value.getTo()));
     query.withBreakdowns(breakdowns.toArray(MongoStatisticsField[]::new));
-
-    List<String> datasetIdValues = statisticsRequest.getFilters().getDatasetId().getValues();
-    if (!CollectionUtils.isEmpty(datasetIdValues)) {
-      datasetIdValues.forEach(datasetId -> query.withValueFilter(MongoStatisticsField.DATASET_ID,
-          Collections.singletonList(datasetId)));
-    }
 
     return query;
 

@@ -7,14 +7,12 @@ import java.util.List;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Class that represents a filter type count. That is, a filtering that results in a count of records with the conditions met
+ * Similarly to filter type {@link StatisticsBreakdownValueFilter} but this class does not contain breakdowns
  */
 
 @JsonSerialize
-public class StatisticsValueFilter implements StatisticsFilter {
+public class StatisticsValueFilter implements StatisticsFilter{
 
-  // It is an Integer instead of an int, so it can be null
-  private Integer breakdown;
   private List<String> values;
 
   /**
@@ -23,17 +21,8 @@ public class StatisticsValueFilter implements StatisticsFilter {
   public StatisticsValueFilter() {
   }
 
-  public StatisticsValueFilter(Integer breakdown, List<String> values) {
-    this.breakdown = breakdown;
+  public StatisticsValueFilter(List<String> values) {
     this.values = new ArrayList<>(values);
-  }
-
-  public Integer getBreakdown() {
-    return breakdown;
-  }
-
-  public void setBreakdown(Integer breakdown) {
-    this.breakdown = breakdown;
   }
 
   public List<String> getValues() {

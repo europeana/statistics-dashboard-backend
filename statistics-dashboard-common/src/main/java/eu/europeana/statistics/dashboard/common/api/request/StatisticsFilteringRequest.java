@@ -16,21 +16,21 @@ import java.util.stream.Collectors;
 public class StatisticsFilteringRequest {
 
   @JsonProperty(FilterNames.CONTENT_TIER)
-  private StatisticsValueFilter contentTier;
+  private StatisticsBreakdownValueFilter contentTier;
   @JsonProperty(FilterNames.CONTENT_TYPE)
-  private StatisticsValueFilter contentType;
+  private StatisticsBreakdownValueFilter contentType;
   @JsonProperty(FilterNames.COUNTRY)
-  private StatisticsValueFilter country;
+  private StatisticsBreakdownValueFilter country;
   @JsonProperty(FilterNames.DATA_PROVIDER)
-  private StatisticsValueFilter dataProvider;
+  private StatisticsBreakdownValueFilter dataProvider;
   @JsonProperty(FilterNames.METADATA_TIER)
-  private StatisticsValueFilter metadataTier;
+  private StatisticsBreakdownValueFilter metadataTier;
   @JsonProperty(FilterNames.PROVIDER)
-  private StatisticsValueFilter provider;
+  private StatisticsBreakdownValueFilter provider;
   @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
-  private StatisticsValueFilter rightsStatements;
+  private StatisticsBreakdownValueFilter rightsStatements;
   @JsonProperty(FilterNames.DATASET_ID)
-  private StatisticsNonBreakdownValueFilter datasetId;
+  private StatisticsValueFilter datasetId;
   @JsonProperty(FilterNames.CREATED_DATE)
   private StatisticsRangeFilter createdDate;
   @JsonProperty(FilterNames.UPDATED_DATE)
@@ -42,11 +42,11 @@ public class StatisticsFilteringRequest {
   public StatisticsFilteringRequest() {
   }
 
-  public StatisticsFilteringRequest(StatisticsValueFilter contentTier,
-      StatisticsValueFilter contentType, StatisticsValueFilter country,
-      StatisticsValueFilter dataProvider, StatisticsValueFilter metadataTier,
-      StatisticsValueFilter provider, StatisticsValueFilter rightsStatements,
-      StatisticsNonBreakdownValueFilter datasetId, StatisticsRangeFilter createdDate,
+  public StatisticsFilteringRequest(StatisticsBreakdownValueFilter contentTier,
+      StatisticsBreakdownValueFilter contentType, StatisticsBreakdownValueFilter country,
+      StatisticsBreakdownValueFilter dataProvider, StatisticsBreakdownValueFilter metadataTier,
+      StatisticsBreakdownValueFilter provider, StatisticsBreakdownValueFilter rightsStatements,
+      StatisticsValueFilter datasetId, StatisticsRangeFilter createdDate,
       StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.contentType = contentType;
@@ -60,60 +60,60 @@ public class StatisticsFilteringRequest {
     this.updatedDate = updatedDate;
   }
 
-  public StatisticsValueFilter getContentTier() {
+  public StatisticsBreakdownValueFilter getContentTier() {
     return contentTier;
   }
 
-  public void setContentTier(StatisticsValueFilter contentTier) {
+  public void setContentTier(StatisticsBreakdownValueFilter contentTier) {
     this.contentTier = contentTier;
   }
 
-  public StatisticsValueFilter getContentType() {
+  public StatisticsBreakdownValueFilter getContentType() {
     return contentType;
   }
 
-  public void setContentType(StatisticsValueFilter contentType) {
+  public void setContentType(StatisticsBreakdownValueFilter contentType) {
     this.contentType = contentType;
   }
 
-  public StatisticsValueFilter getCountry() {
+  public StatisticsBreakdownValueFilter getCountry() {
     return country;
   }
 
-  public void setCountry(StatisticsValueFilter country) {
+  public void setCountry(StatisticsBreakdownValueFilter country) {
     this.country = country;
   }
 
-  public StatisticsValueFilter getDataProvider() {
+  public StatisticsBreakdownValueFilter getDataProvider() {
     return dataProvider;
   }
 
-  public void setDataProvider(StatisticsValueFilter dataProvider) {
+  public void setDataProvider(StatisticsBreakdownValueFilter dataProvider) {
     this.dataProvider = dataProvider;
   }
 
-  public StatisticsValueFilter getMetadataTier() {
+  public StatisticsBreakdownValueFilter getMetadataTier() {
     return metadataTier;
   }
 
-  public void setMetadataTier(StatisticsValueFilter metadataTier) {
+  public void setMetadataTier(StatisticsBreakdownValueFilter metadataTier) {
     this.metadataTier = metadataTier;
   }
 
-  public StatisticsValueFilter getProvider() {
+  public StatisticsBreakdownValueFilter getProvider() {
     return provider;
   }
 
-  public void setProvider(StatisticsValueFilter provider) {
+  public void setProvider(StatisticsBreakdownValueFilter provider) {
     this.provider = provider;
   }
 
-  public StatisticsValueFilter getRightsStatements() {
+  public StatisticsBreakdownValueFilter getRightsStatements() {
     return rightsStatements;
   }
 
   public void setRightsStatements(
-      StatisticsValueFilter rightsStatements) {
+      StatisticsBreakdownValueFilter rightsStatements) {
     this.rightsStatements = rightsStatements;
   }
 
@@ -133,16 +133,16 @@ public class StatisticsFilteringRequest {
     this.updatedDate = updatedDate;
   }
 
-  public StatisticsNonBreakdownValueFilter getDatasetId() {
+  public StatisticsValueFilter getDatasetId() {
     return datasetId;
   }
 
-  public void setDatasetId(StatisticsNonBreakdownValueFilter datasetId) {
+  public void setDatasetId(StatisticsValueFilter datasetId) {
     this.datasetId = datasetId;
   }
 
-  public List<StatisticsValueFilter> getAllValueFilters(){
-    List<StatisticsValueFilter> filters = new ArrayList<>();
+  public List<StatisticsBreakdownValueFilter> getAllBreakdownValueFilters(){
+    List<StatisticsBreakdownValueFilter> filters = new ArrayList<>();
     filters.add(contentTier);
     filters.add(contentType);
     filters.add(country);
