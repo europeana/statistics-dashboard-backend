@@ -235,11 +235,6 @@ public class StatisticsQuery {
     private final String from;
     private final String to;
 
-    public ValueRange(){
-      from = "";
-      to = "";
-    }
-
     public ValueRange(String from, String to) {
       this.from = from;
       this.to = to;

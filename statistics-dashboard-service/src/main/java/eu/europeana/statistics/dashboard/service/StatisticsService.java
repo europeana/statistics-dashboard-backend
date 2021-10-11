@@ -214,10 +214,7 @@ public class StatisticsService {
   }
 
   private double calculatePercentage(double totalCount, double count) {
-    if (totalCount <= 0) {
-      return 0;
-    }
-    return Double.parseDouble(PERCENTAGE_FORMAT.format((count / totalCount) * 100.0));
+    return totalCount <= 0 ? 0 : Double.parseDouble(PERCENTAGE_FORMAT.format((count / totalCount) * 100.0));
   }
 
 }
