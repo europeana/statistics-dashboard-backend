@@ -74,7 +74,7 @@ public class StatisticsController {
   public FilteringResult getFilters(
       @ApiParam(value = "The filters to be applied", required = true) @RequestBody FiltersWrapper filters)
       throws BreakdownDeclarationFailException {
-    return statisticsService.queryDataWithFilters(filters.getFilters());
+    return statisticsService.queryDataWithFilters(filters);
   }
 
 }

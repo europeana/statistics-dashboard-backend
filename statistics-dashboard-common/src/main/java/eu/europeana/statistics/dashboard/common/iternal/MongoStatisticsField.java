@@ -1,9 +1,9 @@
 package eu.europeana.statistics.dashboard.common.iternal;
 
-import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;
 
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.response.FilteringOptions;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.HashSet;
@@ -17,7 +17,7 @@ import java.util.function.Function;
  */
 public enum MongoStatisticsField {
 
-  DATASET_ID(MongoFieldNames.DATASET_ID_FIELD, null, null, null, null, null),
+  DATASET_ID(MongoFieldNames.DATASET_ID_FIELD, null, StatisticsFilteringRequest::getDatasetId, null, null, null),
   TYPE(MongoFieldNames.TYPE_FIELD, FacetValue.CONTENT_TYPE, StatisticsFilteringRequest::getContentType,
       null, FilteringOptions::setContentType, null),
   COUNTRY(MongoFieldNames.COUNTRY_FIELD, FacetValue.COUNTRY, StatisticsFilteringRequest::getCountry,

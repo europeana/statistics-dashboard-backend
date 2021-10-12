@@ -12,5 +12,6 @@ public final class FilterNames {
   public static final String RIGHTS_STATEMENTS = "rights";
   public static final String CREATED_DATE = "createdDate";
   public static final String UPDATED_DATE = "updatedDate";
+  public static final String DATASET_ID = "datasetId";
 
 }

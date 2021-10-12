@@ -29,4 +29,5 @@ public class FiltersWrapper {
   public void setFilters(StatisticsFilteringRequest filters) {
     this.filters = filters;
   }
+
 }

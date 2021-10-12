@@ -25,11 +25,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterators;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition;
 
 /**
  * This class represents a statistical query on the data. The class is designed so that the user can execute the query multiple
@@ -181,9 +183,9 @@ public class StatisticsQuery {
    * field settings are not relevant.
    *
    * @param mongoStatisticsField The field for which to determine the range.
-   * @return The value range that exists in the data for the given field.
+   * @return The value range that exists in the data for the given field in a non-null {@link Optional}
    */
-  public ValueRange queryForValueRange(MongoStatisticsField mongoStatisticsField) {
+  public Optional<ValueRange> queryForValueRange(MongoStatisticsField mongoStatisticsField) {
 
     // Create the aggregation and add the value filters.
     final Aggregation<StatisticsRecordModel> aggregation = createFilteredAggregation(mongoStatisticsField);
@@ -198,9 +200,9 @@ public class StatisticsQuery {
 
     // Return the result.
     if (queryResults.isEmpty()) {
-      return null;
+      return Optional.empty();
     }
-    return new ValueRange(queryResults.get(0).getMinimumValue(), queryResults.get(0).getMaximumValue());
+    return Optional.of(new ValueRange(queryResults.get(0).getMinimumValue(), queryResults.get(0).getMaximumValue()));
   }
 
   /**

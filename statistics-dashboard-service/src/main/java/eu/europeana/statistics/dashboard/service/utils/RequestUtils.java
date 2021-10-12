@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.service.utils;
 
-import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsBreakdownValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
@@ -48,8 +48,9 @@ public final class RequestUtils {
 
     // We want the list ordered according to the breakdown value.
     // The list order is important for later when we do the request with breakdowns
-    List<StatisticsValueFilter> valueFiltersWithBreakdowns = statisticsFilteringRequest.getAllValueFilters().stream()
-        .filter(filter -> filter.getBreakdown() != null).sorted(Comparator.comparing(StatisticsValueFilter::getBreakdown))
+    List<StatisticsBreakdownValueFilter> valueFiltersWithBreakdowns = statisticsFilteringRequest.getAllBreakdownValueFilters().stream()
+        .filter(filter -> filter.getBreakdown() != null).sorted(Comparator.comparing(
+            StatisticsBreakdownValueFilter::getBreakdown))
         .collect(Collectors.toList());
 
     if (!isBreakdownDefinitionCorrect(valueFiltersWithBreakdowns)) {
@@ -64,7 +65,7 @@ public final class RequestUtils {
     List<MongoStatisticsField> result = new ArrayList<>();
 
     // To ensure the order of the list is kept the same
-    for (StatisticsValueFilter filter : valueFiltersWithBreakdowns) {
+    for (StatisticsBreakdownValueFilter filter : valueFiltersWithBreakdowns) {
       nonNullFields.forEach(field -> {
         if (field.getValueFilterGetter().apply(statisticsFilteringRequest).equals(filter)) {
           result.add(field);
@@ -87,10 +88,10 @@ public final class RequestUtils {
         && mongoStatisticsField.getRangeFilterGetter().apply(statisticsFilteringRequest) != null;
   }
 
-  private static boolean isBreakdownDefinitionCorrect(List<StatisticsValueFilter> filters) {
+  private static boolean isBreakdownDefinitionCorrect(List<StatisticsBreakdownValueFilter> filters) {
 
     //Make sure there are no duplicate values of the breakdown
-    List<Integer> list = filters.stream().map(StatisticsValueFilter::getBreakdown).filter(Objects::nonNull)
+    List<Integer> list = filters.stream().map(StatisticsBreakdownValueFilter::getBreakdown).filter(Objects::nonNull)
         .collect(Collectors.toList());
     Set<Integer> set = new HashSet<>(list);
 
