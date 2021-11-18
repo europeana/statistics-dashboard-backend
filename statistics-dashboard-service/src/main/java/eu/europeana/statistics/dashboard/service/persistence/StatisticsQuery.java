@@ -31,7 +31,6 @@ import java.util.Spliterators;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition;
 
 /**
  * This class represents a statistical query on the data. The class is designed so that the user can execute the query multiple
