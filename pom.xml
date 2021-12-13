@@ -8,9 +8,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>statistics-dashboard-rest</module>
-        <module>statistics-dashboard-service</module>
         <module>statistics-dashboard-common</module>
+        <module>statistics-dashboard-service</module>
+        <module>statistics-dashboard-rest</module>
         <module>statistics-dashboard-worker</module>
     </modules>
 
@@ -19,7 +19,7 @@
 
         <version.slf4j>1.7.30</version.slf4j>
         <version.jul.to.slf4j>1.7.30</version.jul.to.slf4j>
-        <version.log4j>2.14.1</version.log4j>
+        <version.log4j>2.15.0</version.log4j>
 
         <version.spring>5.3.7</version.spring>
         <version.jackson>2.12.3</version.jackson>
