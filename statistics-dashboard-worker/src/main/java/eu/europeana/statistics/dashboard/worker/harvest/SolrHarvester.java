@@ -23,10 +23,11 @@ import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.PivotField;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * This class provides functionality to harvest from the Solr database. This object can be
- * reused for multiple calls (but there is no guarantee of thread-safety).
+ * This class provides functionality to harvest from the Solr database. This object can be reused for multiple calls (but there is
+ * no guarantee of thread-safety).
  */
 public class SolrHarvester {
 
@@ -34,7 +35,7 @@ public class SolrHarvester {
   private static final String CONTENT_TIER_FIELD = "contentTier";
   private static final String COUNTRY_FIELD = "COUNTRY";
   private static final String DATA_PROVIDER_FIELD = "DATA_PROVIDER";
-  private static final String EDM_DATASET_NAME_FIELD = "edm_datasetName";
+  private static final String EUROPEANA_ID_FIELD = "europeana_id";
   private static final String METADATA_TIER_FIELD = "metadataTier";
   private static final String PROVIDER_FIELD = "PROVIDER";
   private static final String RIGHTS_FIELD = "RIGHTS";
@@ -62,8 +63,8 @@ public class SolrHarvester {
    * Harvest the statistics for a given dataset.
    *
    * @param datasetId The dataset ID to harvest.
-   * @return The objects that together form all statistics for the given dataset. Is not null but
-   * can be empty (if the dataset is not found in the Solr).
+   * @return The objects that together form all statistics for the given dataset. Is not null but can be empty (if the dataset is
+   * not found in the Solr).
    * @throws DataHarvestingException In case there was an issue connecting to the Solr.
    */
   public List<StatisticsRecordModel> harvestDataset(String datasetId)
@@ -116,9 +117,9 @@ public class SolrHarvester {
     final String updatedStartIncl = getSolrTimestampForStartOfDay(updatedDate);
     final String updatedEndExcl = getSolrTimestampForStartOfDay(updatedDate.plusDays(1));
     final SolrQuery solrQuery = new SolrQuery("*:*");
-    solrQuery.setFilterQueries(EDM_DATASET_NAME_FIELD + ":" + datasetId + "_*",
-        TIMESTAMP_CREATED_FIELD + ":[" + createdStartIncl + " TO " + createdEndExcl + "}",
-        TIMESTAMP_UPDATE_FIELD + ":[" + updatedStartIncl + " TO " + updatedEndExcl + "}");
+    solrQuery.setFilterQueries(createIdQuery(datasetId),
+        createRangeQuery(TIMESTAMP_CREATED_FIELD, createdStartIncl, createdEndExcl),
+        createRangeQuery(TIMESTAMP_UPDATE_FIELD, updatedStartIncl, updatedEndExcl));
     solrQuery.setStart(0);
     solrQuery.setRows(0);
     solrQuery.setFacet(true);
@@ -143,6 +144,16 @@ public class SolrHarvester {
     for (PivotField pivotField : topLevelResult) {
       recurseThroughPivots(pivotField, foundProperties, resultConsumer);
     }
+  }
+
+  @NotNull
+  private String createRangeQuery(String field, String start, String end) {
+    return String.format("%s:[%s TO %s}", field, start, end);
+  }
+
+  @NotNull
+  private String createIdQuery(String datasetId) {
+    return String.format("%s:\\/%s\\/*", EUROPEANA_ID_FIELD, datasetId);
   }
 
   private static void recurseThroughPivots(PivotField pivotField,
@@ -211,7 +222,7 @@ public class SolrHarvester {
 
   private long getDatasetSize(String datasetId) throws IOException, SolrServerException {
     final SolrQuery solrQuery = new SolrQuery("*:*");
-    solrQuery.setFilterQueries(EDM_DATASET_NAME_FIELD + ":" + datasetId + "_*");
+    solrQuery.setFilterQueries(createIdQuery(datasetId));
     solrQuery.setStart(0);
     solrQuery.setRows(0);
     return solrClient.query(solrQuery).getResults().getNumFound();
@@ -239,8 +250,8 @@ public class SolrHarvester {
     // Create query
     final String startInclusive = getSolrTimestampForStartOfDay(firstPermissibleDate);
     final SolrQuery solrQuery = new SolrQuery("*:*");
-    solrQuery.setFilterQueries(EDM_DATASET_NAME_FIELD + ":" + datasetId + "_*",
-        dateFieldName + ":[" + startInclusive + " TO *}");
+    solrQuery.setFilterQueries(createIdQuery(datasetId),
+        createRangeQuery(dateFieldName, startInclusive, "*"));
     solrQuery.setSort(new SortClause(dateFieldName, ORDER.asc));
     solrQuery.setStart(0);
     solrQuery.setRows(1);
