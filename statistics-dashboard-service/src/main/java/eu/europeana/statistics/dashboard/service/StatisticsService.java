@@ -290,9 +290,4 @@ public class StatisticsService {
     }
     return totalCount <= 0 ? 0 : totalPercentage;
   }
-
-  private List<StatisticsData> filterContentTierZero(List<StatisticsData> statisticsDataList) {
-    return statisticsDataList.stream()
-                             .filter(data -> data.getField().getFieldName().equalsIgnoreCase("")).collect(Collectors.toList());
-  }
 }
