@@ -2,7 +2,7 @@ package eu.europeana.statistics.dashboard.service.utils;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsBreakdownValueFilter;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
-import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
+import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.common.iternal;
+package eu.europeana.statistics.dashboard.common.internal;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilter;

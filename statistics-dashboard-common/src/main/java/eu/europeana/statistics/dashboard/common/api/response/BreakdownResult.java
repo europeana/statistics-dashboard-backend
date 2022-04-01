@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.common.api.response;
 
-import eu.europeana.statistics.dashboard.common.iternal.FacetValue;
+import eu.europeana.statistics.dashboard.common.internal.FacetValue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

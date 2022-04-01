@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.service.persistence;
 
-import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
+import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
