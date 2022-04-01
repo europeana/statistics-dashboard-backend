@@ -11,6 +11,7 @@ public final class MongoFieldNames {
   public static final String PROVIDER_FIELD = "provider";
   public static final String DATA_PROVIDER_FIELD = "dataProvider";
   public static final String RIGHTS_FIELD = "rights";
+  public static final String RIGHTS_CATEGORY_FIELD = "rightsCategory";
   public static final String CONTENT_TIER_FIELD = "contentTier";
   public static final String METADATA_TIER_FIELD = "metadataTier";
   public static final String CREATED_DATE_FIELD = "createdDate";

@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import eu.europeana.metis.mongo.connection.MongoClientProvider;
 import eu.europeana.metis.solr.client.CompoundSolrClient;
 import eu.europeana.metis.solr.connection.SolrClientProvider;
+import eu.europeana.statistics.dashboard.common.iternal.RightsCategory;
 import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import eu.europeana.statistics.dashboard.worker.harvest.SolrHarvester;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
@@ -70,6 +71,7 @@ public class CreateDatabaseMain {
       final AtomicInteger resultCounterForThisDataset = new AtomicInteger(0);
       final List<StatisticsRecordModel> results = harvester.harvestDataset(datasetId);
       results.forEach(result -> {
+        result.setRightsCategory(RightsCategory.matchCategoryFromUrl(result.getRights()).getName());
         resultCounterForThisDataset.incrementAndGet();
         resultCounter.incrementAndGet();
       });
