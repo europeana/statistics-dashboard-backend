@@ -9,12 +9,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
@@ -24,6 +26,7 @@ import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 
 /**
  * Controller for the Statistics Dashboard
+ * {@link StatisticsService}
  */
 
 @Tags(@Tag(name = StatisticsController.CONTROLLER_TAG_NAME, description = "Controller providing statistics values throughout Europeana database"))
@@ -56,8 +59,14 @@ public class StatisticsController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
-  public ResultListFilters getGeneralStatistics() {
-    return statisticsService.queryGeneralEuropeanaData();
+  public ResultListFilters getGeneralStatistics(
+      @ApiParam(value = "Include content Tier 0")
+      @RequestParam(name="content-tier-zero", required = false) Optional<Boolean> contentTierZero) {
+    if (contentTierZero.orElse(false)) {
+      return statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero();
+    } else {
+      return statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
+    }
   }
 
   /**
