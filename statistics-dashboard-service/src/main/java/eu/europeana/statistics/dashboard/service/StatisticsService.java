@@ -17,8 +17,7 @@ import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.ValueRange;
 import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -31,8 +30,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,8 +39,7 @@ import org.springframework.stereotype.Service;
 public class StatisticsService {
 
   private static final String STATISTICS_RESULT_ROOT_VALUE = "ALL_RECORDS";
-  private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("0.00");
-  private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsService.class);
+  private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.US));
   private final MongoSDDao mongoSDDao;
 
   /**
@@ -84,8 +80,7 @@ public class StatisticsService {
   }
 
   /**
-   * Build the results list filters according to breakdowns
-   * and calculates its percentages from total records count
+   * Build the results list filters according to breakdowns and calculates its percentages from total records count
    *
    * @param statisticsDataList list of all breakdowns
    * @return ResultListFilters
@@ -285,25 +280,6 @@ public class StatisticsService {
   }
 
   private double calculatePercentage(double totalCount, double count) {
-    double totalPercentage;
-    try {
-      // If you have a dutch, french locale uses a comma instead of a dot
-      // this prevents NumberFormatException when parsing and do the calculation
-      totalPercentage = NumberFormat.getNumberInstance(Locale.getDefault())
-                                    .parse(PERCENTAGE_FORMAT
-                                        .format((count / totalCount) * 100.0)).doubleValue();
-    } catch (ParseException parseException) {
-      try {
-        // If there is an exception use US locale to use a dot do perform the calculation
-        totalPercentage = NumberFormat.getNumberInstance(Locale.US)
-                                      .parse(PERCENTAGE_FORMAT
-                                          .format((count / totalCount) * 100.0)).doubleValue();
-      } catch (ParseException parseException1) {
-        // other just return log error and percentage is not a number.
-        totalPercentage = Double.NaN;
-        LOGGER.error("Error calculating total percentage for statistics", parseException1);
-      }
-    }
-    return totalCount <= 0 ? 0 : totalPercentage;
+    return totalCount <= 0 ? 0 : Double.parseDouble(PERCENTAGE_FORMAT.format((count / totalCount) * 100.0));
   }
 }
