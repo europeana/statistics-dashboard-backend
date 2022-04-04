@@ -78,48 +78,64 @@ public class StatisticsService {
     // Get total count of records (it is the same for each group of breakdowns)
     return getResultListFilters(
         // It returns a list of StatisticsData, where each has a list of breakdowns
-        prepareGeneralQueries(getStatisticsQuery(),
-            getMongoStatisticFields())
+        prepareGeneralQueries(getStatisticsQuery(), getMongoStatisticFields()
+        )
     );
   }
 
   /**
-   * Build the results list filters according to breakdowns and calculates its percentages
-   * from total records count
+   * Build the results list filters according to breakdowns
+   * and calculates its percentages from total records count
    *
-   * @param generalQueries list of all breakdowns
-   * @return Result List Filters
+   * @param statisticsDataList list of all breakdowns
+   * @return ResultListFilters
    */
   @NotNull
-  private ResultListFilters getResultListFilters(List<StatisticsData> generalQueries) {
-    int totalRecordCount = generalQueries.get(0).getRecordCount();
+  private ResultListFilters getResultListFilters(List<StatisticsData> statisticsDataList) {
+    return new ResultListFilters(calculateBreakDownsResultList(statisticsDataList));
+  }
 
-    return new ResultListFilters(
-        // Calculate all breakdowns Europeana
-        generalQueries
-            .stream()
-            .map(resultBreakdown -> {
-              // Replace Field with FacetValue object
-              FacetValue breakdownBy = resultBreakdown.getBreakdown()
-                                                      .get(0)
-                                                      .getField()
-                                                      .getFacet();
+  /**
+   * Calculate all breakdowns Europeana
+   *
+   * @param allBreakdowns List of statistics data
+   * @return List of BreakdownResult
+   */
+  private List<BreakdownResult> calculateBreakDownsResultList(List<StatisticsData> allBreakdowns) {
+    int totalRecordCount = allBreakdowns.get(0).getRecordCount();
+    return allBreakdowns
+        .stream()
+        .map(statisticsData -> {
+          // Replace Field with FacetValue object
+          FacetValue breakdownBy = statisticsData.getBreakdown()
+                                                 .get(0)
+                                                 .getField()
+                                                 .getFacet();
 
-              return new BreakdownResult(breakdownBy,
-                  // Convert StatisticsData into a list of StatisticResult
-                  resultBreakdown.getBreakdown()
-                                 .stream()
-                                 .map(
-                                     data -> new StatisticsResult(
-                                         data.getFieldValue(),
-                                         data.getRecordCount(),
-                                         calculatePercentage(
-                                             totalRecordCount,
-                                             data.getRecordCount())))
-                                 .collect(Collectors.toList())
-              );
-            })
-            .collect(Collectors.toList()));
+          return new BreakdownResult(breakdownBy,
+              calculateBreakDownStatisticsResult(statisticsData, totalRecordCount)
+          );
+        })
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Calculates the percentage from StatisticsData for every breakdown
+   *
+   * @param statisticsData data
+   * @param totalRecordCount total records
+   * @return List of StatisticsResult
+   */
+  private List<StatisticsResult> calculateBreakDownStatisticsResult(StatisticsData statisticsData, int totalRecordCount) {
+    return statisticsData.getBreakdown()
+                         .stream()
+                         .map(breakdown -> new StatisticsResult(
+                             breakdown.getFieldValue(),
+                             breakdown.getRecordCount(),
+                             calculatePercentage(
+                                 totalRecordCount,
+                                 breakdown.getRecordCount())))
+                         .collect(Collectors.toList());
   }
 
   /**
