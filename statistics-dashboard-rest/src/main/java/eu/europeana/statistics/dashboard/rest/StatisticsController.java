@@ -61,8 +61,8 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   public ResultListFilters getGeneralStatistics(
       @ApiParam(value = "Include content Tier 0")
-      @RequestParam(name="content-tier-zero", required = false) Optional<Boolean> contentTierZero) {
-    if (contentTierZero.orElse(false)) {
+      @RequestParam(name="content-tier-zero", required = false) boolean contentTierZero) {
+    if (contentTierZero) {
       return statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero();
     } else {
       return statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
