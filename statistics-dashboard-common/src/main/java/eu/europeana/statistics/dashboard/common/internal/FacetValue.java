@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.common.iternal;
+package eu.europeana.statistics.dashboard.common.internal;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
