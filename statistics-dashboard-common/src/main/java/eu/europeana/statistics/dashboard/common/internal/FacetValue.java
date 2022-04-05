@@ -10,7 +10,7 @@ public enum FacetValue {
   DATA_PROVIDER(FilterNames.DATA_PROVIDER),
   METADATA_TIER(FilterNames.METADATA_TIER),
   PROVIDER(FilterNames.PROVIDER),
-  RIGHTS_STATEMENTS(FilterNames.RIGHTS_STATEMENTS);
+  RIGHTS_CATEGORY(FilterNames.RIGHTS_CATEGORY);
 
   private final String name;
 

@@ -71,9 +71,7 @@ public class StatisticsService {
    * @return A list with all breakdowns and their respective value
    */
   public ResultListFilters queryGeneralEuropeanaDataIncludingContentTierZero() {
-    // Get total count of records (it is the same for each group of breakdowns)
     return getResultListFilters(
-        // It returns a list of StatisticsData, where each has a list of breakdowns
         prepareGeneralQueries(getStatisticsQuery(), getMongoStatisticFields()
         )
     );
@@ -97,7 +95,9 @@ public class StatisticsService {
    * @return List of BreakdownResult
    */
   private List<BreakdownResult> calculateBreakDownsResultList(List<StatisticsData> allBreakdowns) {
+    // Get total count of records (it is the same for each group of breakdowns)
     int totalRecordCount = allBreakdowns.get(0).getRecordCount();
+    // It returns a list of StatisticsData, where each has a list of breakdowns
     return allBreakdowns
         .stream()
         .map(statisticsData -> {
@@ -204,7 +204,8 @@ public class StatisticsService {
         MongoStatisticsField.values()).filter(
         field -> field != MongoStatisticsField.UPDATED_DATE
             && field != MongoStatisticsField.CREATED_DATE
-            && field != MongoStatisticsField.DATASET_ID).collect(Collectors.toUnmodifiableList());
+            && field != MongoStatisticsField.DATASET_ID
+            && field != MongoStatisticsField.RIGHTS).collect(Collectors.toUnmodifiableList());
   }
 
   private StatisticsQuery getStatisticsQuery() {

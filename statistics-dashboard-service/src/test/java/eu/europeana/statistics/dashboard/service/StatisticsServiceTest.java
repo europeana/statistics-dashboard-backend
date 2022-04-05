@@ -55,7 +55,7 @@ class StatisticsServiceTest {
                                    .thenReturn(MongoStatisticsField.DATA_PROVIDER)
                                    .thenReturn(MongoStatisticsField.METADATA_TIER)
                                    .thenReturn(MongoStatisticsField.PROVIDER)
-                                   .thenReturn(MongoStatisticsField.RIGHTS)
+                                   .thenReturn(MongoStatisticsField.RIGHTS_CATEGORY)
                                    .thenReturn(MongoStatisticsField.TYPE);
     when(statisticsData.getRecordCount()).thenReturn(12);
     when(statisticsData.getFieldValue())
@@ -84,7 +84,7 @@ class StatisticsServiceTest {
                                    .thenReturn(MongoStatisticsField.DATA_PROVIDER)
                                    .thenReturn(MongoStatisticsField.METADATA_TIER)
                                    .thenReturn(MongoStatisticsField.PROVIDER)
-                                   .thenReturn(MongoStatisticsField.RIGHTS)
+                                   .thenReturn(MongoStatisticsField.RIGHTS_CATEGORY)
                                    .thenReturn(MongoStatisticsField.TYPE);
     when(statisticsData.getRecordCount()).thenReturn(12);
     when(statisticsData.getFieldValue())
@@ -115,6 +115,7 @@ class StatisticsServiceTest {
         null,
         null,
         null,
+        null,
         new StatisticsValueFilter(List.of("1")),
         new StatisticsRangeFilter("", ""),
         new StatisticsRangeFilter("", "")
@@ -140,6 +141,7 @@ class StatisticsServiceTest {
   void queryDataWithFilters_withException() {
     FiltersWrapper filtersWrapper = new FiltersWrapper();
     filtersWrapper.setFilters(new StatisticsFilteringRequest(
+        new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),

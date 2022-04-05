@@ -26,8 +26,10 @@ public enum MongoStatisticsField {
       null, FilteringOptions::setProvider, null),
   DATA_PROVIDER(MongoFieldNames.DATA_PROVIDER_FIELD, FacetValue.DATA_PROVIDER,
       StatisticsFilteringRequest::getDataProvider, null, FilteringOptions::setDataProvider, null),
-  RIGHTS(MongoFieldNames.RIGHTS_FIELD, FacetValue.RIGHTS_STATEMENTS,
-      StatisticsFilteringRequest::getRightsStatements, null, FilteringOptions::setRights, null),
+  RIGHTS(MongoFieldNames.RIGHTS_FIELD, null,
+      StatisticsFilteringRequest::getRightsStatements, null, null, null),
+  RIGHTS_CATEGORY(MongoFieldNames.RIGHTS_CATEGORY_FIELD, FacetValue.RIGHTS_CATEGORY,
+      StatisticsFilteringRequest::getRightsCategory, null, FilteringOptions::setRightsCategory, null),
   CONTENT_TIER(MongoFieldNames.CONTENT_TIER_FIELD, FacetValue.CONTENT_TIER,
       StatisticsFilteringRequest::getContentTier, null, FilteringOptions::setContentTier, null),
   METADATA_TIER(MongoFieldNames.METADATA_TIER_FIELD, FacetValue.METADATA_TIER,
@@ -92,7 +94,7 @@ public enum MongoStatisticsField {
     result.add(MongoStatisticsField.COUNTRY);
     result.add(MongoStatisticsField.PROVIDER);
     result.add(MongoStatisticsField.DATA_PROVIDER);
-    result.add(MongoStatisticsField.RIGHTS);
+    result.add(MongoStatisticsField.RIGHTS_CATEGORY);
     result.add(MongoStatisticsField.CONTENT_TIER);
     result.add(MongoStatisticsField.METADATA_TIER);
     return result;

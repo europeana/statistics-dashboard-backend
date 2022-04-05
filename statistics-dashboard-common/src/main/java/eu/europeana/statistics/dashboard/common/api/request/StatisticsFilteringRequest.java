@@ -29,6 +29,8 @@ public class StatisticsFilteringRequest {
   private StatisticsBreakdownValueFilter provider;
   @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
   private StatisticsBreakdownValueFilter rightsStatements;
+  @JsonProperty(FilterNames.RIGHTS_CATEGORY)
+  private StatisticsBreakdownValueFilter rightsCategory;
   @JsonProperty(FilterNames.DATASET_ID)
   private StatisticsValueFilter datasetId;
   @JsonProperty(FilterNames.CREATED_DATE)
@@ -46,8 +48,8 @@ public class StatisticsFilteringRequest {
       StatisticsBreakdownValueFilter contentType, StatisticsBreakdownValueFilter country,
       StatisticsBreakdownValueFilter dataProvider, StatisticsBreakdownValueFilter metadataTier,
       StatisticsBreakdownValueFilter provider, StatisticsBreakdownValueFilter rightsStatements,
-      StatisticsValueFilter datasetId, StatisticsRangeFilter createdDate,
-      StatisticsRangeFilter updatedDate) {
+      StatisticsBreakdownValueFilter rightsCategory, StatisticsValueFilter datasetId,
+      StatisticsRangeFilter createdDate, StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.contentType = contentType;
     this.country = country;
@@ -55,6 +57,7 @@ public class StatisticsFilteringRequest {
     this.metadataTier = metadataTier;
     this.provider = provider;
     this.rightsStatements = rightsStatements;
+    this.rightsCategory = rightsCategory;
     this.datasetId = datasetId;
     this.createdDate = createdDate;
     this.updatedDate = updatedDate;
@@ -112,9 +115,17 @@ public class StatisticsFilteringRequest {
     return rightsStatements;
   }
 
-  public void setRightsStatements(
-      StatisticsBreakdownValueFilter rightsStatements) {
+  public void setRightsStatements(StatisticsBreakdownValueFilter rightsStatements) {
     this.rightsStatements = rightsStatements;
+  }
+
+  public StatisticsBreakdownValueFilter getRightsCategory() {
+    return rightsCategory;
+  }
+
+  public void setRightsCategory(
+      StatisticsBreakdownValueFilter rightsCategory) {
+    this.rightsCategory = rightsCategory;
   }
 
   public StatisticsRangeFilter getCreatedDate() {
@@ -149,7 +160,7 @@ public class StatisticsFilteringRequest {
     filters.add(dataProvider);
     filters.add(metadataTier);
     filters.add(provider);
-    filters.add(rightsStatements);
+    filters.add(rightsCategory);
 
     return filters.stream().filter(Objects::nonNull).collect(Collectors.toList());
   }

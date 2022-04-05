@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -62,11 +61,8 @@ public class StatisticsController {
   public ResultListFilters getGeneralStatistics(
       @ApiParam(value = "Include content Tier 0")
       @RequestParam(name="content-tier-zero", required = false) boolean contentTierZero) {
-    if (contentTierZero) {
-      return statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero();
-    } else {
-      return statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
-    }
+    return contentTierZero ? statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero() :
+            statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
   }
 
   /**
