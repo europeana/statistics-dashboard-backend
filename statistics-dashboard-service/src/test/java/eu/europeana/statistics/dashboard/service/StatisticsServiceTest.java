@@ -13,7 +13,7 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsRangeFilte
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilter;
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
-import eu.europeana.statistics.dashboard.common.iternal.MongoStatisticsField;
+import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;

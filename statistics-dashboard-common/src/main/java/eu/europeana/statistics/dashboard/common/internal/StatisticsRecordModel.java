@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.common.iternal;
+package eu.europeana.statistics.dashboard.common.internal;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.Entity;
@@ -23,6 +23,7 @@ import org.bson.types.ObjectId;
     @Index(fields = {@Field(MongoFieldNames.PROVIDER_FIELD)}),
     @Index(fields = {@Field(MongoFieldNames.DATA_PROVIDER_FIELD)}),
     @Index(fields = {@Field(MongoFieldNames.RIGHTS_FIELD)}),
+    @Index(fields = {@Field(MongoFieldNames.RIGHTS_CATEGORY_FIELD)}),
     @Index(fields = {@Field(MongoFieldNames.CONTENT_TIER_FIELD)}),
     @Index(fields = {@Field(MongoFieldNames.METADATA_TIER_FIELD)}),
     @Index(fields = {@Field(MongoFieldNames.CREATED_DATE_FIELD)}),
@@ -32,6 +33,7 @@ import org.bson.types.ObjectId;
         @Field(MongoFieldNames.PROVIDER_FIELD),
         @Field(MongoFieldNames.DATA_PROVIDER_FIELD),
         @Field(MongoFieldNames.RIGHTS_FIELD),
+        @Field(MongoFieldNames.RIGHTS_CATEGORY_FIELD),
         @Field(MongoFieldNames.CONTENT_TIER_FIELD),
         @Field(MongoFieldNames.METADATA_TIER_FIELD),
         @Field(MongoFieldNames.CREATED_DATE_FIELD),
@@ -61,6 +63,9 @@ public class StatisticsRecordModel {
 
   @Property(MongoFieldNames.RIGHTS_FIELD)
   private String rights;
+
+  @Property(MongoFieldNames.RIGHTS_CATEGORY_FIELD)
+  private String rightsCategory;
 
   @Property(MongoFieldNames.CONTENT_TIER_FIELD)
   private String contentTier;
@@ -131,6 +136,14 @@ public class StatisticsRecordModel {
 
   public void setRights(String rights) {
     this.rights = rights;
+  }
+
+  public String getRightsCategory() {
+    return rightsCategory;
+  }
+
+  public void setRightsCategory(String rightsCategory) {
+    this.rightsCategory = rightsCategory;
   }
 
   public String getContentTier() {
