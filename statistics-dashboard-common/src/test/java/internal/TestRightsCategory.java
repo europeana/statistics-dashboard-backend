@@ -4,6 +4,7 @@ import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class TestRightsCategory {
@@ -201,5 +202,33 @@ class TestRightsCategory {
         assertEquals(RightsCategory.UNKNOWN, firstResult);
         assertEquals(RightsCategory.UNKNOWN, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+    }
+
+    @Test
+    void testToCategoryFromName_expectSuccess(){
+        String nameCc0 = "CC0";
+        String nameCcBy = "CC BY";
+        String nameCcBySa = "CC BY-SA";
+        String nameNoCopyright = "No Copyright - Non Commercial Re-Use Only";
+        RightsCategory resultCc0 = RightsCategory.toCategoryFromName(nameCc0);
+        RightsCategory resultCcBy = RightsCategory.toCategoryFromName(nameCcBy);
+        RightsCategory resultCcBySa = RightsCategory.toCategoryFromName(nameCcBySa);
+        RightsCategory resultNoCopyright = RightsCategory.toCategoryFromName(nameNoCopyright);
+        assertEquals(RightsCategory.CC0, resultCc0);
+        assertEquals(RightsCategory.CC_BY, resultCcBy);
+        assertEquals(RightsCategory.CC_BY_SA, resultCcBySa);
+        assertEquals(RightsCategory.NO_COPYRIGHT_NON_COMMERCIAL, resultNoCopyright);
+    }
+
+    @Test
+    void testToCategoryFromName_expectFail(){
+        String name = "Wrong value";
+        String nameCcBy = "CC_BY";
+        String nameCcBySa = "CC_by_SA";
+        String nameNoCopyright = "NO_COPYRIGHT_NON_COMMERCIAL";
+        assertThrows(IllegalArgumentException.class, () -> RightsCategory.toCategoryFromName(name));
+        assertThrows(IllegalArgumentException.class, () -> RightsCategory.toCategoryFromName(nameCcBy));
+        assertThrows(IllegalArgumentException.class, () -> RightsCategory.toCategoryFromName(nameCcBySa));
+        assertThrows(IllegalArgumentException.class, () -> RightsCategory.toCategoryFromName(nameNoCopyright));
     }
 }

@@ -14,11 +14,14 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringOptions;
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
+import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -68,6 +71,16 @@ class StatisticsControllerTest {
     FilteringResult testFilteringResult = controller.getFilters(filtersWrapper);
 
     assertEquals(testFilteringResult, filteringResult);
+  }
+
+  @Test
+  void getRightsUrlAssociatedToCategoryTest_expectSuccess() {
+    Set<String> mockAnswer = Set.of("url1", "url2", "url3");
+
+    when(statisticsService.getRightsUrlsWithCategory(any(RightsCategory.class))).thenReturn(mockAnswer);
+    Set<String> result = controller.getRightsUrlAssociatedToCategory(RightsCategory.CC_BY.getName());
+
+    assertEquals(mockAnswer, result);
   }
 
   @Test
