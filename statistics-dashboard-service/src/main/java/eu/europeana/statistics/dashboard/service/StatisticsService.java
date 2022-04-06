@@ -9,6 +9,7 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.internal.FacetValue;
+import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.utils.RequestUtils;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
@@ -178,6 +179,19 @@ public class StatisticsService {
     return new FilteringResult(statisticsAllRecordsResult, filteringOptions);
   }
 
+  /**
+   * Gathers all different urls associated to a given rights category
+   *
+   * @param category The right category to query
+   * @return A set of different rights urls associated to a given category
+   */
+  public Set<String> getRightsUrlsWithCategory(RightsCategory category){
+    return getStatisticsQuery().withBreakdowns(MongoStatisticsField.RIGHTS)
+            .withValueFilter(MongoStatisticsField.RIGHTS_CATEGORY, List.of(category.getName())).queryForStatistics()
+            .getBreakdown().stream().map(StatisticsData::getFieldValue).collect(Collectors.toSet());
+
+  }
+
   private List<StatisticsData> prepareGeneralQueries(StatisticsQuery query,
       List<MongoStatisticsField> filterMongoStatisticFields) {
     // Execute a breakdown query for each Value field
@@ -204,8 +218,7 @@ public class StatisticsService {
         MongoStatisticsField.values()).filter(
         field -> field != MongoStatisticsField.UPDATED_DATE
             && field != MongoStatisticsField.CREATED_DATE
-            && field != MongoStatisticsField.DATASET_ID
-            && field != MongoStatisticsField.RIGHTS).collect(Collectors.toUnmodifiableList());
+            && field != MongoStatisticsField.DATASET_ID).collect(Collectors.toUnmodifiableList());
   }
 
   private StatisticsQuery getStatisticsQuery() {

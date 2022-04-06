@@ -115,7 +115,6 @@ class StatisticsServiceTest {
         null,
         null,
         null,
-        null,
         new StatisticsValueFilter(List.of("1")),
         new StatisticsRangeFilter("", ""),
         new StatisticsRangeFilter("", "")
@@ -141,7 +140,6 @@ class StatisticsServiceTest {
   void queryDataWithFilters_withException() {
     FiltersWrapper filtersWrapper = new FiltersWrapper();
     filtersWrapper.setFilters(new StatisticsFilteringRequest(
-        new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),

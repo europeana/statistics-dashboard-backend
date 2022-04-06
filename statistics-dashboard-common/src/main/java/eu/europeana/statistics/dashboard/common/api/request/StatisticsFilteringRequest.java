@@ -27,8 +27,6 @@ public class StatisticsFilteringRequest {
   private StatisticsBreakdownValueFilter metadataTier;
   @JsonProperty(FilterNames.PROVIDER)
   private StatisticsBreakdownValueFilter provider;
-  @JsonProperty(FilterNames.RIGHTS_STATEMENTS)
-  private StatisticsBreakdownValueFilter rightsStatements;
   @JsonProperty(FilterNames.RIGHTS_CATEGORY)
   private StatisticsBreakdownValueFilter rightsCategory;
   @JsonProperty(FilterNames.DATASET_ID)
@@ -47,16 +45,14 @@ public class StatisticsFilteringRequest {
   public StatisticsFilteringRequest(StatisticsBreakdownValueFilter contentTier,
       StatisticsBreakdownValueFilter contentType, StatisticsBreakdownValueFilter country,
       StatisticsBreakdownValueFilter dataProvider, StatisticsBreakdownValueFilter metadataTier,
-      StatisticsBreakdownValueFilter provider, StatisticsBreakdownValueFilter rightsStatements,
-      StatisticsBreakdownValueFilter rightsCategory, StatisticsValueFilter datasetId,
-      StatisticsRangeFilter createdDate, StatisticsRangeFilter updatedDate) {
+      StatisticsBreakdownValueFilter provider, StatisticsBreakdownValueFilter rightsCategory,
+      StatisticsValueFilter datasetId, StatisticsRangeFilter createdDate, StatisticsRangeFilter updatedDate) {
     this.contentTier = contentTier;
     this.contentType = contentType;
     this.country = country;
     this.dataProvider = dataProvider;
     this.metadataTier = metadataTier;
     this.provider = provider;
-    this.rightsStatements = rightsStatements;
     this.rightsCategory = rightsCategory;
     this.datasetId = datasetId;
     this.createdDate = createdDate;
@@ -109,14 +105,6 @@ public class StatisticsFilteringRequest {
 
   public void setProvider(StatisticsBreakdownValueFilter provider) {
     this.provider = provider;
-  }
-
-  public StatisticsBreakdownValueFilter getRightsStatements() {
-    return rightsStatements;
-  }
-
-  public void setRightsStatements(StatisticsBreakdownValueFilter rightsStatements) {
-    this.rightsStatements = rightsStatements;
   }
 
   public StatisticsBreakdownValueFilter getRightsCategory() {

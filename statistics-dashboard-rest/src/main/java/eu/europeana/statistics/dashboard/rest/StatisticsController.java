@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.rest;
 
+import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,7 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringR
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
+import java.util.Set;
 
 /**
  * Controller for the Statistics Dashboard
@@ -35,6 +37,7 @@ public class StatisticsController {
 
   public static final String GENERAL_STATISTICS = "/statistics/europeana/general";
   public static final String FILTERING_STATISTICS = "/statistics/filtering";
+  public static final String RIGHTS_URLS = "/statistics/rights/urls";
   public static final String APPLICATION_JSON = "application/json";
   public static final String CONTROLLER_TAG_NAME = "StatisticsController";
 
@@ -80,6 +83,22 @@ public class StatisticsController {
       @ApiParam(value = "The filters to be applied", required = true) @RequestBody FiltersWrapper filters)
       throws BreakdownDeclarationFailException {
     return statisticsService.queryDataWithFilters(filters);
+  }
+
+  /**
+   * Get all rights urls associated to a given rightsCategory over the whole Europeana database
+   *
+   * @return A list of different rights urls associated to a given category
+   */
+  @GetMapping(value = RIGHTS_URLS, produces = {APPLICATION_JSON})
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  @ApiOperation(value = "Returns a list of rights urls associated to a given category", response = Set.class)
+  public Set<String> getRightsUrlAssociatedToCategory(
+          @ApiParam(value = "Category which the urls are associated with")
+          @RequestParam(name= "rightsCategory") String rightsCategoryName) {
+      return statisticsService.getRightsUrlsWithCategory(RightsCategory.toCategoryFromName(rightsCategoryName));
+
   }
 
 }

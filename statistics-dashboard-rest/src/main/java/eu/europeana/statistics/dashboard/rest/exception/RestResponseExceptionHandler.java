@@ -28,6 +28,19 @@ public class RestResponseExceptionHandler {
   }
 
   /**
+   * Handler for any {@link IllegalArgumentException}.
+   *
+   * @param exception the exception thrown
+   * @return {@link StructuredExceptionWrapper} a json friendly class that contains the error message for the client
+   */
+  @ExceptionHandler(IllegalArgumentException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public StructuredExceptionWrapper illegalArgumentHandler(Exception exception) {
+    return new StructuredExceptionWrapper(exception.getMessage());
+  }
+
+  /**
    * Handler for any {@link Exception}.
    *
    * @param exception the exception thrown

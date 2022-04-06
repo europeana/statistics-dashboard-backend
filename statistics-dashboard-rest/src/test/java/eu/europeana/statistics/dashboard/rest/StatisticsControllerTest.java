@@ -81,7 +81,6 @@ class StatisticsControllerTest {
         new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),
         new StatisticsBreakdownValueFilter(0),
-        new StatisticsBreakdownValueFilter(0),
         new StatisticsValueFilter(List.of("1")),
         new StatisticsRangeFilter("", ""),
         new StatisticsRangeFilter("", "")
