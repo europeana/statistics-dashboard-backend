@@ -11,9 +11,9 @@ class TestRightsCategory {
 
     @Test
     void testMatchCategoryFromUrlCC0_expectSuccess(){
-        String cc0Example = "https://creativecommons.org/licences/zero/3.0/ab/";
-        String cc0OtherExample = "http://creativecommons.org/licenses/zero/2.5/";
-        String caseSensitiveExample = "http://creativecommons.org/licenses/ZERO/6.8/";
+        String cc0Example = "https://creativecommons.org/publicdomain/zero/3.0/ab/";
+        String cc0OtherExample = "http://creativecommons.org/publicdomain/zero/2.5/";
+        String caseSensitiveExample = "http://creativecommons.org/publicdomain/ZERO/6.8/";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(cc0Example);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(cc0OtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
@@ -24,9 +24,9 @@ class TestRightsCategory {
 
     @Test
     void testMatchCategoryFromUrlPublicDomainMark_expectSuccess(){
-        String PublicDomainMarkExample = "https://creativecommons.org/licences/mark/3.0/ab/";
-        String PublicDomainMarkOtherExample = "http://creativecommons.org/licenses/mark/2.5/";
-        String caseSensitiveExample = "http://creativecommons.org/licenses/MARK/6.8/";
+        String PublicDomainMarkExample = "https://creativecommons.org/publicdomain/mark/3.0/ab/";
+        String PublicDomainMarkOtherExample = "http://creativecommons.org/publicdomain/mark/2.5/";
+        String caseSensitiveExample = "http://creativecommons.org/publicdomain/MARK/6.8/";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(PublicDomainMarkExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(PublicDomainMarkOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
@@ -105,12 +105,15 @@ class TestRightsCategory {
         String ccByNcNdExample = "https://creativecommons.org/licences/by-nc-nd/3.0/ab/";
         String ccByNcNdOtherExample = "http://creativecommons.org/licenses/by-nc-nd/2.5/";
         String caseSensitiveExample = "http://creativecommons.org/licenses/BY-NC-ND/6.8/";
+        String ccByNcNdAnotherPossibleExample = "http://creativecommons.org/licenses/by-nc-nd/3.0/es/deed.ca";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(ccByNcNdExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(ccByNcNdOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fourthResult = RightsCategory.matchCategoryFromUrl(ccByNcNdAnotherPossibleExample);
         assertEquals(RightsCategory.CC_BY_NC_ND, firstResult);
         assertEquals(RightsCategory.CC_BY_NC_ND, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.CC_BY_NC_ND, fourthResult);
     }
 
     @Test
@@ -118,12 +121,18 @@ class TestRightsCategory {
         String noCopyrightNonCommercialExample = "https://rightsstatements.org/vocab/NoC-NC/3.0/ab/";
         String noCopyrightNonCommercialOtherExample = "http://rightsstatements.org/vocab/NoC-NC/2.5/";
         String caseSensitiveExample = "http://rightsstatements.org/vocab/noc-nc/6.8/";
+        String noCopyrightNonCommercialOtherPossibleValue = "http://www.europeana.eu/rights/out-of-copyright-non-commercial/";
+        String noCopyrightNonCommercialPageExample = "https://rightsstatements.org/page/NoC-NC/3.0/";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fourthResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialOtherPossibleValue);
+        RightsCategory fifthResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialPageExample);
         assertEquals(RightsCategory.NO_COPYRIGHT_NON_COMMERCIAL, firstResult);
         assertEquals(RightsCategory.NO_COPYRIGHT_NON_COMMERCIAL, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.NO_COPYRIGHT_NON_COMMERCIAL, fourthResult);
+        assertEquals(RightsCategory.NO_COPYRIGHT_NON_COMMERCIAL, fifthResult);
     }
 
     @Test
@@ -131,12 +140,15 @@ class TestRightsCategory {
         String noCopyrightNonCommercialExample = "https://rightsstatements.org/vocab/NoC-OKLR/3.0/ab/";
         String noCopyrightNonCommercialOtherExample = "http://rightsstatements.org/vocab/NoC-OKLR/2.5/";
         String caseSensitiveExample = "http://rightsstatements.org/vocab/noc-oklr/6.8/";
+        String noCopyrightNonCommercialPageExample = "https://rightsstatements.org/page/NoC-OKLR/3.0/";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fourthResult = RightsCategory.matchCategoryFromUrl(noCopyrightNonCommercialPageExample);
         assertEquals(RightsCategory.NO_COPYRIGHT_OTHER_KNOWN_LEGAL, firstResult);
         assertEquals(RightsCategory.NO_COPYRIGHT_OTHER_KNOWN_LEGAL, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.NO_COPYRIGHT_OTHER_KNOWN_LEGAL, fourthResult);
     }
 
     @Test
@@ -144,12 +156,15 @@ class TestRightsCategory {
         String inCopyrightEducationalExample = "https://rightsstatements.org/vocab/InC-EDU/3.0/ab/";
         String inCopyrightEducationalOtherExample = "http://rightsstatements.org/vocab/InC-EDU/2.5/";
         String caseSensitiveExample = "http://rightsstatements.org/vocab/inc-edu/6.8/";
+        String inCopyrightEducationalPageExample = "https://rightsstatements.org/page/InC-EDU/3.0";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(inCopyrightEducationalExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(inCopyrightEducationalOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fifthResult = RightsCategory.matchCategoryFromUrl(inCopyrightEducationalPageExample);
         assertEquals(RightsCategory.IN_COPYRIGHT_EDUCATIONAL, firstResult);
         assertEquals(RightsCategory.IN_COPYRIGHT_EDUCATIONAL, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.IN_COPYRIGHT_EDUCATIONAL, fifthResult);
     }
 
     @Test
@@ -157,12 +172,18 @@ class TestRightsCategory {
         String inCopyrightEUExample = "https://rightsstatements.org/vocab/InC-OW-EU/3.0/ab/";
         String inCopyrightEUOtherExample = "http://rightsstatements.org/vocab/InC-OW-EU/2.5/";
         String caseSensitiveExample = "http://rightsstatements.org/vocab/inc-ow-edu/6.8/";
+        String inCopyrightEUPageExample = "https://rightsstatements.org/page/InC-OW-EU/3.0";
+        String inCopyrightEUTestExample = "http://rightsstatements.org/vocab/InC-OW-EU/1.0/";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(inCopyrightEUExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(inCopyrightEUOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fourthResult = RightsCategory.matchCategoryFromUrl(inCopyrightEUPageExample);
+        RightsCategory fifthResult = RightsCategory.matchCategoryFromUrl(inCopyrightEUTestExample);
         assertEquals(RightsCategory.IN_COPYRIGHT_EU, firstResult);
         assertEquals(RightsCategory.IN_COPYRIGHT_EU, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.IN_COPYRIGHT_EU, fourthResult);
+        assertEquals(RightsCategory.IN_COPYRIGHT_EU, fifthResult);
     }
 
     @Test
@@ -170,12 +191,21 @@ class TestRightsCategory {
         String inCopyrightExample = "https://rightsstatements.org/vocab/InC/3.0/ab/";
         String inCopyrightOtherExample = "http://rightsstatements.org/vocab/InC/2.5/";
         String caseSensitiveExample = "http://rightsstatements.org/vocab/inc/6.8/";
+        String inCopyrightPageExample = "https://rightsstatements.org/page/InC/3.0";
+        String inCopyrightAnotherPossibleValue = "http://www.europeana.eu/rights/rr-f/";
+        String inCopyrightDifferentExample = "http://rightsstatements.org/page/InC/1.0/?language=en";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(inCopyrightExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(inCopyrightOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fourthResult = RightsCategory.matchCategoryFromUrl(inCopyrightPageExample);
+        RightsCategory fifthResult = RightsCategory.matchCategoryFromUrl(inCopyrightAnotherPossibleValue);
+        RightsCategory sixthResult = RightsCategory.matchCategoryFromUrl(inCopyrightDifferentExample);
         assertEquals(RightsCategory.IN_COPYRIGHT, firstResult);
         assertEquals(RightsCategory.IN_COPYRIGHT, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.IN_COPYRIGHT, fourthResult);
+        assertEquals(RightsCategory.IN_COPYRIGHT, fifthResult);
+        assertEquals(RightsCategory.IN_COPYRIGHT, sixthResult);
     }
 
     @Test
@@ -183,12 +213,18 @@ class TestRightsCategory {
         String CopyrightNotEvaluatedExample = "https://rightsstatements.org/vocab/CNE/3.0/ab/";
         String CopyrightNotEvaluatedOtherExample = "http://rightsstatements.org/vocab/CNE/2.5/";
         String caseSensitiveExample = "http://rightsstatements.org/vocab/cne/6.8/";
+        String copyrightNotEvaluatedOtherPossibleValue = "http://www.europeana.eu/rights/unknown/";
+        String CopyrightNotEvaluatedPageExample = "https://rightsstatements.org/page/CNE/3.0";
         RightsCategory firstResult = RightsCategory.matchCategoryFromUrl(CopyrightNotEvaluatedExample);
         RightsCategory secondResult = RightsCategory.matchCategoryFromUrl(CopyrightNotEvaluatedOtherExample);
         RightsCategory thirdResult = RightsCategory.matchCategoryFromUrl(caseSensitiveExample);
+        RightsCategory fourthResult = RightsCategory.matchCategoryFromUrl(copyrightNotEvaluatedOtherPossibleValue);
+        RightsCategory fifthResult = RightsCategory.matchCategoryFromUrl(CopyrightNotEvaluatedPageExample);
         assertEquals(RightsCategory.COPYRIGHT_NOT_EVALUATED, firstResult);
         assertEquals(RightsCategory.COPYRIGHT_NOT_EVALUATED, secondResult);
         assertEquals(RightsCategory.UNKNOWN, thirdResult);
+        assertEquals(RightsCategory.COPYRIGHT_NOT_EVALUATED, fourthResult);
+        assertEquals(RightsCategory.COPYRIGHT_NOT_EVALUATED, fifthResult);
     }
 
     @Test
