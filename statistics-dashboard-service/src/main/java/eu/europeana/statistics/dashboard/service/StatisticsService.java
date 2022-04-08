@@ -36,7 +36,7 @@ public class StatisticsService {
 
     private static final String STATISTICS_RESULT_ROOT_VALUE = "ALL_RECORDS";
     private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("0.00", new DecimalFormatSymbols(Locale.US));
-    private Map<RightsCategory, Set<String>> rightsCategoryUrls = new HashMap<>();
+    private final Map<RightsCategory, Set<String>> rightsCategoryUrls = new HashMap<>();
     private final MongoSDDao mongoSDDao;
 
     /**
@@ -188,7 +188,7 @@ public class StatisticsService {
         } else {
             Set<String> result = getStatisticsQuery().withBreakdowns(MongoStatisticsField.RIGHTS)
                     .withValueFilter(MongoStatisticsField.RIGHTS_CATEGORY, List.of(category.getName())).queryForStatistics()
-                    .getBreakdown().stream().map(StatisticsData::getFieldValue).collect(Collectors.toSet());
+                    .getBreakdown().stream().map(StatisticsData::getFieldValue).collect(Collectors.toUnmodifiableSet());
             rightsCategoryUrls.put(category, result);
             return result;
         }

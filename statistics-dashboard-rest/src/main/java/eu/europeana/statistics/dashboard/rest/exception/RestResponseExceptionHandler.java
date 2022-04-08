@@ -36,7 +36,7 @@ public class RestResponseExceptionHandler {
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public StructuredExceptionWrapper illegalArgumentHandler(Exception exception) {
+  public StructuredExceptionWrapper illegalArgumentHandler(IllegalArgumentException exception) {
     return new StructuredExceptionWrapper(exception.getMessage());
   }
 

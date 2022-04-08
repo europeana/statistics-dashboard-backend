@@ -3,7 +3,6 @@ package eu.europeana.statistics.dashboard.common.internal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,7 @@ public enum RightsCategory {
             "^https?://www.europeana\\.eu/rights/rr-f/.*$")),
     COPYRIGHT_NOT_EVALUATED("Copyright Not Evaluated", List.of("^https?://rightsstatements\\.org/(vocab|page)/CNE/.*$",
             "^https?://www.europeana\\.eu/rights/unknown/.*$")),
-    UNKNOWN("Unknown", List.of());
+    UNKNOWN("Unknown", List.of("http://creativecommons.org/licenses/by-nd/4.0/"));
 
     private final String name;
     private final List<Pattern> regularExpressions;
@@ -57,15 +56,10 @@ public enum RightsCategory {
      * @return The category that its regexes match the given url. Unknown if matches none.
      */
     public static RightsCategory matchCategoryFromUrl(String url) {
-        Set<RightsCategory> setRightsCategory = Arrays.stream(RightsCategory.values()).filter(category -> category != UNKNOWN).collect(Collectors.toSet());
-        RightsCategory result = UNKNOWN;
-        for (RightsCategory category : setRightsCategory) {
-            if (category.getRegularExpressions().stream().anyMatch(regex -> regex.matcher(url).find())) {
-                result = category;
-                break;
-            }
-        }
-        return result;
+        return Arrays.stream(RightsCategory.values()).filter(category -> category != UNKNOWN)
+                .filter(category -> category.getRegularExpressions().stream()
+                        .anyMatch(regex -> regex.matcher(url).matches()))
+                .findFirst().orElse(RightsCategory.UNKNOWN);
     }
 
     /**
@@ -76,18 +70,11 @@ public enum RightsCategory {
      * @throws IllegalArgumentException if no such category with 'name' exists
      */
     public static RightsCategory toCategoryFromName(String name) throws IllegalArgumentException {
-        Set<RightsCategory> setRightsCategory = Arrays.stream(RightsCategory.values()).collect(Collectors.toSet());
-        RightsCategory result = null;
-        for (RightsCategory category : setRightsCategory) {
-            if (name.equals(category.getName())) {
-                result = category;
-                break;
+        for (RightsCategory category : RightsCategory.values()) {
+            if (name.equalsIgnoreCase(category.getName())) {
+                return category;
             }
         }
-
-        if (result == null) {
-            throw new IllegalArgumentException("No such rights category with name '" + name + "' exists");
-        }
-        return result;
+        throw new IllegalArgumentException(String.format("No such rights category with name '%s' exists", name));
     }
 }
