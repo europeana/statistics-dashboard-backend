@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -51,7 +52,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
   private final ApplicationProperties properties;
 
   private MongoClient mongoClientSD;
-  private StatisticsService statisticsService;
+  private ApplicationContext context;
 
   /**
    * Constructor.
@@ -103,18 +104,17 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
     return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName(), false);
   }
 
-  @Bean
-  public StatisticsService getStatisticsService(){
-    statisticsService = new StatisticsService(getMongoSDDao());
-    return statisticsService;
+  @Autowired
+  public void setContext(ApplicationContext context){
+    this.context = context;
   }
 
   /**
    * Scheduled method that refreshes the rights url - category mapping.
    */
-  @Scheduled(cron = "0 0 7 * * *") //every day at 7 o'clock
+  @Scheduled(cron = "0 * * * * *") //every day at 7 o'clock
   public void refreshRightsUrlCategoryMapping() {
-    statisticsService.refreshRightsUrlsCategoryMapping();
+    context.getBean(StatisticsService.class).refreshRightsUrlsCategoryMapping();
   }
 
   @Override
