@@ -6,6 +6,7 @@ import eu.europeana.metis.mongo.connection.MongoClientProvider;
 import eu.europeana.metis.mongo.connection.MongoProperties;
 import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
+import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import java.util.Collections;
 import javax.annotation.PreDestroy;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -38,8 +41,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
-@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest",
-    "eu.europeana.statistics.dashboard.service"})
+@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest"})
+@EnableScheduling
 public class StatisticsRestApplication implements WebMvcConfigurer, InitializingBean {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRestApplication.class);
@@ -47,6 +50,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
   private final ApplicationProperties properties;
 
   private MongoClient mongoClientSD;
+  private StatisticsService statisticsService;
 
   /**
    * Constructor.
@@ -96,6 +100,20 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
   @Bean
   public MongoSDDao getMongoSDDao(){
     return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName(), false);
+  }
+
+  @Bean
+  public StatisticsService getStatisticsService(MongoSDDao mongoSDDao){
+    this.statisticsService = new StatisticsService(mongoSDDao);
+    return statisticsService;
+  }
+
+  /**
+   * Scheduled method that refreshes the rights url - category mapping.
+   */
+  @Scheduled(cron = "0 0 7 * * *") //every day at 7 o'clock
+  public void refreshRightsUrlCategoryMapping() {
+    statisticsService.refreshRightsUrlsCategoryMapping();
   }
 
   @Override

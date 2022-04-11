@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
@@ -14,11 +15,13 @@ import eu.europeana.statistics.dashboard.common.api.request.StatisticsValueFilte
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
+import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +58,7 @@ class StatisticsServiceTest {
                                    .thenReturn(MongoStatisticsField.DATA_PROVIDER)
                                    .thenReturn(MongoStatisticsField.METADATA_TIER)
                                    .thenReturn(MongoStatisticsField.PROVIDER)
-                                   .thenReturn(MongoStatisticsField.RIGHTS)
+                                   .thenReturn(MongoStatisticsField.RIGHTS_CATEGORY)
                                    .thenReturn(MongoStatisticsField.TYPE);
     when(statisticsData.getRecordCount()).thenReturn(12);
     when(statisticsData.getFieldValue())
@@ -84,7 +87,7 @@ class StatisticsServiceTest {
                                    .thenReturn(MongoStatisticsField.DATA_PROVIDER)
                                    .thenReturn(MongoStatisticsField.METADATA_TIER)
                                    .thenReturn(MongoStatisticsField.PROVIDER)
-                                   .thenReturn(MongoStatisticsField.RIGHTS)
+                                   .thenReturn(MongoStatisticsField.RIGHTS_CATEGORY)
                                    .thenReturn(MongoStatisticsField.TYPE);
     when(statisticsData.getRecordCount()).thenReturn(12);
     when(statisticsData.getFieldValue())
@@ -158,5 +161,18 @@ class StatisticsServiceTest {
     );
 
     assertEquals("There are duplicate or negative breakdowns", throwable.getMessage());
+  }
+
+  @Test
+  void getRightsUrlsWithCategoryTest(){
+    when(statisticsData.getBreakdown()).thenReturn(List.of(statisticsData));
+    when(statisticsData.getFieldValue()).thenReturn("http://exampleurl.org");
+    when(statisticsQuery.withBreakdowns(any(MongoStatisticsField.class))).thenReturn(statisticsQuery2);
+    when(statisticsQuery2.withValueFilter(any(MongoStatisticsField.class), anyList())).thenReturn(statisticsQuery3);
+    when(statisticsQuery3.queryForStatistics()).thenReturn(statisticsData);
+    when(mongoSDDao.createStatisticsQuery()).thenReturn(statisticsQuery);
+
+    Set<String> result = statisticsService.getRightsUrlsWithCategory(RightsCategory.CC0);
+    assertTrue(result.contains("http://exampleurl.org"));
   }
 }
