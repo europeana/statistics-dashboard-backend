@@ -112,7 +112,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
   /**
    * Scheduled method that refreshes the rights url - category mapping.
    */
-  @Scheduled(cron = "0 * * * * *") //every day at 7 o'clock
+  @Scheduled(cron = "0 0 7 * * *") //every day at 7 o'clock
   public void refreshRightsUrlCategoryMapping() {
     context.getBean(StatisticsService.class).refreshRightsUrlsCategoryMapping();
   }
