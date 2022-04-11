@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,8 +41,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
-@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest",
-    "eu.europeana.statistics.dashboard.service"})
+@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest"})
 @EnableScheduling
 public class StatisticsRestApplication implements WebMvcConfigurer, InitializingBean {
 
@@ -52,7 +50,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
   private final ApplicationProperties properties;
 
   private MongoClient mongoClientSD;
-  private ApplicationContext context;
+  private StatisticsService statisticsService;
 
   /**
    * Constructor.
@@ -104,9 +102,10 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
     return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName(), false);
   }
 
-  @Autowired
-  public void setContext(ApplicationContext context){
-    this.context = context;
+  @Bean
+  public StatisticsService getStatisticsService(MongoSDDao mongoSDDao){
+    this.statisticsService = new StatisticsService(mongoSDDao);
+    return statisticsService;
   }
 
   /**
@@ -114,7 +113,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
    */
   @Scheduled(cron = "0 0 7 * * *") //every day at 7 o'clock
   public void refreshRightsUrlCategoryMapping() {
-    context.getBean(StatisticsService.class).refreshRightsUrlsCategoryMapping();
+    statisticsService.refreshRightsUrlsCategoryMapping();
   }
 
   @Override
