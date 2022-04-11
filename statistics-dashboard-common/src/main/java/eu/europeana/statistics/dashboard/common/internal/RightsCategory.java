@@ -17,19 +17,19 @@ public enum RightsCategory {
     CC_BY_SA("CC BY-SA", List.of("^https?://creativecommons\\.org/licen[cs]es/by-sa/.*$")),
     CC_BY_ND("CC BY-ND", List.of("^https?://creativecommons\\.org/licen[cs]es/by-nd/.*$")),
     CC_BY_NC("CC BY-NC", List.of("^https?://creativecommons\\.org/licen[cs]es/by-nc/.*$")),
-    CC_BY_NC_SA("CC BY-NC-SA", List.of("^https?://creativecommons\\.org/licen[cs]es/by-nc-sa/.*$$")),
+    CC_BY_NC_SA("CC BY-NC-SA", List.of("^https?://creativecommons\\.org/licen[cs]es/by-nc-sa/.*$")),
     CC_BY_NC_ND("CC BY-NC-ND", List.of("^https?://creativecommons\\.org/licen[cs]es/by-nc-nd/.*$")),
     NO_COPYRIGHT_NON_COMMERCIAL("No Copyright - Non Commercial Re-Use Only", List.of("^https?://rightsstatements\\.org/(vocab|page)/NoC-NC/.*$",
-            "^https?://www.europeana\\.eu/rights/out-of-copyright-non-commercial/.*$")),
+            "^https?://www\\.europeana\\.eu/rights/out-of-copyright-non-commercial/.*$")),
     NO_COPYRIGHT_OTHER_KNOWN_LEGAL("No Copyright - Other Known Legal Restriction", List.of("^https?://rightsstatements\\.org/(vocab|page)/NoC-OKLR/.*$")),
     IN_COPYRIGHT_EDUCATIONAL("In Copyright - Educational Use Permitted", List.of("^https?://rightsstatements\\.org/(vocab|page)/InC-EDU/.*$")),
     IN_COPYRIGHT_EU("In Copyright - EU Orphan Work", List.of("^https?://rightsstatements\\.org/(vocab|page)/InC-OW-EU/.*$",
-            "^https?://www.europeana\\.eu/rights/orphan-work-eu.*$")),
+            "^https?://www\\.europeana\\.eu/rights/orphan-work-eu.*$")),
     IN_COPYRIGHT("In Copyright", List.of("^https?://rightsstatements\\.org/(vocab|page)/InC/.*$",
-            "^https?://www.europeana\\.eu/rights/rr-f/.*$")),
+            "^https?://www\\.europeana\\.eu/rights/rr-f/.*$")),
     COPYRIGHT_NOT_EVALUATED("Copyright Not Evaluated", List.of("^https?://rightsstatements\\.org/(vocab|page)/CNE/.*$",
-            "^https?://www.europeana\\.eu/rights/unknown/.*$")),
-    UNKNOWN("Unknown", List.of("http://creativecommons.org/licenses/by-nd/4.0/"));
+            "^https?://www\\.europeana\\.eu/rights/unknown/.*$")),
+    UNKNOWN("Unknown", List.of());
 
     private final String name;
     private final List<Pattern> regularExpressions;

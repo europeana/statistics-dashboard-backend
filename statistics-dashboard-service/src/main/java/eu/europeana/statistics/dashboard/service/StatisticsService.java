@@ -46,6 +46,7 @@ public class StatisticsService {
      */
     public StatisticsService(MongoSDDao mongoSDDao) {
         this.mongoSDDao = mongoSDDao;
+        refreshRightsUrlsCategoryMapping();
     }
 
     /**
@@ -182,17 +183,19 @@ public class StatisticsService {
      * @return A set of different rights urls associated to a given category
      */
     public Set<String> getRightsUrlsWithCategory(RightsCategory category) {
+        return rightsCategoryUrls.get(category);
+    }
 
-        if (rightsCategoryUrls.containsKey(category)) {
-            return rightsCategoryUrls.get(category);
-        } else {
+    /**
+     * Method that refreshes all possible rights urls values to its associated category
+     */
+    public void refreshRightsUrlsCategoryMapping(){
+        for(RightsCategory category : RightsCategory.values()){
             Set<String> result = getStatisticsQuery().withBreakdowns(MongoStatisticsField.RIGHTS)
                     .withValueFilter(MongoStatisticsField.RIGHTS_CATEGORY, List.of(category.getName())).queryForStatistics()
                     .getBreakdown().stream().map(StatisticsData::getFieldValue).collect(Collectors.toUnmodifiableSet());
             rightsCategoryUrls.put(category, result);
-            return result;
         }
-
     }
 
     private List<StatisticsData> prepareGeneralQueries(StatisticsQuery query,
