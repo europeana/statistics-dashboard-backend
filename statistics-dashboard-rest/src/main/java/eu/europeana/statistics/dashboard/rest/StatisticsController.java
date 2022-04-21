@@ -24,6 +24,7 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Controller for the Statistics Dashboard
@@ -86,7 +87,7 @@ public class StatisticsController {
   }
 
   /**
-   * Get all rights urls associated to a given rightsCategory over the whole Europeana database
+   * Get all rights urls associated to given set of rightsCategories over the whole Europeana database
    *
    * @return A list of different rights urls associated to a given category
    */
@@ -96,8 +97,9 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a list of rights urls associated to a given category", response = Set.class)
   public Set<String> getRightsUrlAssociatedToCategory(
           @ApiParam(value = "Category which the urls are associated with")
-          @RequestParam(name= "rightsCategory") String rightsCategoryName) {
-      return statisticsService.getRightsUrlsWithCategory(RightsCategory.toCategoryFromName(rightsCategoryName));
+          @RequestParam(name= "rightsCategories") Set<String> rightsCategoriesNames) {
+    return statisticsService.getRightsUrlsWithCategory(rightsCategoriesNames.stream().map(RightsCategory::toCategoryFromName)
+            .collect(Collectors.toUnmodifiableSet()));
 
   }
 

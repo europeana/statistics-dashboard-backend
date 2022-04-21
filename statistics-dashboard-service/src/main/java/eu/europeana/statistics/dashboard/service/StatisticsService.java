@@ -177,13 +177,18 @@ public class StatisticsService {
     }
 
     /**
-     * Gathers all different urls associated to a given rights category
+     * Gathers all different urls associated to a given set of rights categories
      *
-     * @param category The right category to query
+     * @param categories A set containing all rights category to query
      * @return A set of different rights urls associated to a given category
      */
-    public Set<String> getRightsUrlsWithCategory(RightsCategory category) {
-        return rightsCategoryUrls.get(category);
+    public Set<String> getRightsUrlsWithCategory(Set<RightsCategory> categories) {
+        Set<String> result = new HashSet<>();
+
+        for(RightsCategory category: categories){
+            result.addAll(rightsCategoryUrls.get(category));
+        }
+        return result;
     }
 
     /**

@@ -3,6 +3,7 @@ package eu.europeana.statistics.dashboard.rest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.when;
 
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
@@ -77,8 +78,8 @@ class StatisticsControllerTest {
   void getRightsUrlAssociatedToCategoryTest_expectSuccess() {
     Set<String> mockAnswer = Set.of("url1", "url2", "url3");
 
-    when(statisticsService.getRightsUrlsWithCategory(any(RightsCategory.class))).thenReturn(mockAnswer);
-    Set<String> result = controller.getRightsUrlAssociatedToCategory(RightsCategory.CC_BY.getName());
+    when(statisticsService.getRightsUrlsWithCategory(anySet())).thenReturn(mockAnswer);
+    Set<String> result = controller.getRightsUrlAssociatedToCategory(Set.of(RightsCategory.CC_BY.getName()));
 
     assertEquals(mockAnswer, result);
   }

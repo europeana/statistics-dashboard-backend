@@ -172,7 +172,7 @@ class StatisticsServiceTest {
     when(statisticsQuery3.queryForStatistics()).thenReturn(statisticsData);
     when(mongoSDDao.createStatisticsQuery()).thenReturn(statisticsQuery);
 
-    Set<String> result = statisticsService.getRightsUrlsWithCategory(RightsCategory.CC0);
+    Set<String> result = statisticsService.getRightsUrlsWithCategory(Set.of(RightsCategory.CC0));
     assertTrue(result.contains("http://exampleurl.org"));
   }
 }
