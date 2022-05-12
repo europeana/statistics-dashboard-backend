@@ -4,7 +4,7 @@
 
     <groupId>eu.europeana.statistics.backend</groupId>
     <artifactId>statistics-dashboard-backend</artifactId>
-    <version>2</version>
+    <version>3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -45,7 +45,7 @@
     <scm>
         <connection>scm:git:https://github.com/europeana/statistics-dashboard-backend</connection>
         <url>https://github.com/europeana/statistics-dashboard-backend</url>
-        <tag>v2</tag>
+        <tag>HEAD</tag>
         <developerConnection>scm:git:https://github.com/europeana/statistics-dashboard-backend</developerConnection>
     </scm>
 
