@@ -7,8 +7,12 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
+  <properties>
+    <version.spring.boot>2.7.8</version.spring.boot>
+    <version.springdoc.openapi>1.6.14</version.springdoc.openapi>
+  </properties>
+
   <artifactId>statistics-dashboard-rest</artifactId>
-  <packaging>war</packaging>
 
   <dependencies>
     <dependency>
@@ -34,33 +38,20 @@
     <dependency>
       <groupId>eu.europeana.statistics.backend</groupId>
       <artifactId>statistics-dashboard-common</artifactId>
-      <version>3-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>${version.spring}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>${version.spring}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${version.servlet.api}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>${version.swagger}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>${version.swagger}</version>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-ui</artifactId>
+      <version>${version.springdoc.openapi}</version>
     </dependency>
     <dependency>
       <groupId>javax.annotation</groupId>
@@ -96,6 +87,48 @@
       <version>${version.mockito}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
   </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${version.spring.boot}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${version.spring.boot}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

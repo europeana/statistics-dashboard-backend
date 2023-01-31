@@ -1,2 +1,2 @@
 ## To not add properties file by mistake
-/src/main/resources/statistics.properties
+/src/main/resources/application.properties
