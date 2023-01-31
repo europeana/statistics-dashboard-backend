@@ -23,7 +23,7 @@ public class SwaggerConfig {
   public OpenAPI openAPI() {
     return new OpenAPI()
         .info(new Info()
-            .title("Statistics REST API")
+            .title("Statistics Dashboard REST API")
             .description("Statistics Dashboard REST API for Europeana")
             .version("v1")
             .license(new License()
