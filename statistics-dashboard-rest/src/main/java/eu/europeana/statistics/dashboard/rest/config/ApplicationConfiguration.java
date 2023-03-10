@@ -6,6 +6,7 @@ import eu.europeana.metis.mongo.connection.MongoClientProvider;
 import eu.europeana.metis.mongo.connection.MongoProperties;
 import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
+import eu.europeana.metis.utils.apm.ElasticAPMConfiguration;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import javax.annotation.PreDestroy;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -32,6 +34,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @EnableWebMvc
+@Import({ElasticAPMConfiguration.class})
 @ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest.controller",
         "eu.europeana.statistics.dashboard.rest.exception"})
 @EnableScheduling
