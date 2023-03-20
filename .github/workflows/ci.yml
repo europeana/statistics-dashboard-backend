@@ -11,9 +11,17 @@ on:
       - 'v*'
 
 jobs:
-  ci-reuse:
+  ci:
     uses: europeana/metis-actions/.github/workflows/ci.yml@main
     with:
       sonar_organization: europeana
       sonar_project_key: europeana_statistics-dashboard-backend
+    secrets: inherit
+  docker-build_metis-statistics-dashboard:
+    needs: ci
+    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@main
+    with:
+      docker-organization: europeana
+      docker-image-name: metis-statistics-dashboard
+      project-path: statistics-dashboard-rest/
     secrets: inherit
