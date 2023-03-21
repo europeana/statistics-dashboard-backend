@@ -26,4 +26,6 @@ jobs:
       docker-organization: europeana
       docker-image-name: metis-statistics-dashboard
       project-path: statistics-dashboard-rest/
-    secrets: inherit
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
