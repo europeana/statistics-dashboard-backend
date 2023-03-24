@@ -17,7 +17,7 @@ jobs:
       sonar_organization: europeana
       sonar_project_key: europeana_statistics-dashboard-backend
     secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.METIS_SONAR_TOKEN }}
   docker-build_metis-statistics-dashboard:
     needs: ci
     uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@main
