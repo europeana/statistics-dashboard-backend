@@ -1,14 +1,6 @@
 name: CI
 
-on:
-  push:
-    #Do not run on main to avoid duplicate builds during release
-    branches-ignore:
-      - '!master'
-      - '!main'
-    #Run on release tags
-    tags:
-      - 'v*'
+on: push
 
 jobs:
   ci:
@@ -18,6 +10,7 @@ jobs:
       sonar_project_key: europeana_statistics-dashboard-backend
     secrets:
       SONAR_TOKEN: ${{ secrets.METIS_SONAR_TOKEN }}
+
   docker-build_metis-statistics-dashboard:
     needs: ci
     uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@main
