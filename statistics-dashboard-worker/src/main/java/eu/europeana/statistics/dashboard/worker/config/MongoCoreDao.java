@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker;
+package eu.europeana.statistics.dashboard.worker.config;
 
 import static eu.europeana.metis.core.common.DaoFieldNames.DATASET_ID;
 import static eu.europeana.metis.core.common.DaoFieldNames.ID;

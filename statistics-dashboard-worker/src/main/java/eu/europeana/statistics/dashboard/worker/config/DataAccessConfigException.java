@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.worker;
+package eu.europeana.statistics.dashboard.worker.config;
 
 public class DataAccessConfigException extends Exception {
 
