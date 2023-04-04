@@ -15,6 +15,7 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.metis>9</version.metis>
         <version.slf4j>1.7.30</version.slf4j>
         <version.jul.to.slf4j>1.7.30</version.jul.to.slf4j>
