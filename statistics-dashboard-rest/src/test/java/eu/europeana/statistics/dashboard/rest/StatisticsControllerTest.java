@@ -16,11 +16,11 @@ import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.StatisticsResult;
 import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
+import eu.europeana.statistics.dashboard.rest.controller.StatisticsController;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;

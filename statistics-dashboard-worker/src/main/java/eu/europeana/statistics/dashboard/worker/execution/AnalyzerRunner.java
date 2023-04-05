@@ -1,10 +1,13 @@
-package eu.europeana.statistics.dashboard.worker;
+package eu.europeana.statistics.dashboard.worker.execution;
 
 import com.mongodb.client.MongoClient;
 import eu.europeana.metis.mongo.connection.MongoClientProvider;
 import eu.europeana.metis.solr.client.CompoundSolrClient;
 import eu.europeana.metis.solr.connection.SolrClientProvider;
 import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
+import eu.europeana.statistics.dashboard.worker.config.ConfigurationPropertiesHolder;
+import eu.europeana.statistics.dashboard.worker.config.DataAccessConfigException;
+import eu.europeana.statistics.dashboard.worker.config.MongoCoreDao;
 import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import eu.europeana.statistics.dashboard.worker.harvest.SolrHarvester;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
@@ -19,43 +22,45 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 
 /**
- * This class contains a script (main method) that harvests all datasets and save them in the
- * statistics dashboard database.
+ * This class contains a script that analyzes all datasets and saves them in the statistics dashboard database.
  */
-public class CreateDatabaseMain {
+public class AnalyzerRunner implements CommandLineRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateDatabaseMain.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnalyzerRunner.class);
+    private final ConfigurationPropertiesHolder propertiesHolder;
 
-    public static void main(String[] args) throws DataHarvestingException, DataAccessConfigException {
+    public AnalyzerRunner(ConfigurationPropertiesHolder propertiesHolder) {
+        this.propertiesHolder = propertiesHolder;
+    }
 
-        // Read the properties and initialize
-        final PropertiesHolder properties = new PropertiesHolder();
-        TruststoreInitializer.initializeTruststore(properties);
+    @Override
+    public void run(String... args) throws DataHarvestingException, DataAccessConfigException {
 
         // Obtain all the database IDs.
         final MongoClientProvider<DataAccessConfigException> mongoCoreClientProvider = new MongoClientProvider<>(
-                properties.getMongoCoreProperties());
+                propertiesHolder.getMongoCoreProperties());
         final Set<String> datasetIds;
         try (final MongoClient mongoCoreClient = mongoCoreClientProvider.createMongoClient()) {
             final MongoCoreDao mongoCoreDao = new MongoCoreDao(mongoCoreClient,
-                    properties.getMongoCoreDatabase());
+                    propertiesHolder.getMongoCoreDatabase());
             datasetIds = mongoCoreDao.getAllDatasetIds().collect(Collectors.toSet());
         }
 
         // Perform analysis on the SOLR.
         final SolrClientProvider<DataAccessConfigException> solrClientProvider = new SolrClientProvider<>(
-                properties.getSolrProperties());
+                propertiesHolder.getSolrProperties());
         final MongoClientProvider<DataAccessConfigException> mongoSDClientProvider = new MongoClientProvider<>(
-                properties.getMongoSDProperties());
+                propertiesHolder.getMongoSDProperties());
         try (
                 final MongoClient mongoSDClient = mongoSDClientProvider.createMongoClient();
                 final CompoundSolrClient solrClient = solrClientProvider.createSolrClient()) {
             // See https://github.com/spotbugs/spotbugs/issues/756
             @SuppressWarnings("findbugs:RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE") final SolrClient nativeSolrClient = solrClient.getSolrClient();
             analyzeDatasets(new SolrHarvester(nativeSolrClient),
-                    new MongoSDDao(mongoSDClient, properties.getMongoSDDatabase(), true), datasetIds);
+                    new MongoSDDao(mongoSDClient, propertiesHolder.getMongoSDDatabase(), true), datasetIds);
         } catch (IOException e) {
             throw new DataHarvestingException("Could not close mongo or solr client.", e);
         }

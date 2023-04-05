@@ -6,9 +6,9 @@ import eu.europeana.metis.mongo.connection.MongoClientProvider;
 import eu.europeana.metis.mongo.connection.MongoProperties;
 import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
+import eu.europeana.metis.utils.apm.ElasticAPMConfiguration;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
-import java.util.Collections;
 import javax.annotation.PreDestroy;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -25,13 +26,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * The web application making available the repository functionality. This provides all the
@@ -40,16 +34,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableWebMvc
-@EnableSwagger2
-@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest"})
+@Import({ElasticAPMConfiguration.class})
+@ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest.controller",
+        "eu.europeana.statistics.dashboard.rest.exception"})
 @EnableScheduling
-public class StatisticsRestApplication implements WebMvcConfigurer, InitializingBean {
+public class ApplicationConfiguration implements WebMvcConfigurer{
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(StatisticsRestApplication.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
-  private final ApplicationProperties properties;
-
-  private MongoClient mongoClientSD;
+  private final ConfigurationPropertiesHolder properties;
+  private final MongoClient mongoClient;
   private StatisticsService statisticsService;
 
   /**
@@ -58,25 +52,33 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
    * @param properties The properties.
    */
   @Autowired
-  public StatisticsRestApplication(ApplicationProperties properties) {
+  public ApplicationConfiguration(ConfigurationPropertiesHolder properties) throws TrustStoreConfigurationException {
+    this.mongoClient = ApplicationConfiguration.initializeApplication(properties);
     this.properties = properties;
   }
 
-  @Override
-  public void afterPropertiesSet() throws TrustStoreConfigurationException {
+  /**
+   * This method performs the initializing tasks for the application.
+   *
+   * @param propertiesHolder The properties.
+   * @return The Mongo client that can be used to access the mongo database.
+   * @throws TrustStoreConfigurationException In case a problem occurred with the truststore.
+   */
+  static MongoClient initializeApplication(ConfigurationPropertiesHolder propertiesHolder)
+          throws TrustStoreConfigurationException {
 
     // Set the SOCKS proxy
-    if (properties.isSocksProxyEnabled()) {
-      new SocksProxy(properties.getSocksProxyHost(), properties.getSocksProxyPort(),
-              properties.getSocksProxyUsername(), properties.getSocksProxyPassword()).init();
+    if (propertiesHolder.isSocksProxyEnabled()) {
+      new SocksProxy(propertiesHolder.getSocksProxyHost(), propertiesHolder.getSocksProxyPort(),
+              propertiesHolder.getSocksProxyUsername(), propertiesHolder.getSocksProxyPassword()).init();
     }
 
     // Set the truststore.
     LOGGER.info("Append default truststore with custom truststore");
-    if (StringUtils.isNotEmpty(properties.getTruststorePath())
-            && StringUtils.isNotEmpty(properties.getTruststorePassword())) {
-      CustomTruststoreAppender.appendCustomTrustoreToDefault(properties.getTruststorePath(),
-              properties.getTruststorePassword());
+    if (StringUtils.isNotEmpty(propertiesHolder.getTruststorePath())
+            && StringUtils.isNotEmpty(propertiesHolder.getTruststorePassword())) {
+      CustomTruststoreAppender.appendCustomTrustoreToDefault(propertiesHolder.getTruststorePath(),
+              propertiesHolder.getTruststorePassword());
     }
 
     // Create the mongo connection
@@ -84,11 +86,12 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
     final MongoProperties<IllegalArgumentException> mongoProperties = new MongoProperties<>(
             IllegalArgumentException::new);
     mongoProperties
-            .setAllProperties(properties.getMongoHosts(), new int[]{properties.getMongoPort()},
-                    properties.getMongoAuthenticationDb(), properties.getMongoUsername(),
-                    properties.getMongoPassword(), properties.isMongoEnableSsl(),
-                    null, properties.getMongoApplicationName());
-    mongoClientSD = new MongoClientProvider<>(mongoProperties).createMongoClient();
+            .setAllProperties(propertiesHolder.getMongoHosts(), new int[]{propertiesHolder.getMongoPort()},
+                    propertiesHolder.getMongoAuthenticationDb(), propertiesHolder.getMongoUsername(),
+                    propertiesHolder.getMongoPassword(), propertiesHolder.isMongoEnableSsl(),
+                    null, propertiesHolder.getMongoApplicationName());
+
+    return new MongoClientProvider<>(mongoProperties).createMongoClient();
   }
 
   @Override
@@ -99,7 +102,7 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
 
   @Bean
   public MongoSDDao getMongoSDDao(){
-    return new MongoSDDao(mongoClientSD, properties.getMongoDatabaseName(), false);
+    return new MongoSDDao(mongoClient, properties.getMongoDatabaseName(), false);
   }
 
   @Bean
@@ -128,36 +131,13 @@ public class StatisticsRestApplication implements WebMvcConfigurer, Initializing
     registry.addRedirectViewController("/", "/swagger-ui/index.html");
   }
 
-  @Bean
-  public Docket api() {
-    return new Docket(DocumentationType.SWAGGER_2)
-            .useDefaultResponseMessages(false)
-            .select()
-            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
-            .build()
-            .apiInfo(apiInfo());
-  }
-
-  private ApiInfo apiInfo() {
-    return new ApiInfo(
-            "Statistics REST API",
-            "Statistics REST API",
-            "v1",
-            "API TOS",
-            new Contact("development", "europeana.eu", "development@europeana.eu"),
-            "EUPL Licence v1.2",
-            "https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12",
-            Collections.emptyList());
-  }
-
   /**
    * Closes any connections previous acquired.
    */
   @PreDestroy
   public void close() {
-    if (mongoClientSD != null) {
-      mongoClientSD.close();
+    if (mongoClient != null) {
+      mongoClient.close();
     }
   }
 }

@@ -4,7 +4,7 @@
 
     <groupId>eu.europeana.statistics.backend</groupId>
     <artifactId>statistics-dashboard-backend</artifactId>
-    <version>2</version>
+    <version>3</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -15,15 +15,15 @@
     </modules>
 
     <properties>
-        <version.metis>5</version.metis>
-
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.metis>9</version.metis>
         <version.slf4j>1.7.30</version.slf4j>
         <version.jul.to.slf4j>1.7.30</version.jul.to.slf4j>
         <version.log4j>2.17.1</version.log4j>
+        <version.elastic.apm>1.34.1</version.elastic.apm>
         <version.spring>5.3.7</version.spring>
         <version.jackson>2.12.3</version.jackson>
         <version.commons.lang3>3.12.0</version.commons.lang3>
-        <version.maven.war.plugin>2.3</version.maven.war.plugin>
         <version.maven.compiler.plugin>3.8.0</version.maven.compiler.plugin>
         <version.maven.release.plugin>2.5.3</version.maven.release.plugin>
         <version.swagger>3.0.0</version.swagger>
@@ -44,7 +44,7 @@
     <scm>
         <connection>scm:git:https://github.com/europeana/statistics-dashboard-backend</connection>
         <url>https://github.com/europeana/statistics-dashboard-backend</url>
-        <tag>v2</tag>
+        <tag>HEAD</tag>
         <developerConnection>scm:git:https://github.com/europeana/statistics-dashboard-backend</developerConnection>
     </scm>
 
@@ -90,14 +90,6 @@
                         <release>11</release>
                         <source>11</source>
                         <target>11</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${version.maven.war.plugin}</version>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
             </plugins>

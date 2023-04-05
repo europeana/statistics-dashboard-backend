@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.rest;
+package eu.europeana.statistics.dashboard.rest.controller;
 
 import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;

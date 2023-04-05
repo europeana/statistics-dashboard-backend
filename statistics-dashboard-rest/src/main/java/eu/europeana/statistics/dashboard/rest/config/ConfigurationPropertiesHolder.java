@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
  * Holder for the property values from Spring injection/property loading.
  */
 @Component
-@PropertySource({"classpath:statistics.properties"})
-public class ApplicationProperties {
+public class ConfigurationPropertiesHolder {
 
   // Socks proxy
   @Value("${socks.proxy.enabled}")
