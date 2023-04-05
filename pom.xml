@@ -4,7 +4,7 @@
 
     <groupId>eu.europeana.statistics.backend</groupId>
     <artifactId>statistics-dashboard-backend</artifactId>
-    <version>3-SNAPSHOT</version>
+    <version>3</version>
     <packaging>pom</packaging>
 
     <modules>
