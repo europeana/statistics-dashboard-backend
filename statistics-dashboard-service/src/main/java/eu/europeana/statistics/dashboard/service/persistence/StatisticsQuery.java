@@ -2,16 +2,16 @@ package eu.europeana.statistics.dashboard.service.persistence;
 
 import static eu.europeana.metis.network.ExternalRequestUtil.retryableExternalRequestForNetworkExceptions;
 
-import dev.morphia.aggregation.experimental.Aggregation;
-import dev.morphia.aggregation.experimental.expressions.AccumulatorExpressions;
-import dev.morphia.aggregation.experimental.expressions.Expressions;
-import dev.morphia.aggregation.experimental.stages.Group;
-import dev.morphia.aggregation.experimental.stages.Group.GroupId;
+import dev.morphia.aggregation.Aggregation;
+import dev.morphia.aggregation.expressions.AccumulatorExpressions;
+import dev.morphia.aggregation.expressions.Expressions;
+import dev.morphia.aggregation.stages.Group;
+import dev.morphia.aggregation.stages.Group.GroupId;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Property;
-import dev.morphia.query.experimental.filters.Filter;
-import dev.morphia.query.experimental.filters.Filters;
+import dev.morphia.query.filters.Filter;
+import dev.morphia.query.filters.Filters;
 import eu.europeana.metis.mongo.utils.MorphiaUtils;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
