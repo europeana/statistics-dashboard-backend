@@ -47,6 +47,11 @@ public class StatisticsQuery {
   private final Map<MongoStatisticsField, ValueRange> filterRanges = new EnumMap<>(MongoStatisticsField.class);
   private final List<MongoStatisticsField> breakdownMongoStatisticFields = new ArrayList<>();
 
+  /**
+   * Instantiates a new Statistics query.
+   *
+   * @param aggregationSupplier the aggregation supplier
+   */
   StatisticsQuery(Supplier<Aggregation<StatisticsRecordModel>> aggregationSupplier) {
     this.aggregationSupplier = aggregationSupplier;
   }
@@ -55,10 +60,8 @@ public class StatisticsQuery {
    * Add a range filter for this query. Replaces any filter set earlier for this field.
    *
    * @param mongoStatisticsField The field for which to set the range filter.
-   * @param from The lower limit (inclusive) of this range (in String ordering). Can be null, in which case no lower limit is
-   * applied.
-   * @param to The upper limit (inclusive) of this range (in String ordering). Can be null, in which case no upper limit is
-   * applied.
+   * @param from                 The lower limit (inclusive) of this range (in String ordering). Can be null, in which case no lower limit is applied.
+   * @param to                   The upper limit (inclusive) of this range (in String ordering). Can be null, in which case no upper limit is applied.
    * @return This instance (for chaining).
    */
   public StatisticsQuery withRangeFilter(MongoStatisticsField mongoStatisticsField, String from, String to) {
@@ -70,7 +73,7 @@ public class StatisticsQuery {
   /**
    * Add a value filter for this query. Replaces any filter set earlier for this field.
    *
-   * @param field The field for which to set the value filter.
+   * @param field  The field for which to set the value filter.
    * @param values The values on which to filter.
    * @return This instance (for chaining).
    */
@@ -229,20 +232,39 @@ public class StatisticsQuery {
         .map(ValueOptionsResult::getFieldValue).collect(Collectors.toSet());
   }
 
+  /**
+   * The type Value range.
+   */
   public static class ValueRange {
 
     private final String from;
     private final String to;
 
+    /**
+     * Instantiates a new Value range.
+     *
+     * @param from the from
+     * @param to   the to
+     */
     public ValueRange(String from, String to) {
       this.from = from;
       this.to = to;
     }
 
+    /**
+     * Gets from.
+     *
+     * @return the from
+     */
     public String getFrom() {
       return from;
     }
 
+    /**
+     * Gets to.
+     *
+     * @return the to
+     */
     public String getTo() {
       return to;
     }
@@ -261,14 +283,30 @@ public class StatisticsQuery {
     @Property(MongoFieldNames.RECORD_COUNT_FIELD)
     private int recordCount;
 
+    /**
+     * Gets breakdown values.
+     *
+     * @return the breakdown values
+     */
     public Map<String, String> getBreakdownValues() {
       return Collections.unmodifiableMap(breakdownValues);
     }
 
+    /**
+     * Gets record count.
+     *
+     * @return the record count
+     */
     public int getRecordCount() {
       return recordCount;
     }
 
+    /**
+     * Gets value.
+     *
+     * @param mongoStatisticsField the mongo statistics field
+     * @return the value
+     */
     public String getValue(MongoStatisticsField mongoStatisticsField) {
       return getBreakdownValues().get(mongoStatisticsField.getFieldName());
     }
@@ -284,6 +322,11 @@ public class StatisticsQuery {
     @Id
     private String fieldValue;
 
+    /**
+     * Gets field value.
+     *
+     * @return the field value
+     */
     public String getFieldValue() {
       return fieldValue;
     }
@@ -302,10 +345,20 @@ public class StatisticsQuery {
     @Property(MAX_VALUE_FIELD_NAME)
     private String maximumValue;
 
+    /**
+     * Gets minimum value.
+     *
+     * @return the minimum value
+     */
     public String getMinimumValue() {
       return minimumValue;
     }
 
+    /**
+     * Gets maximum value.
+     *
+     * @return the maximum value
+     */
     public String getMaximumValue() {
       return maximumValue;
     }
