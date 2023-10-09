@@ -35,7 +35,7 @@ public class StatisticsData {
     this.recordCount = Optional.ofNullable(breakdown)
         .map(list -> list.stream().mapToInt(StatisticsData::getRecordCount).sum()).orElse(0);
     this.breakdown = Optional.ofNullable(breakdown).filter(list -> !list.isEmpty())
-        .map(ArrayList::new).orElse(null);
+        .map(ArrayList::new).orElse(new ArrayList<>());
   }
 
   /**
@@ -51,7 +51,7 @@ public class StatisticsData {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = recordCount;
-    this.breakdown = null;
+    this.breakdown = new ArrayList<>();
   }
 
   /**

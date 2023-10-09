@@ -8,8 +8,6 @@ import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.mockito.MockitoAnnotations.openMocks;
 
 import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsBreakdownValueFilter;
@@ -24,7 +22,6 @@ import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationF
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,10 +29,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,7 +62,7 @@ class StatisticsServiceTest {
   }
 
   @AfterEach
-  void closeService() throws Exception {
+  void closeService() {
     Mockito.reset(mongoSDDao);
   }
 
@@ -186,7 +181,7 @@ class StatisticsServiceTest {
   }
 
   @Test
-  void getRightsUrlsWithCategoryTest(){
+  void getRightsUrlsWithCategoryTest() {
     when(statisticsData.getBreakdown()).thenReturn(List.of(statisticsData));
     when(statisticsData.getFieldValue()).thenReturn("http://exampleurl.org");
     when(statisticsQuery.withBreakdowns(any(MongoStatisticsField.class))).thenReturn(statisticsQuery2);
