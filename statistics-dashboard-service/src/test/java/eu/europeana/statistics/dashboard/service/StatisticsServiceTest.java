@@ -166,6 +166,7 @@ class StatisticsServiceTest {
         when(mongoSDDao.createStatisticsQuery()).thenReturn(statisticsQuery);
 
         statisticsService = new StatisticsService(mongoSDDao);
+
         FilteringResult resultListFilters = statisticsService.queryDataWithFilters(filtersWrapper);
 
         assertEquals(5, resultListFilters.getResults().getCount());
@@ -181,6 +182,7 @@ class StatisticsServiceTest {
         when(mongoSDDao.createStatisticsQuery()).thenReturn(statisticsQuery);
 
         statisticsService = new StatisticsService(mongoSDDao);
+
         Throwable throwable = assertThrows(BreakdownDeclarationFailException.class, () ->
                 statisticsService.queryDataWithFilters(filtersWrapper)
         );
