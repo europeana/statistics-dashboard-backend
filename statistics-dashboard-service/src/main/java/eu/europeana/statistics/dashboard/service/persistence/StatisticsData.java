@@ -82,7 +82,11 @@ public class StatisticsData {
    * of leaf nodes.
    */
   public List<StatisticsData> getBreakdown() {
-    return Collections.unmodifiableList(breakdown);
+    if (breakdown == null) {
+      return Collections.emptyList();
+    } else {
+      return Collections.unmodifiableList(breakdown);
+    }
   }
 
   /**
