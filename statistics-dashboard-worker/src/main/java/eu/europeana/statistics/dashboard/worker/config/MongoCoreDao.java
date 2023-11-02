@@ -4,9 +4,9 @@ import static eu.europeana.metis.core.common.DaoFieldNames.DATASET_ID;
 import static eu.europeana.metis.core.common.DaoFieldNames.ID;
 
 import com.mongodb.client.MongoClient;
-import dev.morphia.aggregation.experimental.Aggregation;
-import dev.morphia.aggregation.experimental.expressions.Expressions;
-import dev.morphia.aggregation.experimental.stages.Projection;
+import dev.morphia.aggregation.Aggregation;
+import dev.morphia.aggregation.expressions.Expressions;
+import dev.morphia.aggregation.stages.Projection;
 import dev.morphia.annotations.Entity;
 import eu.europeana.metis.core.dataset.Dataset;
 import eu.europeana.metis.core.mongo.MorphiaDatastoreProvider;

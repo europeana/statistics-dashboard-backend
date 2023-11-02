@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-class TestRightsCategory {
+class RightsCategoryTest {
 
     @Test
     void testMatchCategoryFromUrlCC0_expectSuccess(){
