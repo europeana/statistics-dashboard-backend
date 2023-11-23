@@ -17,11 +17,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.metis>11</version.metis>
-        <version.slf4j>1.7.30</version.slf4j>
-        <version.jul.to.slf4j>1.7.30</version.jul.to.slf4j>
-        <version.log4j>2.17.1</version.log4j>
+        <version.log4j>2.22.0</version.log4j>
         <version.elastic.apm>1.43.0</version.elastic.apm>
-        <version.spring>5.3.7</version.spring>
+        <version.spring>6.1.0</version.spring>
         <version.jackson>2.12.3</version.jackson>
         <version.commons.lang3>3.12.0</version.commons.lang3>
         <version.maven.compiler.plugin>3.8.0</version.maven.compiler.plugin>
@@ -87,10 +85,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${version.maven.compiler.plugin}</version>
                     <configuration>
-                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
                         <release>11</release>
-                        <source>11</source>
-                        <target>11</target>
                     </configuration>
                 </plugin>
                 <plugin>
