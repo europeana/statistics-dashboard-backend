@@ -4,8 +4,7 @@ on: push
 
 jobs:
   ci:
-#    uses: europeana/metis-actions/.github/workflows/ci.yml@main
-    uses: europeana/metis-actions/.github/workflows/ci.yml@jdk17
+    uses: europeana/metis-actions/.github/workflows/ci.yml@main
     with:
       sonar_organization: europeana
       sonar_project_key: europeana_statistics-dashboard-backend
