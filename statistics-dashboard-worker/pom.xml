@@ -9,7 +9,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statistics-dashboard-worker</artifactId>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
