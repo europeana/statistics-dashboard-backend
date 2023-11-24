@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
-    <version.spring.boot>3.1.5</version.spring.boot>
+    <version.spring.boot>2.7.8</version.spring.boot>
     <version.springdoc.openapi>1.6.14</version.springdoc.openapi>
   </properties>
 
