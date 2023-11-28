@@ -1,15 +1,14 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="metis-statistics-dashboard-rest" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="spring-run-configuration">
+  <configuration default="false" name="metis-statistics-dashboard-worker" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="spring-run-configuration">
     <option name="ALTERNATIVE_JRE_PATH" value="temurin-21" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
       <env name="logging.config" value="file:///data/metis-configuration/k8s/common-components/log4j2-xml/log4j2.xml" />
-      <env name="server.servlet.context-path" value="/metis-statistics-dashboard" />
-      <env name="spring.config.location" value="file:///data/metis-configuration/metis-statistics-dashboard/metis-statistics-dashboard-rest/k8s/overlays/local/components/properties/application.properties" />
-      <env name="truststore.path" value="/data/metis-configuration/k8s/common-components/custom-truststore-jks/custom-truststore.jks" />
+      <env name="spring.config.location" value="file:///data/metis-configuration/metis-statistics-dashboard/metis-statistics-dashboard-worker/k8s/overlays/local/components/properties/application.properties" />
+      <env name="truststore_path" value="/data/metis-configuration/k8s/common-components/custom-truststore-jks/custom-truststore.jks" />
     </envs>
-    <module name="statistics-dashboard-rest" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="eu.europeana.statistics.dashboard.rest.Application" />
+    <module name="statistics-dashboard-worker" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="eu.europeana.statistics.dashboard.worker.Application" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />
