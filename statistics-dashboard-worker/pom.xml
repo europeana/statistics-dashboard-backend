@@ -4,16 +4,11 @@
     <parent>
         <artifactId>statistics-dashboard-backend</artifactId>
         <groupId>eu.europeana.statistics.backend</groupId>
-        <version>3</version>
+        <version>4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statistics-dashboard-worker</artifactId>
-
-    <properties>
-        <version.spring.boot>2.7.8</version.spring.boot>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

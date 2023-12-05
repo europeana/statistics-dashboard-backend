@@ -8,7 +8,7 @@ import dev.morphia.DeleteOptions;
 import dev.morphia.Morphia;
 import dev.morphia.mapping.MapperOptions;
 import dev.morphia.mapping.NamingStrategy;
-import dev.morphia.query.experimental.filters.Filters;
+import dev.morphia.query.filters.Filters;
 import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.List;
