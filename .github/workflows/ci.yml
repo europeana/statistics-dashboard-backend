@@ -14,7 +14,7 @@ jobs:
 
   docker-build_metis-statistics-dashboard:
     needs: ci
-    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk17
+    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk21
     with:
       docker-organization: europeana
       docker-image-name: metis-statistics-dashboard
@@ -25,7 +25,7 @@ jobs:
 
   docker-build_metis-statistics-dashboard-worker:
     needs: ci
-    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk17
+    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk21
     with:
       docker-organization: europeana
       docker-image-name: metis-statistics-dashboard-worker
