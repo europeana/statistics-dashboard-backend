@@ -1,8 +1,12 @@
 package eu.europeana.statistics.dashboard.rest.controller;
 
+import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
+import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
+import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
+import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
-import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
+import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -10,30 +14,25 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
-import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
-import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
-import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for the Statistics Dashboard
- * {@link StatisticsService}
+ * Controller for the Statistics Dashboard {@link StatisticsService}
  */
 
 @Tags(@Tag(name = StatisticsController.CONTROLLER_TAG_NAME, description = "Controller providing statistics values throughout Europeana database"))
 @Api(tags = StatisticsController.CONTROLLER_TAG_NAME)
-@Controller
+@RestController
 public class StatisticsController {
 
   public static final String GENERAL_STATISTICS = "/statistics/europeana/general";
@@ -64,9 +63,9 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   public ResultListFilters getGeneralStatistics(
       @ApiParam(value = "Include content Tier 0")
-      @RequestParam(name="content-tier-zero", required = false) boolean contentTierZero) {
+      @RequestParam(name = "content-tier-zero", required = false) boolean contentTierZero) {
     return contentTierZero ? statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero() :
-            statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
+        statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
   }
 
   /**
@@ -96,10 +95,10 @@ public class StatisticsController {
   @ResponseBody
   @ApiOperation(value = "Returns a list of rights urls associated to a given category", response = Set.class)
   public Set<String> getRightsUrlAssociatedToCategory(
-          @ApiParam(value = "Category which the urls are associated with")
-          @RequestParam(name= "rightsCategories") Set<String> rightsCategoriesNames) {
+      @ApiParam(value = "Category which the urls are associated with")
+      @RequestParam(name = "rightsCategories") Set<String> rightsCategoriesNames) {
     return statisticsService.getRightsUrlsWithCategory(rightsCategoriesNames.stream().map(RightsCategory::toCategoryFromName)
-            .collect(Collectors.toUnmodifiableSet()));
+                                                                            .collect(Collectors.toUnmodifiableSet()));
 
   }
 

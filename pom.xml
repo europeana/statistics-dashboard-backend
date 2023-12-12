@@ -36,7 +36,7 @@
         <version.jaxb.api>2.3.1</version.jaxb.api>
         <version.jaxb.runtime>2.3.2</version.jaxb.runtime>
         <version.junit>5.8.1</version.junit>
-        <version.mockito>5.6.0</version.mockito>
+        <version.mockito>5.8.0</version.mockito>
         <version.jetbrains>24.0.1</version.jetbrains>
     </properties>
 
@@ -104,13 +104,20 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${version.maven.compiler.plugin}</version>
                     <configuration>
-                        <release>17</release>
+                        <release>21</release>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${version.surefire.plugin}</version>
+                    <configuration>
+                        <systemPropertyVariables>
+                            <!--Temporary argument to bypass exception on inline mockito mocks(coming from transitive bytebuddy dependency).-->
+                            <!--Remove this when mockito has been updated to work with java 21(At time of writing 5.8.0 does not work).-->
+                            <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
+                        </systemPropertyVariables>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
