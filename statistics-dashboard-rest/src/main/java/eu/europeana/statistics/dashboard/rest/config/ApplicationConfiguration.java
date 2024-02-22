@@ -1,7 +1,6 @@
 package eu.europeana.statistics.dashboard.rest.config;
 
 import com.mongodb.client.MongoClient;
-import eu.europeana.corelib.web.socks.SocksProxy;
 import eu.europeana.metis.mongo.connection.MongoClientProvider;
 import eu.europeana.metis.mongo.connection.MongoProperties;
 import eu.europeana.metis.utils.CustomTruststoreAppender;
@@ -13,7 +12,6 @@ import javax.annotation.PreDestroy;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -67,17 +65,11 @@ public class ApplicationConfiguration implements WebMvcConfigurer{
   static MongoClient initializeApplication(ConfigurationPropertiesHolder propertiesHolder)
           throws TrustStoreConfigurationException {
 
-    // Set the SOCKS proxy
-    if (propertiesHolder.isSocksProxyEnabled()) {
-      new SocksProxy(propertiesHolder.getSocksProxyHost(), propertiesHolder.getSocksProxyPort(),
-              propertiesHolder.getSocksProxyUsername(), propertiesHolder.getSocksProxyPassword()).init();
-    }
-
     // Set the truststore.
     LOGGER.info("Append default truststore with custom truststore");
     if (StringUtils.isNotEmpty(propertiesHolder.getTruststorePath())
             && StringUtils.isNotEmpty(propertiesHolder.getTruststorePassword())) {
-      CustomTruststoreAppender.appendCustomTrustoreToDefault(propertiesHolder.getTruststorePath(),
+      CustomTruststoreAppender.appendCustomTruststoreToDefault(propertiesHolder.getTruststorePath(),
               propertiesHolder.getTruststorePassword());
     }
 

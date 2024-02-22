@@ -34,6 +34,12 @@
       <groupId>eu.europeana.metis</groupId>
       <artifactId>metis-common-mongo</artifactId>
       <version>${version.metis}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>eu.europeana.corelib</groupId>
+          <artifactId>corelib-web</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
