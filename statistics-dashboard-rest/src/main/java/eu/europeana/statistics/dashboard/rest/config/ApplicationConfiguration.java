@@ -8,7 +8,7 @@ import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfiguration
 import eu.europeana.metis.utils.apm.ElasticAPMConfiguration;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
