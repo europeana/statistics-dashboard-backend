@@ -19,11 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * The web application making available the repository functionality. This provides all the
@@ -31,12 +26,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * required setup.
  */
 @Configuration
-@EnableWebMvc
 @Import({ElasticAPMConfiguration.class})
 @ComponentScan(basePackages = {"eu.europeana.statistics.dashboard.rest.controller",
         "eu.europeana.statistics.dashboard.rest.exception"})
 @EnableScheduling
-public class ApplicationConfiguration implements WebMvcConfigurer{
+public class ApplicationConfiguration {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
@@ -86,11 +80,6 @@ public class ApplicationConfiguration implements WebMvcConfigurer{
     return new MongoClientProvider<>(mongoProperties).createMongoClient();
   }
 
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**").allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
-        .allowedOrigins(properties.getAllowedCorsHosts());
-  }
 
   @Bean
   public MongoSDDao getMongoSDDao(){
@@ -110,19 +99,6 @@ public class ApplicationConfiguration implements WebMvcConfigurer{
   public void refreshRightsUrlCategoryMapping() {
     statisticsService.refreshRightsUrlsCategoryMapping();
   }
-
-  @Override
-  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/swagger-ui/**")
-            .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
-            .resourceChain(false);
-  }
-
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addRedirectViewController("/", "/swagger-ui/index.html");
-  }
-
   /**
    * Closes any connections previous acquired.
    */
