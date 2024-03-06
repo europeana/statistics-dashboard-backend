@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
-    <version.springdoc.openapi>1.6.14</version.springdoc.openapi>
+    <version.springdoc-openapi-starter-webmvc-ui>2.3.0</version.springdoc-openapi-starter-webmvc-ui>
   </properties>
 
   <artifactId>statistics-dashboard-rest</artifactId>
@@ -59,8 +59,8 @@
     </dependency>
     <dependency>
       <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
-      <version>${version.springdoc.openapi}</version>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${version.springdoc-openapi-starter-webmvc-ui}</version>
     </dependency>
     <dependency>
       <groupId>jakarta.annotation</groupId>
