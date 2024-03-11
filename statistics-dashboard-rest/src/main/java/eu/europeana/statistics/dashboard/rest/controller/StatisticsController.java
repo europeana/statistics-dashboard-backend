@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,7 +58,6 @@ public class StatisticsController {
    */
   @GetMapping(value = GENERAL_STATISTICS, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   public ResultListFilters getGeneralStatistics(
       @ApiParam(value = "Include content Tier 0")
@@ -76,7 +74,6 @@ public class StatisticsController {
    */
   @PostMapping(value = FILTERING_STATISTICS, consumes = {APPLICATION_JSON}, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
   @ApiOperation(value = "Returns the results of the given filtering options", response = FilteringResult.class)
   @ApiResponses(value = {@ApiResponse(code = 400, message = "Facet declaration failed")})
   public FilteringResult getFilters(
@@ -92,7 +89,6 @@ public class StatisticsController {
    */
   @GetMapping(value = RIGHTS_URLS, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
   @ApiOperation(value = "Returns a list of rights urls associated to a given category", response = Set.class)
   public Set<String> getRightsUrlAssociatedToCategory(
       @ApiParam(value = "Category which the urls are associated with")
