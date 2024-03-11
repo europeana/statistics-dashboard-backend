@@ -23,7 +23,7 @@
         <version.metis>12-SNAPSHOT</version.metis>
         <version.log4j>2.23.0</version.log4j>
         <version.slf4j>2.0.12</version.slf4j>
-        <version.elastic.apm>1.43.0</version.elastic.apm>
+        <version.elastic.apm>1.48.1</version.elastic.apm>
         <version.spring.boot>3.2.3</version.spring.boot>
         <version.spring>6.1.4</version.spring>
         <version.swagger>3.0.0</version.swagger>
