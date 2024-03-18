@@ -11,13 +11,6 @@ springdoc.paths-to-match=/**
 #Server
 server.error.whitelabel.enabled=false
 
-#Socks Proxy
-socks.proxy.enabled=false
-socks.proxy.host=
-socks.proxy.port=
-socks.proxy.username=
-socks.proxy.password=
-
 #Mongo
 mongo.hosts=
 mongo.port=

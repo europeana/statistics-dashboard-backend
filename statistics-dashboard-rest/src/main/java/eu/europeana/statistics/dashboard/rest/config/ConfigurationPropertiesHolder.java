@@ -1,7 +1,6 @@
 package eu.europeana.statistics.dashboard.rest.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,18 +8,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ConfigurationPropertiesHolder {
-
-  // Socks proxy
-  @Value("${socks.proxy.enabled}")
-  private boolean socksProxyEnabled;
-  @Value("${socks.proxy.host}")
-  private String socksProxyHost;
-  @Value("${socks.proxy.port}")
-  private String socksProxyPort;
-  @Value("${socks.proxy.username}")
-  private String socksProxyUsername;
-  @Value("${socks.proxy.password}")
-  private String socksProxyPassword;
 
   // Mongo
   @Value("${mongo.hosts}")
@@ -48,26 +35,6 @@ public class ConfigurationPropertiesHolder {
 
   @Value("${allowed.cors.hosts}")
   private String[] allowedCorsHosts;
-
-  public boolean isSocksProxyEnabled() {
-    return socksProxyEnabled;
-  }
-
-  public String getSocksProxyHost() {
-    return socksProxyHost;
-  }
-
-  public String getSocksProxyPort() {
-    return socksProxyPort;
-  }
-
-  public String getSocksProxyUsername() {
-    return socksProxyUsername;
-  }
-
-  public String getSocksProxyPassword() {
-    return socksProxyPassword;
-  }
 
   public String[] getMongoHosts() {
     return mongoHosts.clone();

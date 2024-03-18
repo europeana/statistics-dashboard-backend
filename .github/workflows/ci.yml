@@ -5,7 +5,7 @@ on: push
 jobs:
   ci:
 #    uses: europeana/metis-actions/.github/workflows/ci.yml@main
-    uses: europeana/metis-actions/.github/workflows/ci.yml@jdk17
+    uses: europeana/metis-actions/.github/workflows/ci.yml@jdk21
     with:
       sonar_organization: europeana
       sonar_project_key: europeana_statistics-dashboard-backend
@@ -14,7 +14,7 @@ jobs:
 
   docker-build_metis-statistics-dashboard:
     needs: ci
-    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk17
+    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk21
     with:
       docker-organization: europeana
       docker-image-name: metis-statistics-dashboard
@@ -25,7 +25,7 @@ jobs:
 
   docker-build_metis-statistics-dashboard-worker:
     needs: ci
-    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk17
+    uses: europeana/metis-actions/.github/workflows/docker-build-push.yml@jdk21
     with:
       docker-organization: europeana
       docker-image-name: metis-statistics-dashboard-worker

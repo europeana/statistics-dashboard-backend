@@ -4,7 +4,7 @@
     <parent>
         <artifactId>statistics-dashboard-backend</artifactId>
         <groupId>eu.europeana.statistics.backend</groupId>
-        <version>4</version>
+        <version>5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
             <version>${version.log4j}</version>
         </dependency>
     </dependencies>

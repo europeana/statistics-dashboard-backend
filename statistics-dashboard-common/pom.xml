@@ -3,7 +3,7 @@
   <parent>
     <artifactId>statistics-dashboard-backend</artifactId>
     <groupId>eu.europeana.statistics.backend</groupId>
-    <version>4</version>
+    <version>5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -34,6 +34,12 @@
       <groupId>eu.europeana.metis</groupId>
       <artifactId>metis-common-mongo</artifactId>
       <version>${version.metis}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>eu.europeana.corelib</groupId>
+          <artifactId>corelib-web</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
