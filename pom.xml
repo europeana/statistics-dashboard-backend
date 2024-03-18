@@ -5,7 +5,7 @@
 
     <groupId>eu.europeana.statistics.backend</groupId>
     <artifactId>statistics-dashboard-backend</artifactId>
-    <version>5-SNAPSHOT</version>
+    <version>6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
