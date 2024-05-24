@@ -10,6 +10,7 @@ import dev.morphia.mapping.MapperOptions;
 import dev.morphia.mapping.NamingStrategy;
 import dev.morphia.query.filters.Filters;
 import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.internal.TargetDataModel;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -55,6 +56,16 @@ public class MongoSDDao {
    * @param records the statistics records.
    */
   public void saveRecords(List<StatisticsRecordModel> records) {
+    records.forEach(record -> record.setId(new ObjectId()));
+    retryableExternalRequestForNetworkExceptions(() -> datastore.save(records));
+  }
+
+  /**
+   * Saves the target data to the database.
+   *
+   * @param records the target records.
+   */
+  public void saveTargetRecords(List<TargetDataModel> records) {
     records.forEach(record -> record.setId(new ObjectId()));
     retryableExternalRequestForNetworkExceptions(() -> datastore.save(records));
   }
