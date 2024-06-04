@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+//TODO: This script does not need to run frequently.
+//TODO: It should only run once to fill in with the latest data about target data
+//TODO: If that target data has changes, then this script needs to be updated
 public class TargetDataRunner implements CommandLineRunner {
 
     private static final String COMMA_DELIMITER = ",";

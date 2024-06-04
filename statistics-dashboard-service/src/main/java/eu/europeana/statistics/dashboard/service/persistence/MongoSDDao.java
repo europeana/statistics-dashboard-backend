@@ -2,6 +2,7 @@ package eu.europeana.statistics.dashboard.service.persistence;
 
 import static eu.europeana.metis.network.ExternalRequestUtil.retryableExternalRequestForNetworkExceptions;
 
+import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.MongoClient;
 import dev.morphia.Datastore;
 import dev.morphia.DeleteOptions;
@@ -9,9 +10,12 @@ import dev.morphia.Morphia;
 import dev.morphia.mapping.MapperOptions;
 import dev.morphia.mapping.NamingStrategy;
 import dev.morphia.query.filters.Filters;
+import eu.europeana.statistics.dashboard.common.internal.HistoricalDataModel;
 import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
 import eu.europeana.statistics.dashboard.common.internal.TargetDataModel;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -68,6 +72,26 @@ public class MongoSDDao {
   public void saveTargetRecords(List<TargetDataModel> records) {
     records.forEach(record -> record.setId(new ObjectId()));
     retryableExternalRequestForNetworkExceptions(() -> datastore.save(records));
+  }
+
+  /**
+   * Saves a single historical data to the database.
+   *
+   * @param record the historical record.
+   */
+  public void saveHistoricalRecord(HistoricalDataModel record) {
+    record.setId(new ObjectId());
+    retryableExternalRequestForNetworkExceptions(() -> datastore.save(record));
+  }
+
+  public List<String> getAllCountryValuesStatisticsModel() {
+    ArrayList<String> countries = new ArrayList<>();
+    DistinctIterable<String> docs = datastore.getDatabase().getCollection("StatisticsRecordModel").distinct("country", String.class);
+
+    for (String doc : docs) {
+      countries.add(doc);
+    }
+    return countries;
   }
 
   /**

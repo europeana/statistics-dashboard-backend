@@ -20,7 +20,16 @@ import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery.Val
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.List;
+import java.util.Optional;
+import java.util.HashSet;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -223,6 +232,18 @@ public class StatisticsService {
                 .collect(Collectors.toList());
     }
 
+    private List<StatisticsData> prepareQueries(StatisticsQuery query, List<MongoStatisticsField> filterMongoStatisticFields) {
+        // Execute a breakdown query for each Value field
+        return filterMongoStatisticFields.stream()
+                .map(field -> query.withBreakdowns(field)
+                        .withValueFilter(MongoStatisticsField.CONTENT_TIER,
+                                List.of("1", "2", "3", "4"))
+                        .withValueFilter(MongoStatisticsField.COUNTRY,
+                                List.of("France"))
+                        .queryForStatistics())
+                .collect(Collectors.toList());
+    }
+
     @NotNull
     private List<MongoStatisticsField> getMongoStatisticFields() {
         return Arrays.stream(
@@ -230,7 +251,7 @@ public class StatisticsService {
                 field -> field != MongoStatisticsField.UPDATED_DATE
                         && field != MongoStatisticsField.CREATED_DATE
                         && field != MongoStatisticsField.DATASET_ID
-                        && field != MongoStatisticsField.RIGHTS).collect(Collectors.toUnmodifiableList());
+                        && field != MongoStatisticsField.RIGHTS).toList();
     }
 
     private StatisticsQuery getStatisticsQuery() {
