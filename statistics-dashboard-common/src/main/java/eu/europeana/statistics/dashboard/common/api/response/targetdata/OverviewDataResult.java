@@ -7,17 +7,17 @@ import java.util.List;
  */
 public class OverviewDataResult {
 
-    private List<OverviewDataResult> overviewData;
+    private List<OverviewCountryData> overviewData;
 
-    public OverviewDataResult(List<OverviewDataResult> overviewData) {
+    public OverviewDataResult(List<OverviewCountryData> overviewData) {
         this.overviewData = overviewData;
     }
 
-    public List<OverviewDataResult> getOverviewData() {
+    public List<OverviewCountryData> getOverviewData() {
         return overviewData;
     }
 
-    public void setOverviewData(List<OverviewDataResult> overviewData) {
+    public void setOverviewData(List<OverviewCountryData> overviewData) {
         this.overviewData = overviewData;
     }
 }

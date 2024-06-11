@@ -1,6 +1,5 @@
 package eu.europeana.statistics.dashboard.rest.controller;
 
-import eu.europeana.statistics.dashboard.common.api.request.FiltersWrapper;
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
 import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
 import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
@@ -8,7 +7,6 @@ import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryD
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.OverviewDataResult;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
 import io.swagger.annotations.*;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +45,7 @@ public class TargetDataController {
      */
     @GetMapping(value = TARGET_DATA_COUNTRY, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
+    @ApiOperation(value = "Returns a complete overview of Europeana's database", response = CountryDataResult.class)
     public CountryDataResult getCountryData(
             @ApiParam(value = "Include content Tier 0")
             @PathVariable(name = "country") String country) {
@@ -59,12 +57,11 @@ public class TargetDataController {
      *
      * @return the statistics where the filters were applied
      */
-    @PostMapping(value = TARGET_DATA_OVERVIEW, consumes = {APPLICATION_JSON}, produces = {APPLICATION_JSON})
+    @GetMapping(value = TARGET_DATA_OVERVIEW, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns the results of the given filtering options", response = FilteringResult.class)
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Facet declaration failed")})
+    @ApiOperation(value = "Returns overview current data for each type of target", response = OverviewDataResult.class)
     public OverviewDataResult getOverviewData(){
-        return null;
+        return targetDataService.getOverviewDataAllCountries();
     }
 
 

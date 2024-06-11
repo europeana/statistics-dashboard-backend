@@ -34,8 +34,11 @@ public class TargetDataService {
         return new CountryDataResult(prepareCountryCurrentTargetData(country), prepareHistoricalData(country));
     }
 
-    public OverviewDataResult getOverviewDataPerCountry(){
-        return null;
+    public OverviewDataResult getOverviewDataAllCountries(){
+        List<String> countries = mongoSDDao.getAllCountryValuesStatisticsModel();
+        List<OverviewCountryData> targetValues = countries.stream().map(this::prepareOverviewCountryData).toList();
+
+        return new OverviewDataResult(targetValues);
     }
 
 
@@ -103,6 +106,16 @@ public class TargetDataService {
         return List.of(new TargetValue(TargetType.THREE_D, historicalDataModel.getThreeD()),
                 new TargetValue(TargetType.HIGH_QUALITY, historicalDataModel.getHighQuality()),
                 new TargetValue(TargetType.TOTAL_RECORDS, historicalDataModel.getTotalRecords()));
+    }
+
+    private OverviewCountryData prepareOverviewCountryData(String country){
+        int current3DValue = getCurrentValueOfTargetType(TargetType.THREE_D, country);
+        int currentHighQualityValue = getCurrentValueOfTargetType(TargetType.HIGH_QUALITY, country);
+        int currentTotalRecordsValue = getCurrentValueOfTargetType(TargetType.TOTAL_RECORDS, country);
+        return new OverviewCountryData(country,
+                List.of(new TargetValue(TargetType.THREE_D, current3DValue),
+                        new TargetValue(TargetType.HIGH_QUALITY, currentHighQualityValue),
+                        new TargetValue(TargetType.TOTAL_RECORDS, currentTotalRecordsValue)));
     }
 
     private double calculatePercentage(double totalCount, double count) {
