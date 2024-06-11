@@ -42,6 +42,9 @@ public class HistoricalDataModel {
     @Property(TargetDataMongoFieldNames.TIMESTAMP_FIELD)
     private LocalDateTime timestamp;
 
+    //Empty constructor for when we perform queries
+    public HistoricalDataModel(){}
+
     public HistoricalDataModel(String country, int threeD, int highQuality, int totalRecords, LocalDateTime timestamp) {
         this.country = country;
         this.threeD = threeD;

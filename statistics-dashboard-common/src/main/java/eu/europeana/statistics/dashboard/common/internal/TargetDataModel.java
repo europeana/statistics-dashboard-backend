@@ -39,6 +39,9 @@ public class TargetDataModel {
     @Property(TargetDataMongoFieldNames.TARGET_YEAR_FIELD)
     private int year;
 
+    //Empty constructor for when we perform queries
+    public TargetDataModel(){}
+
     public TargetDataModel(String country, int threeD, int highQuality, int totalRecords, int year) {
         this.country = country;
         this.threeD = threeD;

@@ -1,5 +1,7 @@
 package eu.europeana.statistics.dashboard.common.internal;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum TargetType {
 
     THREE_D("3D"),
@@ -12,6 +14,7 @@ public enum TargetType {
         this.valueAsString = value;
     }
 
+    @JsonValue
     public String getValueAsString() {
         return valueAsString;
     }
