@@ -28,18 +28,18 @@ public class TargetDataModel {
     private String country;
 
     @Property(TargetDataMongoFieldNames.THREE_D_FIELD)
-    private String threeD;
+    private int threeD;
 
     @Property(TargetDataMongoFieldNames.HIGH_QUALITY_FIELD)
-    private String highQuality;
+    private int highQuality;
 
     @Property(TargetDataMongoFieldNames.TOTAL_RECORDS_FIELD)
-    private String totalRecords;
+    private int totalRecords;
 
     @Property(TargetDataMongoFieldNames.TARGET_YEAR_FIELD)
-    private String year;
+    private int year;
 
-    public TargetDataModel(String country, String threeD, String highQuality, String totalRecords, String year) {
+    public TargetDataModel(String country, int threeD, int highQuality, int totalRecords, int year) {
         this.country = country;
         this.threeD = threeD;
         this.highQuality = highQuality;
@@ -63,35 +63,35 @@ public class TargetDataModel {
         this.country = country;
     }
 
-    public String getThreeD() {
+    public int getThreeD() {
         return threeD;
     }
 
-    public void setThreeD(String threeD) {
+    public void setThreeD(int threeD) {
         this.threeD = threeD;
     }
 
-    public String getHighQuality() {
+    public int getHighQuality() {
         return highQuality;
     }
 
-    public void setHighQuality(String highQuality) {
+    public void setHighQuality(int highQuality) {
         this.highQuality = highQuality;
     }
 
-    public String getTotalRecords() {
+    public int getTotalRecords() {
         return totalRecords;
     }
 
-    public void setTotalRecords(String totalRecords) {
+    public void setTotalRecords(int totalRecords) {
         this.totalRecords = totalRecords;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 }

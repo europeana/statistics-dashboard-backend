@@ -1,6 +1,7 @@
 package eu.europeana.statistics.dashboard.common.api.response.targetdata;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Class that encapsulates historical data for a specific date
@@ -8,9 +9,9 @@ import java.time.LocalDateTime;
 public class HistoricalDataResult {
 
     private LocalDateTime timestamp;
-    private TargetValues targetValues;
+    private List<TargetValue> targetValues;
 
-    public HistoricalDataResult(LocalDateTime timestamp, TargetValues targetValues) {
+    public HistoricalDataResult(LocalDateTime timestamp, List<TargetValue> targetValues) {
         this.timestamp = timestamp;
         this.targetValues = targetValues;
     }
@@ -23,11 +24,11 @@ public class HistoricalDataResult {
         this.timestamp = timestamp;
     }
 
-    public TargetValues getTargetValues() {
+    public List<TargetValue> getTargetValues() {
         return targetValues;
     }
 
-    public void setTargetValues(TargetValues targetValues) {
+    public void setTargetValues(List<TargetValue> targetValues) {
         this.targetValues = targetValues;
     }
 }

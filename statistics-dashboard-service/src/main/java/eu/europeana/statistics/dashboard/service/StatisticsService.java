@@ -110,7 +110,7 @@ public class StatisticsService {
                 .map(statisticsData -> {
                     // Replace Field with FacetValue object
                     FacetValue breakdownBy = statisticsData.getBreakdown()
-                            .get(0)
+                            .getFirst()
                             .getField()
                             .getFacet();
 
@@ -228,18 +228,6 @@ public class StatisticsService {
                 .map(field -> query.withBreakdowns(field)
                         .withValueFilter(MongoStatisticsField.CONTENT_TIER,
                                 List.of("1", "2", "3", "4"))
-                        .queryForStatistics())
-                .collect(Collectors.toList());
-    }
-
-    private List<StatisticsData> prepareQueries(StatisticsQuery query, List<MongoStatisticsField> filterMongoStatisticFields) {
-        // Execute a breakdown query for each Value field
-        return filterMongoStatisticFields.stream()
-                .map(field -> query.withBreakdowns(field)
-                        .withValueFilter(MongoStatisticsField.CONTENT_TIER,
-                                List.of("1", "2", "3", "4"))
-                        .withValueFilter(MongoStatisticsField.COUNTRY,
-                                List.of("France"))
                         .queryForStatistics())
                 .collect(Collectors.toList());
     }

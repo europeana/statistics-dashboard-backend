@@ -8,9 +8,9 @@ import java.util.List;
 public class OverviewCountryData {
 
     private String country;
-    private List<TargetValues> targetData;
+    private List<TargetValue> targetData;
 
-    public OverviewCountryData(String country, List<TargetValues> targetData) {
+    public OverviewCountryData(String country, List<TargetValue> targetData) {
         this.country = country;
         this.targetData = targetData;
     }
@@ -23,11 +23,11 @@ public class OverviewCountryData {
         this.country = country;
     }
 
-    public List<TargetValues> getTargetData() {
+    public List<TargetValue> getTargetData() {
         return targetData;
     }
 
-    public void setTargetData(List<TargetValues> targetData) {
+    public void setTargetData(List<TargetValue> targetData) {
         this.targetData = targetData;
     }
 }

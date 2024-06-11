@@ -31,18 +31,18 @@ public class HistoricalDataModel {
     private String country;
 
     @Property(TargetDataMongoFieldNames.THREE_D_FIELD)
-    private Integer threeD;
+    private int threeD;
 
     @Property(TargetDataMongoFieldNames.HIGH_QUALITY_FIELD)
-    private Integer highQuality;
+    private int highQuality;
 
     @Property(TargetDataMongoFieldNames.TOTAL_RECORDS_FIELD)
-    private Integer totalRecords;
+    private int totalRecords;
 
     @Property(TargetDataMongoFieldNames.TIMESTAMP_FIELD)
     private LocalDateTime timestamp;
 
-    public HistoricalDataModel(String country, Integer threeD, Integer highQuality, Integer totalRecords, LocalDateTime timestamp) {
+    public HistoricalDataModel(String country, int threeD, int highQuality, int totalRecords, LocalDateTime timestamp) {
         this.country = country;
         this.threeD = threeD;
         this.highQuality = highQuality;
@@ -66,27 +66,27 @@ public class HistoricalDataModel {
         this.country = country;
     }
 
-    public Integer getThreeD() {
+    public int getThreeD() {
         return threeD;
     }
 
-    public void setThreeD(Integer threeD) {
+    public void setThreeD(int threeD) {
         this.threeD = threeD;
     }
 
-    public Integer getHighQuality() {
+    public int getHighQuality() {
         return highQuality;
     }
 
-    public void setHighQuality(Integer highQuality) {
+    public void setHighQuality(int highQuality) {
         this.highQuality = highQuality;
     }
 
-    public Integer getTotalRecords() {
+    public int getTotalRecords() {
         return totalRecords;
     }
 
-    public void setTotalRecords(Integer totalRecords) {
+    public void setTotalRecords(int totalRecords) {
         this.totalRecords = totalRecords;
     }
 

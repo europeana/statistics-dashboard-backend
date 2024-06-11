@@ -70,8 +70,10 @@ public class TargetDataRunner implements CommandLineRunner {
         for(int i = 1; i < targetData.size(); i++){
             List<String> row = targetData.get(i);
             LOGGER.info("Started writing data of country {} into database", row.get(0));
-            TargetDataModel firstModel = new TargetDataModel(row.get(0), row.get(1), row.get(2), row.get(3), "2025");
-            TargetDataModel secondModel = new TargetDataModel(row.get(0), row.get(4), row.get(5), row.get(6), "2030");
+            TargetDataModel firstModel = new TargetDataModel(row.get(0), Integer.parseInt(row.get(1)),
+                    Integer.parseInt(row.get(2)), Integer.parseInt(row.get(3)), 2025);
+            TargetDataModel secondModel = new TargetDataModel(row.get(0), Integer.parseInt(row.get(4)),
+                    Integer.parseInt(row.get(5)), Integer.parseInt(row.get(6)), 2030);
             results.add(firstModel);
             results.add(secondModel);
         }

@@ -5,37 +5,37 @@ package eu.europeana.statistics.dashboard.common.api.response.targetdata;
  */
 public class CurrentDataResult {
 
-    private Integer targetYear;
-    private Integer targetValue;
-    private Integer percentage;
+    private int targetYear;
+    private int targetValue;
+    private double percentage;
 
-    public CurrentDataResult(Integer targetYear, Integer targetValue, Integer percentage) {
+    public CurrentDataResult(Integer targetYear, Integer targetValue, double percentage) {
         this.targetYear = targetYear;
         this.targetValue = targetValue;
         this.percentage = percentage;
     }
 
-    public Integer getTargetYear() {
+    public int getTargetYear() {
         return targetYear;
     }
 
-    public void setTargetYear(Integer targetYear) {
+    public void setTargetYear(int targetYear) {
         this.targetYear = targetYear;
     }
 
-    public Integer getTargetValue() {
+    public int getTargetValue() {
         return targetValue;
     }
 
-    public void setTargetValue(Integer targetValue) {
+    public void setTargetValue(int targetValue) {
         this.targetValue = targetValue;
     }
 
-    public Integer getPercentage() {
+    public double getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(Integer percentage) {
+    public void setPercentage(double percentage) {
         this.percentage = percentage;
     }
 }

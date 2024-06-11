@@ -7,6 +7,7 @@ import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfigurationException;
 import eu.europeana.metis.utils.apm.ElasticAPMConfiguration;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
+import eu.europeana.statistics.dashboard.service.TargetDataService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import jakarta.annotation.PreDestroy;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,7 @@ public class ApplicationConfiguration {
   private final ConfigurationPropertiesHolder properties;
   private final MongoClient mongoClient;
   private StatisticsService statisticsService;
+  private TargetDataService targetDataService;
 
   /**
    * Constructor.
@@ -90,6 +92,12 @@ public class ApplicationConfiguration {
   public StatisticsService getStatisticsService(MongoSDDao mongoSDDao){
     this.statisticsService = new StatisticsService(mongoSDDao);
     return statisticsService;
+  }
+
+  @Bean
+  public TargetDataService getTargetDataService(MongoSDDao mongoSDDao){
+    this.targetDataService = new TargetDataService(mongoSDDao);
+    return targetDataService;
   }
 
   /**

@@ -9,6 +9,8 @@ import dev.morphia.DeleteOptions;
 import dev.morphia.Morphia;
 import dev.morphia.mapping.MapperOptions;
 import dev.morphia.mapping.NamingStrategy;
+import dev.morphia.query.Query;
+import dev.morphia.query.filters.Filter;
 import dev.morphia.query.filters.Filters;
 import eu.europeana.statistics.dashboard.common.internal.HistoricalDataModel;
 import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
@@ -86,12 +88,28 @@ public class MongoSDDao {
 
   public List<String> getAllCountryValuesStatisticsModel() {
     ArrayList<String> countries = new ArrayList<>();
-    DistinctIterable<String> docs = datastore.getDatabase().getCollection("StatisticsRecordModel").distinct("country", String.class);
-
-    for (String doc : docs) {
-      countries.add(doc);
-    }
+    DistinctIterable<String> docs = retryableExternalRequestForNetworkExceptions(() -> datastore
+            .getCollection(StatisticsRecordModel.class).distinct("country", String.class));
+    docs.forEach(countries::add);
     return countries;
+  }
+
+  public List<TargetDataModel> getAllTargetDataOfCountry(String country) {
+    ArrayList<TargetDataModel> queryResult = new ArrayList<>();
+    Filter filter = Filters.eq("country", country);
+    Query<TargetDataModel> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(TargetDataModel.class).filter(filter));
+    result.forEach(queryResult::add);
+    return queryResult;
+  }
+
+  public List<HistoricalDataModel> getAllHistoricalOfCountry(String country){
+    ArrayList<HistoricalDataModel> queryResult = new ArrayList<>();
+    Filter filter = Filters.eq("country", country);
+    Query<HistoricalDataModel> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(HistoricalDataModel.class).filter(filter));
+    result.forEach(queryResult::add);
+    return queryResult;
   }
 
   /**
