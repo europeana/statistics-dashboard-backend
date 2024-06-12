@@ -61,27 +61,32 @@ public class StatisticsService {
     /**
      * It queries the general data for all of Europeana without content Tier 0
      *
+     * @param country - If country is present, then apply country filtering in query
      * @return A list with all breakdowns and their respective value
      */
-    public ResultListFilters queryGeneralEuropeanaDataWithoutContentTierZero() {
+    public ResultListFilters queryGeneralEuropeanaDataWithoutContentTierZero(String country) {
         // Get total count of records (it is the same for each group of breakdowns)
-        return getResultListFilters(
+        return country.isEmpty() ? getResultListFilters(
                 // It returns a list of StatisticsData, where each has a list of breakdowns
                 prepareGeneralQueriesWithoutContentTierZero(getStatisticsQuery(),
-                        getMongoStatisticFields())
-        );
+                        getMongoStatisticFields())) :
+                getResultListFilters(
+                        prepareGeneralQueriesWithoutContentTierZeroAndWithCountry(getStatisticsQuery(),
+                                getMongoStatisticFields(), country));
     }
 
     /**
      * It queries the general data for all of Europeana Including Content Tier 0
      *
+     * @param country - If country is present, then apply country filtering in query
      * @return A list with all breakdowns and their respective value
      */
-    public ResultListFilters queryGeneralEuropeanaDataIncludingContentTierZero() {
-        return getResultListFilters(
+    public ResultListFilters queryGeneralEuropeanaDataIncludingContentTierZero(String country) {
+        return country.isEmpty() ? getResultListFilters(
                 prepareGeneralQueries(getStatisticsQuery(), getMongoStatisticFields()
-                )
-        );
+                )) :
+                getResultListFilters(
+                        prepareGeneralQueriesWithCountry(getStatisticsQuery(), getMongoStatisticFields(), country));
     }
 
     /**
@@ -103,7 +108,7 @@ public class StatisticsService {
      */
     private List<BreakdownResult> calculateBreakDownsResultList(List<StatisticsData> allBreakdowns) {
         // Get total count of records (it is the same for each group of breakdowns)
-        int totalRecordCount = allBreakdowns.get(0).getRecordCount();
+        int totalRecordCount = allBreakdowns.getFirst().getRecordCount();
         // It returns a list of StatisticsData, where each has a list of breakdowns
         return allBreakdowns
                 .stream()
@@ -228,6 +233,30 @@ public class StatisticsService {
                 .map(field -> query.withBreakdowns(field)
                         .withValueFilter(MongoStatisticsField.CONTENT_TIER,
                                 List.of("1", "2", "3", "4"))
+                        .queryForStatistics())
+                .collect(Collectors.toList());
+    }
+
+    private List<StatisticsData> prepareGeneralQueriesWithCountry(StatisticsQuery query,
+                                                                  List<MongoStatisticsField> filterMongoStatisticFields,
+                                                                  String country) {
+        // Execute a breakdown query for each Value field
+        return filterMongoStatisticFields.stream()
+                .map(field -> query.withBreakdowns(field)
+                        .withValueFilter(MongoStatisticsField.COUNTRY, List.of(country))
+                        .queryForStatistics())
+                .collect(Collectors.toList());
+    }
+
+    private List<StatisticsData> prepareGeneralQueriesWithoutContentTierZeroAndWithCountry(StatisticsQuery query,
+                                                                                           List<MongoStatisticsField> filterMongoStatisticFields,
+                                                                                           String country) {
+        // Execute a breakdown query for each Value field
+        return filterMongoStatisticFields.stream()
+                .map(field -> query.withBreakdowns(field)
+                        .withValueFilter(MongoStatisticsField.CONTENT_TIER,
+                                List.of("1", "2", "3", "4"))
+                        .withValueFilter(MongoStatisticsField.COUNTRY, List.of(country))
                         .queryForStatistics())
                 .collect(Collectors.toList());
     }

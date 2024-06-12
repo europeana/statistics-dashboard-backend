@@ -1,8 +1,6 @@
 package eu.europeana.statistics.dashboard.rest.controller;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
-import eu.europeana.statistics.dashboard.common.api.response.FilteringResult;
-import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryDataResult;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.OverviewDataResult;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
