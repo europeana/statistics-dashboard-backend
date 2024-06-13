@@ -78,13 +78,24 @@ public class TargetDataServiceTest {
         return new CountryDataResult(List.of(currentTargetDataElem1, currentTargetDataElem2, currentTargetDataElem3), List.of(historicalData1, historicalData2));
     }
 
+    private OverviewDataResult prepareExpectedOverviewDataResult(){
+        OverviewCountryData belgiumElem =  new OverviewCountryData("Belgium",
+                List.of(new TargetValue(TargetType.THREE_D, 123),
+                        new TargetValue(TargetType.HIGH_QUALITY, 456),
+                        new TargetValue(TargetType.TOTAL_RECORDS, 789)));
+        OverviewCountryData netherlandsElem =  new OverviewCountryData("Netherlands",
+                List.of(new TargetValue(TargetType.THREE_D, 234),
+                        new TargetValue(TargetType.HIGH_QUALITY, 567),
+                        new TargetValue(TargetType.TOTAL_RECORDS, 891)));
+
+        return new OverviewDataResult(List.of(belgiumElem, netherlandsElem));
+    }
+
    @Test
     void getCountryData_expectSuccess(){
         when(mockMongoSDDao.getAllTargetDataOfCountry("Netherlands")).thenReturn(prepareMockTargetData());
         when(mockMongoSDDao.createStatisticsQuery()).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.queryForStatistics()).thenReturn(mockStatisticsData);
-        when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
-        when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
         when(mockStatisticsData.getRecordCount()).thenReturn(316).thenReturn(572).thenReturn(672);
         when(mockMongoSDDao.getAllHistoricalOfCountry("Netherlands")).thenReturn(prepareMockHistoricalData());
@@ -106,6 +117,21 @@ public class TargetDataServiceTest {
     @Test
     void getOverviewDataAllCountries_expectSuccess() {
 
+        when(mockMongoSDDao.getAllCountryValuesStatisticsModel()).thenReturn(List.of("Belgium", "Netherlands"));
+        when(mockMongoSDDao.createStatisticsQuery()).thenReturn(mockStatisticsQuery);
+        when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
+        when(mockStatisticsQuery.queryForStatistics()).thenReturn(mockStatisticsData);
+        when(mockStatisticsData.getRecordCount()).thenReturn(123).thenReturn(456).thenReturn(789)
+                .thenReturn(234).thenReturn(567).thenReturn(891);
+
+
+        OverviewDataResult result = targetDataService.getOverviewDataAllCountries();
+        OverviewDataResult expectedResult = prepareExpectedOverviewDataResult();
+
+        assertEquals(expectedResult.getOverviewData().size(), result.getOverviewData().size());
+        for(int i = 0; i < result.getOverviewData().size(); i++){
+            assertOverviewCountryDataEquals(expectedResult.getOverviewData().get(i), result.getOverviewData().get(i));
+        }
     }
 
     private void assertCurrentTargetDataEquals(CurrentTargetDataResult expected, CurrentTargetDataResult actual) {
@@ -129,6 +155,15 @@ public class TargetDataServiceTest {
        for(int i=0; i<expected.getTargetValues().size(); i++) {
            assertTargetValueEquals(expected.getTargetValues().get(i), actual.getTargetValues().get(i));
        }
+    }
+
+    private void assertOverviewCountryDataEquals(OverviewCountryData expected, OverviewCountryData actual){
+        assertEquals(expected.getCountry(), actual.getCountry());
+        assertEquals(expected.getTargetData().size(), actual.getTargetData().size());
+
+        for(int i = 0; i < expected.getTargetData().size(); i++){
+            assertTargetValueEquals(expected.getTargetData().get(i), actual.getTargetData().get(i));
+        }
     }
 
     private void assertTargetValueEquals(TargetValue expected, TargetValue actual) {
