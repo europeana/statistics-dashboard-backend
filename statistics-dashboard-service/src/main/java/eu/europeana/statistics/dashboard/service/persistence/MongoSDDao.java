@@ -86,6 +86,11 @@ public class MongoSDDao {
     retryableExternalRequestForNetworkExceptions(() -> datastore.save(record));
   }
 
+  /**
+   * Returns all existing values of countries
+   *
+   * @return All existing values of countries
+   */
   public List<String> getAllCountryValuesStatisticsModel() {
     ArrayList<String> countries = new ArrayList<>();
     DistinctIterable<String> docs = retryableExternalRequestForNetworkExceptions(() -> datastore
@@ -94,6 +99,12 @@ public class MongoSDDao {
     return countries;
   }
 
+  /**
+   * Returns target data of a given country
+   *
+   * @param country - The country to get the target data from
+   * @return Target data of a given country
+   */
   public List<TargetDataModel> getAllTargetDataOfCountry(String country) {
     ArrayList<TargetDataModel> queryResult = new ArrayList<>();
     Filter filter = Filters.eq("country", country);
@@ -103,6 +114,12 @@ public class MongoSDDao {
     return queryResult;
   }
 
+  /**
+   * Returns all historical data of a given country
+   *
+   * @param country - The country to get the historical data from
+   * @return The historical data of a given country
+   */
   public List<HistoricalDataModel> getAllHistoricalOfCountry(String country){
     ArrayList<HistoricalDataModel> queryResult = new ArrayList<>();
     Filter filter = Filters.eq("country", country);

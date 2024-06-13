@@ -30,10 +30,20 @@ public class TargetDataService {
         this.mongoSDDao = mongoSDDao;
     }
 
+    /**
+     * Get current values per target type and the historical data of given country
+     * @param country - The country to get the information of
+     * @return All target data and historical data associated with the given country
+     */
     public CountryDataResult getCountryData(String country){
         return new CountryDataResult(prepareCountryCurrentTargetData(country), prepareHistoricalData(country));
     }
 
+    /**
+     * Returns an object encapsulating overview current data for all countries
+     *
+     * @return An object encapsulating all overview data for all countries
+     */
     public OverviewDataResult getOverviewDataAllCountries(){
         List<String> countries = mongoSDDao.getAllCountryValuesStatisticsModel();
         List<OverviewCountryData> targetValues = countries.stream().map(this::prepareOverviewCountryData).toList();
