@@ -38,7 +38,6 @@ public class ApplicationConfiguration {
   private final ConfigurationPropertiesHolder properties;
   private final MongoClient mongoClient;
   private StatisticsService statisticsService;
-  private TargetDataService targetDataService;
 
   /**
    * Constructor.
@@ -96,8 +95,8 @@ public class ApplicationConfiguration {
 
   @Bean
   public TargetDataService getTargetDataService(MongoSDDao mongoSDDao){
-    this.targetDataService = new TargetDataService(mongoSDDao);
-    return targetDataService;
+    return new TargetDataService(mongoSDDao);
+
   }
 
   /**

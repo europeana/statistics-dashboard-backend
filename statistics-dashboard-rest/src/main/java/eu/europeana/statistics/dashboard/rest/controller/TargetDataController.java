@@ -45,7 +45,6 @@ public class TargetDataController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Returns a complete overview of Europeana's database", response = CountryDataResult.class)
     public CountryDataResult getCountryData(
-            @ApiParam(value = "Include content Tier 0")
             @PathVariable(name = "country") String country) {
         return targetDataService.getCountryData(country);
     }
