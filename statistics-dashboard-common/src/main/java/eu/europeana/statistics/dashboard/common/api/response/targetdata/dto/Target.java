@@ -1,16 +1,16 @@
-package eu.europeana.statistics.dashboard.common.api.response.targetdata;
+package eu.europeana.statistics.dashboard.common.api.response.targetdata.dto;
 
 import eu.europeana.statistics.dashboard.common.internal.TargetType;
 
 /**
  * Class that has an overview of the current value for a target type
  */
-public class TargetValue {
+public class Target {
 
     private TargetType targetType;
     private int value;
 
-    public TargetValue(TargetType targetType, int value) {
+    public Target(TargetType targetType, int value) {
         this.targetType = targetType;
         this.value = value;
     }

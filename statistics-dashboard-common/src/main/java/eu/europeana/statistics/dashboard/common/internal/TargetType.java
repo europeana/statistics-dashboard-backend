@@ -15,7 +15,7 @@ public enum TargetType {
     }
 
     @JsonValue
-    public String getValueAsString() {
+    public String getValue() {
         return valueAsString;
     }
 

@@ -5,7 +5,7 @@ import eu.europeana.statistics.dashboard.worker.config.MongoCoreDao;
 import eu.europeana.statistics.dashboard.worker.harvest.DataHarvestingException;
 import eu.europeana.statistics.dashboard.worker.harvest.SolrHarvester;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
-import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
 
 import java.util.List;
 import java.util.Set;

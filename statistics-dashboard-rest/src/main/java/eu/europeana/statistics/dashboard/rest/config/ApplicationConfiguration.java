@@ -96,7 +96,6 @@ public class ApplicationConfiguration {
   @Bean
   public TargetDataService getTargetDataService(MongoSDDao mongoSDDao){
     return new TargetDataService(mongoSDDao);
-
   }
 
   /**

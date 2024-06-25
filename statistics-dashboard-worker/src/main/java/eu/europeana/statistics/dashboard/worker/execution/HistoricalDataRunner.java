@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.worker.execution;
 
-import eu.europeana.statistics.dashboard.common.internal.HistoricalDataModel;
+import eu.europeana.statistics.dashboard.common.internal.model.Historical;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsData;
@@ -41,7 +41,7 @@ public class HistoricalDataRunner{
         queryTotalRecords.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
         StatisticsData resultTotalRecords = queryTotalRecords.queryForStatistics();
 
-        HistoricalDataModel result = new HistoricalDataModel(country, result3dQuery.getRecordCount(),
+        Historical result = new Historical(country, result3dQuery.getRecordCount(),
                 resultHighQualityQuery.getRecordCount(), resultTotalRecords.getRecordCount(), LocalDateTime.now());
 
         mongoSDDao.saveHistoricalRecord(result);

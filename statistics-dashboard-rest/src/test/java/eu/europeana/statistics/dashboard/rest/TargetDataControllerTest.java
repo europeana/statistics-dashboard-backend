@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.rest;
 
-import eu.europeana.statistics.dashboard.common.api.response.targetdata.*;
+import eu.europeana.statistics.dashboard.common.api.response.targetdata.dto.*;
 import eu.europeana.statistics.dashboard.common.internal.TargetType;
 import eu.europeana.statistics.dashboard.rest.controller.TargetDataController;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
@@ -28,10 +28,10 @@ public class TargetDataControllerTest {
 
     @Test
     void getCountryData_expectSuccess() {
-        CountryDataResult expectedResult = prepareExpectedCountryDataResult();
+        Country expectedResult = prepareExpectedCountryDataResult();
         when(statisticsService.getCountryData("Netherlands")).thenReturn(expectedResult);
 
-        CountryDataResult result = controller.getCountryData("Netherlands");
+        Country result = controller.getCountryData("Netherlands");
 
         assertEquals(expectedResult, result);
 
@@ -39,50 +39,50 @@ public class TargetDataControllerTest {
 
     @Test
     void getOverviewData_expectSuccess(){
-        OverviewDataResult expectedResult = prepareExpectedOverviewDataResult();
+        OverviewData expectedResult = prepareExpectedOverviewDataResult();
         when(statisticsService.getOverviewDataAllCountries()).thenReturn(expectedResult);
 
-        OverviewDataResult result = controller.getOverviewData();
+        OverviewData result = controller.getOverviewData();
 
         assertEquals(expectedResult, result);
 
     }
 
-    private CountryDataResult prepareExpectedCountryDataResult(){
-        CurrentDataResult elem13D = new CurrentDataResult(2025, 1234, 25.61);
-        CurrentDataResult elem23D = new CurrentDataResult(2030, 123456, 0.26);
-        CurrentDataResult elem1Hq = new CurrentDataResult(2025, 4567, 12.52);
-        CurrentDataResult elem2Hq = new CurrentDataResult(2030, 456789, 0.12);
-        CurrentDataResult elem1TotalRecords = new CurrentDataResult(2025, 7891, 8.52);
-        CurrentDataResult elem2TotalRecords = new CurrentDataResult(2030, 789123, 0.09);
-        CurrentTargetDataResult currentTargetDataElem1 = new CurrentTargetDataResult(TargetType.THREE_D, 316, List.of(elem13D, elem23D));
-        CurrentTargetDataResult currentTargetDataElem2 = new CurrentTargetDataResult(TargetType.HIGH_QUALITY, 572,
+    private Country prepareExpectedCountryDataResult(){
+        CurrentData elem13D = new CurrentData(2025, 1234, 25.61);
+        CurrentData elem23D = new CurrentData(2030, 123456, 0.26);
+        CurrentData elem1Hq = new CurrentData(2025, 4567, 12.52);
+        CurrentData elem2Hq = new CurrentData(2030, 456789, 0.12);
+        CurrentData elem1TotalRecords = new CurrentData(2025, 7891, 8.52);
+        CurrentData elem2TotalRecords = new CurrentData(2030, 789123, 0.09);
+        CurrentTarget currentTargetDataElem1 = new CurrentTarget(TargetType.THREE_D, 316, List.of(elem13D, elem23D));
+        CurrentTarget currentTargetDataElem2 = new CurrentTarget(TargetType.HIGH_QUALITY, 572,
                 List.of(elem1Hq, elem2Hq));
-        CurrentTargetDataResult currentTargetDataElem3 = new CurrentTargetDataResult(TargetType.TOTAL_RECORDS, 672,
+        CurrentTarget currentTargetDataElem3 = new CurrentTarget(TargetType.TOTAL_RECORDS, 672,
                 List.of(elem1TotalRecords, elem2TotalRecords));
-        TargetValue targetValue13D = new TargetValue(TargetType.THREE_D, 306);
-        TargetValue targetValue1Hq = new TargetValue(TargetType.HIGH_QUALITY, 518);
-        TargetValue targetValue1TotalRecords = new TargetValue(TargetType.TOTAL_RECORDS, 589);
-        TargetValue targetValue23D = new TargetValue(TargetType.THREE_D, 316);
-        TargetValue targetValue2Hq = new TargetValue(TargetType.HIGH_QUALITY, 572);
-        TargetValue targetValue2TotalRecords = new TargetValue(TargetType.TOTAL_RECORDS, 672);
-        HistoricalDataResult historicalData1 = new HistoricalDataResult(LocalDateTime.of(2024, Month.APRIL, 25, 16, 45),
-                List.of(targetValue13D, targetValue1Hq, targetValue1TotalRecords));
-        HistoricalDataResult historicalData2 = new HistoricalDataResult(LocalDateTime.of(2024, Month.MAY, 25, 16, 45),
-                List.of(targetValue23D, targetValue2Hq, targetValue2TotalRecords));
-        return new CountryDataResult(List.of(currentTargetDataElem1, currentTargetDataElem2, currentTargetDataElem3), List.of(historicalData1, historicalData2));
+        Target target13D = new Target(TargetType.THREE_D, 306);
+        Target target1Hq = new Target(TargetType.HIGH_QUALITY, 518);
+        Target target1TotalRecords = new Target(TargetType.TOTAL_RECORDS, 589);
+        Target target23D = new Target(TargetType.THREE_D, 316);
+        Target target2Hq = new Target(TargetType.HIGH_QUALITY, 572);
+        Target target2TotalRecords = new Target(TargetType.TOTAL_RECORDS, 672);
+        HistoricalData historicalDataData1 = new HistoricalData(LocalDateTime.of(2024, Month.APRIL, 25, 16, 45),
+                List.of(target13D, target1Hq, target1TotalRecords));
+        HistoricalData historicalDataData2 = new HistoricalData(LocalDateTime.of(2024, Month.MAY, 25, 16, 45),
+                List.of(target23D, target2Hq, target2TotalRecords));
+        return new Country(List.of(currentTargetDataElem1, currentTargetDataElem2, currentTargetDataElem3), List.of(historicalDataData1, historicalDataData2));
     }
 
-    private OverviewDataResult prepareExpectedOverviewDataResult(){
-        OverviewCountryData belgiumElem =  new OverviewCountryData("Belgium",
-                List.of(new TargetValue(TargetType.THREE_D, 123),
-                        new TargetValue(TargetType.HIGH_QUALITY, 456),
-                        new TargetValue(TargetType.TOTAL_RECORDS, 789)));
-        OverviewCountryData netherlandsElem =  new OverviewCountryData("Netherlands",
-                List.of(new TargetValue(TargetType.THREE_D, 234),
-                        new TargetValue(TargetType.HIGH_QUALITY, 567),
-                        new TargetValue(TargetType.TOTAL_RECORDS, 891)));
+    private OverviewData prepareExpectedOverviewDataResult(){
+        CountryOverview belgiumElem =  new CountryOverview("Belgium",
+                List.of(new Target(TargetType.THREE_D, 123),
+                        new Target(TargetType.HIGH_QUALITY, 456),
+                        new Target(TargetType.TOTAL_RECORDS, 789)));
+        CountryOverview netherlandsElem =  new CountryOverview("Netherlands",
+                List.of(new Target(TargetType.THREE_D, 234),
+                        new Target(TargetType.HIGH_QUALITY, 567),
+                        new Target(TargetType.TOTAL_RECORDS, 891)));
 
-        return new OverviewDataResult(List.of(belgiumElem, netherlandsElem));
+        return new OverviewData(List.of(belgiumElem, netherlandsElem));
     }
 }

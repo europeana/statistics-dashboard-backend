@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.common.internal;
+package eu.europeana.statistics.dashboard.common.internal.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.*;
@@ -19,7 +19,7 @@ import org.bson.types.ObjectId;
                 @Field(TargetDataMongoFieldNames.TOTAL_RECORDS_FIELD),
                 @Field(TargetDataMongoFieldNames.TARGET_YEAR_FIELD)})
 })
-public class TargetDataModel {
+public class Target {
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
@@ -40,9 +40,9 @@ public class TargetDataModel {
     private int year;
 
     //Empty constructor for when we perform queries
-    public TargetDataModel(){}
+    public Target(){}
 
-    public TargetDataModel(String country, int threeD, int highQuality, int totalRecords, int year) {
+    public Target(String country, int threeD, int highQuality, int totalRecords, int year) {
         this.country = country;
         this.threeD = threeD;
         this.highQuality = highQuality;

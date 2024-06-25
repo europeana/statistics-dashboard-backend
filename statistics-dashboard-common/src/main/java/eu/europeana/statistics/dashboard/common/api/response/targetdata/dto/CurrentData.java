@@ -1,15 +1,15 @@
-package eu.europeana.statistics.dashboard.common.api.response.targetdata;
+package eu.europeana.statistics.dashboard.common.api.response.targetdata.dto;
 
 /**
  * Class that saves the target values
  */
-public class CurrentDataResult {
+public class CurrentData {
 
     private int targetYear;
     private int targetValue;
     private double percentage;
 
-    public CurrentDataResult(Integer targetYear, Integer targetValue, double percentage) {
+    public CurrentData(Integer targetYear, Integer targetValue, double percentage) {
         this.targetYear = targetYear;
         this.targetValue = targetValue;
         this.percentage = percentage;

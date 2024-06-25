@@ -1,16 +1,16 @@
-package eu.europeana.statistics.dashboard.common.api.response.targetdata;
+package eu.europeana.statistics.dashboard.common.api.response.targetdata.dto;
 
 import java.util.List;
 
 /**
  * Class that has an overview of the current data for each target type for a country
  */
-public class OverviewCountryData {
+public class CountryOverview {
 
     private String country;
-    private List<TargetValue> targetData;
+    private List<Target> targetData;
 
-    public OverviewCountryData(String country, List<TargetValue> targetData) {
+    public CountryOverview(String country, List<Target> targetData) {
         this.country = country;
         this.targetData = targetData;
     }
@@ -23,11 +23,11 @@ public class OverviewCountryData {
         this.country = country;
     }
 
-    public List<TargetValue> getTargetData() {
+    public List<Target> getTargetData() {
         return targetData;
     }
 
-    public void setTargetData(List<TargetValue> targetData) {
+    public void setTargetData(List<Target> targetData) {
         this.targetData = targetData;
     }
 }

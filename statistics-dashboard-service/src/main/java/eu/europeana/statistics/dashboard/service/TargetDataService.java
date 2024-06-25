@@ -1,9 +1,7 @@
 package eu.europeana.statistics.dashboard.service;
 
-import eu.europeana.statistics.dashboard.common.api.response.targetdata.*;
-import eu.europeana.statistics.dashboard.common.internal.HistoricalDataModel;
+import eu.europeana.statistics.dashboard.common.api.response.targetdata.dto.*;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
-import eu.europeana.statistics.dashboard.common.internal.TargetDataModel;
 import eu.europeana.statistics.dashboard.common.internal.TargetType;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import eu.europeana.statistics.dashboard.service.persistence.StatisticsQuery;
@@ -35,8 +33,8 @@ public class TargetDataService {
      * @param country - The country to get the information of
      * @return All target data and historical data associated with the given country
      */
-    public CountryDataResult getCountryData(String country){
-        return new CountryDataResult(prepareCountryCurrentTargetData(country), prepareHistoricalData(country));
+    public Country getCountryData(String country){
+        return new Country(prepareCountryCurrentTargetData(country), prepareHistoricalData(country));
     }
 
     /**
@@ -44,42 +42,42 @@ public class TargetDataService {
      *
      * @return An object encapsulating all overview data for all countries
      */
-    public OverviewDataResult getOverviewDataAllCountries(){
+    public OverviewData getOverviewDataAllCountries(){
         List<String> countries = mongoSDDao.getAllCountryValuesStatisticsModel();
-        List<OverviewCountryData> targetValues = countries.stream().map(this::prepareOverviewCountryData).toList();
+        List<CountryOverview> targetValues = countries.stream().map(this::prepareOverviewCountryData).toList();
 
-        return new OverviewDataResult(targetValues);
+        return new OverviewData(targetValues);
     }
 
 
-    private List<CurrentTargetDataResult> prepareCountryCurrentTargetData(String country){
+    private List<CurrentTarget> prepareCountryCurrentTargetData(String country){
 
-        List<TargetDataModel> targetDataInfo = mongoSDDao.getAllTargetDataOfCountry(country);
+        List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo = mongoSDDao.getAllTargetDataOfCountry(country);
 
-        CurrentTargetDataResult current3DTargetDataResult = prepareCurrentTargetDataResult(TargetType.THREE_D, country, targetDataInfo);
-        CurrentTargetDataResult currentHighQualityTargetDataResult = prepareCurrentTargetDataResult(TargetType.HIGH_QUALITY, country, targetDataInfo);
-        CurrentTargetDataResult currentAllRecordsTargetDataResult = prepareCurrentTargetDataResult(TargetType.TOTAL_RECORDS, country, targetDataInfo);
+        CurrentTarget current3DTargetDataResult = prepareCurrentTargetDataResult(TargetType.THREE_D, country, targetDataInfo);
+        CurrentTarget currentHighQualityTargetDataResult = prepareCurrentTargetDataResult(TargetType.HIGH_QUALITY, country, targetDataInfo);
+        CurrentTarget currentAllRecordsTargetDataResult = prepareCurrentTargetDataResult(TargetType.TOTAL_RECORDS, country, targetDataInfo);
 
         return List.of(current3DTargetDataResult, currentHighQualityTargetDataResult, currentAllRecordsTargetDataResult);
 
     }
 
-    private CurrentTargetDataResult prepareCurrentTargetDataResult(TargetType targetType, String country, List<TargetDataModel> targetDataInfo){
+    private CurrentTarget prepareCurrentTargetDataResult(TargetType targetType, String country, List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo){
         int currentValue = getCurrentValueOfTargetType(targetType, country);
-        return new CurrentTargetDataResult(targetType, currentValue,
+        return new CurrentTarget(targetType, currentValue,
                 List.of(prepareCurrentTargetData(currentValue, targetDataInfo.get(0), targetType),
                         prepareCurrentTargetData(currentValue, targetDataInfo.get(1), targetType)));
     }
 
-    private CurrentDataResult prepareCurrentTargetData(int currentValue, TargetDataModel targetDataModel, TargetType targetType){
+    private CurrentData prepareCurrentTargetData(int currentValue, eu.europeana.statistics.dashboard.common.internal.model.Target target, TargetType targetType){
 
         return switch (targetType) {
-            case THREE_D -> new CurrentDataResult(targetDataModel.getYear(), targetDataModel.getThreeD(),
-                    calculatePercentage(targetDataModel.getThreeD(), currentValue));
-            case HIGH_QUALITY -> new CurrentDataResult(targetDataModel.getYear(), targetDataModel.getHighQuality(),
-                    calculatePercentage(targetDataModel.getHighQuality(), currentValue));
-            case TOTAL_RECORDS -> new CurrentDataResult(targetDataModel.getYear(), targetDataModel.getTotalRecords(),
-                    calculatePercentage(targetDataModel.getTotalRecords(), currentValue));
+            case THREE_D -> new CurrentData(target.getYear(), target.getThreeD(),
+                    calculatePercentage(target.getThreeD(), currentValue));
+            case HIGH_QUALITY -> new CurrentData(target.getYear(), target.getHighQuality(),
+                    calculatePercentage(target.getHighQuality(), currentValue));
+            case TOTAL_RECORDS -> new CurrentData(target.getYear(), target.getTotalRecords(),
+                    calculatePercentage(target.getTotalRecords(), currentValue));
         };
 
     }
@@ -89,7 +87,7 @@ public class TargetDataService {
 
         switch (targetType){
             case THREE_D:
-                query.withValueFilter(MongoStatisticsField.TYPE, List.of(targetType.getValueAsString()))
+                query.withValueFilter(MongoStatisticsField.TYPE, List.of(targetType.getValue()))
                         .withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
                 break;
 
@@ -106,26 +104,26 @@ public class TargetDataService {
         return query.queryForStatistics().getRecordCount();
     }
 
-    private List<HistoricalDataResult> prepareHistoricalData(String country){
-        List<HistoricalDataModel> historicalData = mongoSDDao.getAllHistoricalOfCountry(country);
-        return historicalData.stream().map(data -> new HistoricalDataResult(data.getTimestamp(), prepareTargetValuesList(data)))
+    private List<HistoricalData> prepareHistoricalData(String country){
+        List<eu.europeana.statistics.dashboard.common.internal.model.Historical> historicalData = mongoSDDao.getAllHistoricalOfCountry(country);
+        return historicalData.stream().map(data -> new HistoricalData(data.getTimestamp(), prepareTargetValuesList(data)))
                 .toList();
     }
 
-    private List<TargetValue> prepareTargetValuesList(HistoricalDataModel historicalDataModel){
-        return List.of(new TargetValue(TargetType.THREE_D, historicalDataModel.getThreeD()),
-                new TargetValue(TargetType.HIGH_QUALITY, historicalDataModel.getHighQuality()),
-                new TargetValue(TargetType.TOTAL_RECORDS, historicalDataModel.getTotalRecords()));
+    private List<Target> prepareTargetValuesList(eu.europeana.statistics.dashboard.common.internal.model.Historical historical){
+        return List.of(new Target(TargetType.THREE_D, historical.getThreeD()),
+                new Target(TargetType.HIGH_QUALITY, historical.getHighQuality()),
+                new Target(TargetType.TOTAL_RECORDS, historical.getTotalRecords()));
     }
 
-    private OverviewCountryData prepareOverviewCountryData(String country){
+    private CountryOverview prepareOverviewCountryData(String country){
         int current3DValue = getCurrentValueOfTargetType(TargetType.THREE_D, country);
         int currentHighQualityValue = getCurrentValueOfTargetType(TargetType.HIGH_QUALITY, country);
         int currentTotalRecordsValue = getCurrentValueOfTargetType(TargetType.TOTAL_RECORDS, country);
-        return new OverviewCountryData(country,
-                List.of(new TargetValue(TargetType.THREE_D, current3DValue),
-                        new TargetValue(TargetType.HIGH_QUALITY, currentHighQualityValue),
-                        new TargetValue(TargetType.TOTAL_RECORDS, currentTotalRecordsValue)));
+        return new CountryOverview(country,
+                List.of(new Target(TargetType.THREE_D, current3DValue),
+                        new Target(TargetType.HIGH_QUALITY, currentHighQualityValue),
+                        new Target(TargetType.TOTAL_RECORDS, currentTotalRecordsValue)));
     }
 
     private double calculatePercentage(double totalCount, double count) {

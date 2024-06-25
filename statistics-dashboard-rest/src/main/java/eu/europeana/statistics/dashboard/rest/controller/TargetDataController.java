@@ -1,8 +1,8 @@
 package eu.europeana.statistics.dashboard.rest.controller;
 
 import eu.europeana.statistics.dashboard.common.api.request.StatisticsFilteringRequest;
-import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryDataResult;
-import eu.europeana.statistics.dashboard.common.api.response.targetdata.OverviewDataResult;
+import eu.europeana.statistics.dashboard.common.api.response.targetdata.dto.Country;
+import eu.europeana.statistics.dashboard.common.api.response.targetdata.dto.OverviewData;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,8 +43,8 @@ public class TargetDataController {
      */
     @GetMapping(value = TARGET_DATA_COUNTRY, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns a complete overview of Europeana's database", response = CountryDataResult.class)
-    public CountryDataResult getCountryData(
+    @ApiOperation(value = "Returns a complete overview of Europeana's database", response = Country.class)
+    public Country getCountryData(
             @PathVariable(name = "country") String country) {
         return targetDataService.getCountryData(country);
     }
@@ -56,8 +56,8 @@ public class TargetDataController {
      */
     @GetMapping(value = TARGET_DATA_OVERVIEW, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns overview current data for each type of target", response = OverviewDataResult.class)
-    public OverviewDataResult getOverviewData(){
+    @ApiOperation(value = "Returns overview current data for each type of target", response = OverviewData.class)
+    public OverviewData getOverviewData(){
         return targetDataService.getOverviewDataAllCountries();
     }
 

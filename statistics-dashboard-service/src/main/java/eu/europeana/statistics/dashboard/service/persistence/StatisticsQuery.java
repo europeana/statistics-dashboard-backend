@@ -14,7 +14,7 @@ import dev.morphia.query.filters.Filter;
 import dev.morphia.query.filters.Filters;
 import eu.europeana.metis.mongo.utils.MorphiaUtils;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
-import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.ArrayList;
 import java.util.Arrays;

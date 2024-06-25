@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.common.internal;
+package eu.europeana.statistics.dashboard.common.internal.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.*;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
                 @Field(TargetDataMongoFieldNames.TOTAL_RECORDS_FIELD),
                 @Field(TargetDataMongoFieldNames.TIMESTAMP_FIELD)})
 })
-public class HistoricalDataModel {
+public class Historical {
 
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
@@ -43,9 +43,9 @@ public class HistoricalDataModel {
     private LocalDateTime timestamp;
 
     //Empty constructor for when we perform queries
-    public HistoricalDataModel(){}
+    public Historical(){}
 
-    public HistoricalDataModel(String country, int threeD, int highQuality, int totalRecords, LocalDateTime timestamp) {
+    public Historical(String country, int threeD, int highQuality, int totalRecords, LocalDateTime timestamp) {
         this.country = country;
         this.threeD = threeD;
         this.highQuality = highQuality;

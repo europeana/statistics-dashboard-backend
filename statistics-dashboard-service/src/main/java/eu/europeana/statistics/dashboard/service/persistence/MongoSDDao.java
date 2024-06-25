@@ -12,9 +12,9 @@ import dev.morphia.mapping.NamingStrategy;
 import dev.morphia.query.Query;
 import dev.morphia.query.filters.Filter;
 import dev.morphia.query.filters.Filters;
-import eu.europeana.statistics.dashboard.common.internal.HistoricalDataModel;
-import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
-import eu.europeana.statistics.dashboard.common.internal.TargetDataModel;
+import eu.europeana.statistics.dashboard.common.internal.model.Historical;
+import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.internal.model.Target;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class MongoSDDao {
    *
    * @param records the target records.
    */
-  public void saveTargetRecords(List<TargetDataModel> records) {
+  public void saveTargetRecords(List<Target> records) {
     records.forEach(record -> record.setId(new ObjectId()));
     retryableExternalRequestForNetworkExceptions(() -> datastore.save(records));
   }
@@ -81,7 +81,7 @@ public class MongoSDDao {
    *
    * @param record the historical record.
    */
-  public void saveHistoricalRecord(HistoricalDataModel record) {
+  public void saveHistoricalRecord(Historical record) {
     record.setId(new ObjectId());
     retryableExternalRequestForNetworkExceptions(() -> datastore.save(record));
   }
@@ -105,11 +105,11 @@ public class MongoSDDao {
    * @param country - The country to get the target data from
    * @return Target data of a given country
    */
-  public List<TargetDataModel> getAllTargetDataOfCountry(String country) {
-    ArrayList<TargetDataModel> queryResult = new ArrayList<>();
+  public List<Target> getAllTargetDataOfCountry(String country) {
+    ArrayList<Target> queryResult = new ArrayList<>();
     Filter filter = Filters.eq("country", country);
-    Query<TargetDataModel> result = retryableExternalRequestForNetworkExceptions(() ->
-            datastore.find(TargetDataModel.class).filter(filter));
+    Query<Target> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(Target.class).filter(filter));
     result.forEach(queryResult::add);
     return queryResult;
   }
@@ -120,11 +120,11 @@ public class MongoSDDao {
    * @param country - The country to get the historical data from
    * @return The historical data of a given country
    */
-  public List<HistoricalDataModel> getAllHistoricalOfCountry(String country){
-    ArrayList<HistoricalDataModel> queryResult = new ArrayList<>();
+  public List<Historical> getAllHistoricalOfCountry(String country){
+    ArrayList<Historical> queryResult = new ArrayList<>();
     Filter filter = Filters.eq("country", country);
-    Query<HistoricalDataModel> result = retryableExternalRequestForNetworkExceptions(() ->
-            datastore.find(HistoricalDataModel.class).filter(filter));
+    Query<Historical> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(Historical.class).filter(filter));
     result.forEach(queryResult::add);
     return queryResult;
   }
