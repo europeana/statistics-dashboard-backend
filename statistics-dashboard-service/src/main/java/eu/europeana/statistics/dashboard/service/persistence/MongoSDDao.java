@@ -87,14 +87,14 @@ public class MongoSDDao {
   }
 
   /**
-   * Returns all existing values of countries
+   * Returns all existing values of countries from Target data collection
    *
-   * @return All existing values of countries
+   * @return All existing values of countries from Target data collection
    */
-  public List<String> getAllCountryValuesStatisticsModel() {
+  public List<String> getAllCountryValuesTargetCollection() {
     ArrayList<String> countries = new ArrayList<>();
     DistinctIterable<String> docs = retryableExternalRequestForNetworkExceptions(() -> datastore
-            .getCollection(StatisticsRecordModel.class).distinct("country", String.class));
+            .getCollection(Target.class).distinct("country", String.class));
     docs.forEach(countries::add);
     return countries;
   }
@@ -136,5 +136,14 @@ public class MongoSDDao {
    */
   public StatisticsQuery createStatisticsQuery() {
     return new StatisticsQuery(() -> datastore.aggregate(StatisticsRecordModel.class));
+  }
+
+  /**
+   * Check if the given name of a collection data exists in the mongo database
+   * @param collectionName The name of the collection data to check if it exists
+   * @return True if it exists in the database; Otherwise, returns false
+   */
+  public boolean doesCollectionDataExist(String collectionName){
+    return datastore.getDatabase().listCollectionNames().into(new ArrayList<String>()).contains(collectionName);
   }
 }

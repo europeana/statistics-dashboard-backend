@@ -41,6 +41,13 @@ public class ScriptsRunner implements CommandLineRunner {
             @SuppressWarnings("findbugs:RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE") final SolrClient nativeSolrClient = solrClient.getSolrClient();
             MongoSDDao mongoSDDao = new MongoSDDao(mongoSDClient, propertiesHolder.getMongoSDDatabase(), true);
 
+            //If there is *no* Target data collection, then run this script
+            if(!mongoSDDao.doesCollectionDataExist("Target")){
+                LOGGER.info("Starting target script execution");
+                TargetDataRunner.runTargetDataScript(mongoSDDao);
+                LOGGER.info("Finished target script execution");
+            }
+
             LOGGER.info("Starting analyze data script execution");
             AnalyzerRunner.runAnalyzeScript(mongoCoreDao, nativeSolrClient, mongoSDDao);
             LOGGER.info("Finished analyze data script execution");

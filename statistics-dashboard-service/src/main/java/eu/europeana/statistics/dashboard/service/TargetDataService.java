@@ -43,7 +43,7 @@ public class TargetDataService {
      * @return An object encapsulating all overview data for all countries
      */
     public OverviewData getOverviewDataAllCountries(){
-        List<String> countries = mongoSDDao.getAllCountryValuesStatisticsModel();
+        List<String> countries = mongoSDDao.getAllCountryValuesTargetCollection();
         List<CountryOverview> targetValues = countries.stream().map(this::prepareOverviewCountryData).toList();
 
         return new OverviewData(targetValues);

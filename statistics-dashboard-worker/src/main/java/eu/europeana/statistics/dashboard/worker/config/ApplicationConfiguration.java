@@ -2,6 +2,7 @@ package eu.europeana.statistics.dashboard.worker.config;
 
 import eu.europeana.metis.utils.CustomTruststoreAppender;
 import eu.europeana.statistics.dashboard.worker.execution.ScriptsRunner;
+import eu.europeana.statistics.dashboard.worker.execution.TargetDataRunner;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

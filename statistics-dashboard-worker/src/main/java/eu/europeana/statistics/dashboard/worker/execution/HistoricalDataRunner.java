@@ -17,7 +17,7 @@ public class HistoricalDataRunner{
     private static final Logger LOGGER = LoggerFactory.getLogger(AnalyzerRunner.class);
 
     public static void runHistoricalScript(MongoSDDao mongoSDDao){
-        List<String> countries = mongoSDDao.getAllCountryValuesStatisticsModel();
+        List<String> countries = mongoSDDao.getAllCountryValuesTargetCollection();
 
         for(String country : countries) {
             writeHistoricalData(country,mongoSDDao);

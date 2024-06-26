@@ -115,7 +115,7 @@ public class TargetDataServiceTest {
     @Test
     void getOverviewDataAllCountries_expectSuccess() {
 
-        when(mockMongoSDDao.getAllCountryValuesStatisticsModel()).thenReturn(List.of("Belgium", "Netherlands"));
+        when(mockMongoSDDao.getAllCountryValuesTargetCollection()).thenReturn(List.of("Belgium", "Netherlands"));
         when(mockMongoSDDao.createStatisticsQuery()).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.queryForStatistics()).thenReturn(mockStatisticsData);

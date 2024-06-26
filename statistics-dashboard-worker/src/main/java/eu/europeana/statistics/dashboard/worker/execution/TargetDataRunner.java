@@ -21,24 +21,12 @@ import java.util.List;
 //TODO: This script does not need to run frequently.
 //TODO: It should only run once to fill in with the latest data about target data
 //TODO: If that target data has changes, then this script needs to be updated
-public class TargetDataRunner implements CommandLineRunner {
+public class TargetDataRunner{
 
     private static final String COMMA_DELIMITER = ",";
-    private final ConfigurationPropertiesHolder propertiesHolder;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AnalyzerRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TargetDataRunner.class);
 
-    public TargetDataRunner(ConfigurationPropertiesHolder propertiesHolder){
-        this.propertiesHolder = propertiesHolder;
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-
-        final MongoClientProvider<DataAccessConfigException> mongoSDClientProvider = new MongoClientProvider<>(
-                propertiesHolder.getMongoSDProperties());
-
-        final MongoClient mongoSDClient = mongoSDClientProvider.createMongoClient();
-        MongoSDDao mongoSDDao = new MongoSDDao(mongoSDClient, propertiesHolder.getMongoSDDatabase(), true);
+    public static void runTargetDataScript (MongoSDDao mongoSDDao) throws DataAccessConfigException {
 
         String fileName = "statistics-dashboard-worker/src/main/resources/TargetData.csv";
         List<List<String>> targetData = readCsvFile(fileName);
@@ -56,7 +44,6 @@ public class TargetDataRunner implements CommandLineRunner {
                 result.add(Arrays.asList(values));
             }
         } catch (IOException e) {
-            //TODO: Fix this
             throw new RuntimeException(e);
         }
 
