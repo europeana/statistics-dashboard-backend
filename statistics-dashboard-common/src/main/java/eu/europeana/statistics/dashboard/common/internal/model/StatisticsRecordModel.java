@@ -1,4 +1,4 @@
-package eu.europeana.statistics.dashboard.common.internal;
+package eu.europeana.statistics.dashboard.common.internal.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.Entity;

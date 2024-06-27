@@ -14,7 +14,7 @@ import dev.morphia.query.filters.Filter;
 import dev.morphia.query.filters.Filters;
 import eu.europeana.metis.mongo.utils.MorphiaUtils;
 import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
-import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -147,10 +147,14 @@ public class StatisticsQuery {
     // Execute the query
     final List<StatisticsResult> queryResults = MorphiaUtils.getListOfAggregationRetryable(aggregation, StatisticsResult.class);
 
+    if(queryResults.isEmpty()){
+      return new StatisticsData(null, null, 0);
+    }
+
     // Compile the result
     final StatisticsData result;
     if (breakdownMongoStatisticFields.isEmpty()) {
-      result = new StatisticsData(null, null, queryResults.get(0).getRecordCount());
+      result = new StatisticsData(null, null, queryResults.getFirst().getRecordCount());
     } else {
       result = new StatisticsData(null, null, convert(0, queryResults));
     }
@@ -204,7 +208,7 @@ public class StatisticsQuery {
     if (queryResults.isEmpty()) {
       return Optional.empty();
     }
-    return Optional.of(new ValueRange(queryResults.get(0).getMinimumValue(), queryResults.get(0).getMaximumValue()));
+    return Optional.of(new ValueRange(queryResults.getFirst().getMinimumValue(), queryResults.getFirst().getMaximumValue()));
   }
 
   /**

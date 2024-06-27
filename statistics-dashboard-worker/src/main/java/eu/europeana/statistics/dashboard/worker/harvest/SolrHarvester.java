@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.worker.harvest;
 
-import eu.europeana.statistics.dashboard.common.internal.StatisticsRecordModel;
+import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;

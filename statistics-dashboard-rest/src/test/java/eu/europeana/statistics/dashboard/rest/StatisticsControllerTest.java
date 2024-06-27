@@ -41,9 +41,9 @@ class StatisticsControllerTest {
   @Test
   void getGeneralStatisticsWithoutContentTierZero() {
     ResultListFilters resultListFilters = new ResultListFilters(List.of());
-    when(statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero()).thenReturn(resultListFilters);
+    when(statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero("")).thenReturn(resultListFilters);
 
-    ResultListFilters testResult = controller.getGeneralStatistics(false);
+    ResultListFilters testResult = controller.getGeneralStatistics(false, "");
 
     assertEquals(resultListFilters, testResult);
   }
@@ -51,9 +51,9 @@ class StatisticsControllerTest {
   @Test
   void getGeneralStatisticsIncludingContentTierZero() {
     ResultListFilters resultListFilters = new ResultListFilters(List.of());
-    when(statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero()).thenReturn(resultListFilters);
+    when(statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero("")).thenReturn(resultListFilters);
 
-    ResultListFilters testResult = controller.getGeneralStatistics(true);
+    ResultListFilters testResult = controller.getGeneralStatistics(true, "");
 
     assertEquals(resultListFilters, testResult);
   }

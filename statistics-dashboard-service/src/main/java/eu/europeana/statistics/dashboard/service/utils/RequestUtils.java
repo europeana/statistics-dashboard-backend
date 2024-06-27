@@ -25,7 +25,7 @@ public final class RequestUtils {
 
     // Filter out Value type fields
     List<MongoStatisticsField> valueField = Arrays.stream(MongoStatisticsField.values())
-        .filter(value -> isValueFilter(value, statisticsFilteringRequest)).collect(Collectors.toList());
+        .filter(value -> isValueFilter(value, statisticsFilteringRequest)).toList();
 
     return valueField.stream().collect(Collectors.toMap(field -> field,
         field -> new HashSet<>(field.getValueFilterGetter().apply(statisticsFilteringRequest).getValues())));
@@ -36,7 +36,7 @@ public final class RequestUtils {
 
     // Filter out Range type fields with values present
     List<MongoStatisticsField> rangeFields = Arrays.stream(MongoStatisticsField.values())
-        .filter(value -> isRangeFilter(value, statisticsFilteringRequest)).collect(Collectors.toList());
+        .filter(value -> isRangeFilter(value, statisticsFilteringRequest)).toList();
 
     return rangeFields.stream().collect(Collectors.toMap(field -> field,
         field -> new ValueRange(field.getRangeFilterGetter().apply(statisticsFilteringRequest).getFrom(),
@@ -60,7 +60,7 @@ public final class RequestUtils {
     // Filter out fields that are type Value, with or without values present
     List<MongoStatisticsField> nonNullFields = Arrays.stream(MongoStatisticsField.values()).filter(
             field -> field.getValueFilterGetter() != null && field.getValueFilterGetter().apply(statisticsFilteringRequest) != null)
-        .collect(Collectors.toList());
+        .toList();
 
     List<MongoStatisticsField> result = new ArrayList<>();
 
@@ -92,7 +92,7 @@ public final class RequestUtils {
 
     //Make sure there are no duplicate values of the breakdown
     List<Integer> list = filters.stream().map(StatisticsBreakdownValueFilter::getBreakdown).filter(Objects::nonNull)
-        .collect(Collectors.toList());
+        .toList();
     Set<Integer> set = new HashSet<>(list);
 
     boolean hasNoDuplicateBreakdowns = set.size() == list.size();

@@ -110,7 +110,7 @@ class StatisticsServiceTest {
 
         statisticsService = new StatisticsService(mongoSDDao);
 
-        ResultListFilters resultListFilters = statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
+        ResultListFilters resultListFilters = statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero("");
 
         assertEquals(7, resultListFilters.getAllBreakdowns().size());
         assertTrue(List.of("contentTier", "country", "dataProvider", "metadataTier", "provider", "rightsCategory", "type").equals(
@@ -142,7 +142,7 @@ class StatisticsServiceTest {
 
         statisticsService = new StatisticsService(mongoSDDao);
 
-        ResultListFilters resultListFilters = statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero();
+        ResultListFilters resultListFilters = statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero("");
 
         assertEquals(7, resultListFilters.getAllBreakdowns().size());
         assertTrue(List.of("contentTier", "country", "dataProvider", "metadataTier", "provider", "rightsCategory", "type").equals(
