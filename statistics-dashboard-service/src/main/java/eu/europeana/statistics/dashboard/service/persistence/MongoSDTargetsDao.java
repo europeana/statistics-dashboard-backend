@@ -19,17 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 /**
  * Data access object for the Statistics Dashboard Mongo.
  */
 public class MongoSDTargetsDao {
 
   private final Datastore datastore;
-  private static final Logger LOGGER = LoggerFactory.getLogger(MongoSDTargetsDao.class);
 
   /**
    * Constructor.

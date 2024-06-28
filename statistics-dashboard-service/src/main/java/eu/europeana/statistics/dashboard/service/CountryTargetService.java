@@ -13,15 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Service
 public class CountryTargetService {
 
     private final MongoSDTargetsDao mongoSDTargetsDao;
     private final String[] targetTypes = new String[]{ "three_d", "hq", "total" };
-    private static final Logger LOGGER = LoggerFactory.getLogger(CountryTargetService.class);
 
     /**
      *
@@ -40,9 +36,6 @@ public class CountryTargetService {
      */
     public List<HistoricalCountryTargetDataResult> getCountryDataAll(){
       List<Historical> historicalData = mongoSDTargetsDao.getCountryTargetData();
-
-      LOGGER.info("getCountryDataAll().........");
-
       return historicalData.stream().map(data -> new HistoricalCountryTargetDataResult(
           data.getCountry(),
           data.getTimestamp(),
