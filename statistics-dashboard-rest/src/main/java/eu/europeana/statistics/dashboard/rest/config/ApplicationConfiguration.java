@@ -8,7 +8,9 @@ import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfiguration
 import eu.europeana.metis.utils.apm.ElasticAPMConfiguration;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
+import eu.europeana.statistics.dashboard.service.CountryTargetService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
+import eu.europeana.statistics.dashboard.service.persistence.MongoSDTargetsDao;
 import jakarta.annotation.PreDestroy;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -88,9 +90,19 @@ public class ApplicationConfiguration {
   }
 
   @Bean
+  public MongoSDTargetsDao getMongoSDTargetsDao(){
+    return new MongoSDTargetsDao(mongoClient, properties.getMongoDatabaseName(), false);
+  }
+
+  @Bean
   public StatisticsService getStatisticsService(MongoSDDao mongoSDDao){
     this.statisticsService = new StatisticsService(mongoSDDao);
     return statisticsService;
+  }
+
+  @Bean
+  public CountryTargetService getCountryTargetService(MongoSDTargetsDao mongoSDTargetsDao){
+    return new CountryTargetService(mongoSDTargetsDao);
   }
 
   @Bean
