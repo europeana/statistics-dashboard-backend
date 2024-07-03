@@ -3,7 +3,7 @@ package eu.europeana.statistics.dashboard.common.api.response.targetdata;
 import java.util.List;
 
 /**
- * Class that encapsulates historical data for a specific date
+ * Class that encapsulates target data for a specific country
  */
 public class CountryTargetResult {
 
