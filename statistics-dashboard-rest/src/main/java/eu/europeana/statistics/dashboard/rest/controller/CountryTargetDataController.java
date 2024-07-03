@@ -25,7 +25,6 @@ public class CountryTargetDataController {
 
     public static final String TARGET_DATA_COUNTRY_ALL = "/statistics/europeana/target/country/all";
     public static final String TARGET_DATA_TARGETS = "/statistics/europeana/targets";
-
     public static final String APPLICATION_JSON = "application/json";
     public static final String CONTROLLER_TAG_NAME = "CountryTargetDataController";
 

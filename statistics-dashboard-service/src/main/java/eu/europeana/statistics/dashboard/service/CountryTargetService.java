@@ -7,7 +7,7 @@ import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryT
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetData;
 
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
-//import eu.europeana.statistics.dashboard.common.internal.TargetType;
+import eu.europeana.statistics.dashboard.common.internal.TargetType;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,6 @@ import java.util.List;
 public class CountryTargetService {
 
     private final MongoSDDao mongoSDDao;
-    private final String[] targetTypes = new String[]{ "three_d", "hq", "total" };
 
     /**
      *
@@ -48,22 +47,30 @@ public class CountryTargetService {
     public List<CountryTargetResult> getCountryTargets(){
 
       List<Target> targetData = mongoSDDao.getCountryTargets();
-
       List<CountryTargetResult> result = new ArrayList<>();
 
       for (Target data : targetData) {
         String country = data.getCountry();
-        int[] values = new int[]{ data.getThreeD(), data.getHighQuality(), data.getTotalRecords() };
-
-        for (int i = 0; i < values.length; i++) {
-          result.add(new CountryTargetResult(
-              country,
-              targetTypes[i],
-              data.getYear(),
-              values[i]
-          ));
-        }
+        result.add(new CountryTargetResult(
+            country,
+            TargetType.THREE_D,
+            data.getYear(),
+            data.getThreeD()
+        ));
+        result.add(new CountryTargetResult(
+            country,
+            TargetType.HIGH_QUALITY,
+            data.getYear(),
+            data.getHighQuality()
+        ));
+        result.add(new CountryTargetResult(
+            country,
+            TargetType.TOTAL_RECORDS,
+            data.getYear(),
+            data.getTotalRecords()
+        ));
       }
       return result;
     }
+
 }

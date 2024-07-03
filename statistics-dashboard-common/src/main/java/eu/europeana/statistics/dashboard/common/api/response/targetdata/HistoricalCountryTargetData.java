@@ -74,4 +74,5 @@ public class HistoricalCountryTargetData {
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
+
 }
