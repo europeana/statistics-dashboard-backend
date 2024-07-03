@@ -2,7 +2,7 @@ package eu.europeana.statistics.dashboard.service;
 
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryTargetResult;
 import eu.europeana.statistics.dashboard.common.internal.model.Target;
-import eu.europeana.statistics.dashboard.service.persistence.MongoSDTargetsDao;
+import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class CountryTargetServiceTest {
 
     @Mock
-    private MongoSDTargetsDao mockMongoSDTargetsDao;
+    private MongoSDDao mockMongoSDDao;
 
     @InjectMocks
     private CountryTargetService countryTargetService;
@@ -37,7 +37,7 @@ public class CountryTargetServiceTest {
       );
       List<Target> daoResult = List.of(tdm);
 
-      when(mockMongoSDTargetsDao.getCountryTargets()).thenReturn(daoResult);
+      when(mockMongoSDDao.getCountryTargets()).thenReturn(daoResult);
 
       List<CountryTargetResult> result = countryTargetService.getCountryTargets();
 

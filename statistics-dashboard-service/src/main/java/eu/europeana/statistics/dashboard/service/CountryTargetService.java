@@ -6,7 +6,7 @@ import eu.europeana.statistics.dashboard.common.internal.model.Target;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryTargetResult;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetData;
 
-import eu.europeana.statistics.dashboard.service.persistence.MongoSDTargetsDao;
+import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 //import eu.europeana.statistics.dashboard.common.internal.TargetType;
 
 import org.springframework.stereotype.Service;
@@ -17,22 +17,22 @@ import java.util.List;
 @Service
 public class CountryTargetService {
 
-    private final MongoSDTargetsDao mongoSDTargetsDao;
+    private final MongoSDDao mongoSDDao;
     private final String[] targetTypes = new String[]{ "three_d", "hq", "total" };
 
     /**
      *
-     * @param mongoSDTargetsDao - The mongo database it connects to
+     * @param mongoSDDao - The mongo database it connects to
      */
-    public CountryTargetService(MongoSDTargetsDao mongoSDTargetsDao) {
-        this.mongoSDTargetsDao = mongoSDTargetsDao;
+    public CountryTargetService(MongoSDDao mongoSDDao) {
+        this.mongoSDDao = mongoSDDao;
     }
 
     /**
      * @return all HistoricalCountryTargetData objects
      */
     public List<HistoricalCountryTargetData> getAllCountryData(){
-      List<Historical> historicalData = mongoSDTargetsDao.getCountryTargetData();
+      List<Historical> historicalData = mongoSDDao.getCountryTargetData();
       return historicalData.stream().map(data -> new HistoricalCountryTargetData(
           data.getCountry(),
           data.getTimestamp(),
@@ -47,7 +47,7 @@ public class CountryTargetService {
      */
     public List<CountryTargetResult> getCountryTargets(){
 
-      List<Target> targetData = mongoSDTargetsDao.getCountryTargets();
+      List<Target> targetData = mongoSDDao.getCountryTargets();
 
       List<CountryTargetResult> result = new ArrayList<>();
 
