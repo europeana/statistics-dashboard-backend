@@ -19,18 +19,18 @@ public class CountryTargetResult {
     private String targetType;
     //private TargetType targetType;
 
-    private String label;
+    private int targetYear;
     private int value;
 
     public CountryTargetResult(
      String country,
      String targetType,
-     String label,
+     int targetYear,
      int value
      ) {
         this.country = country;
         this.targetType = targetType;
-        this.label = label;
+        this.targetYear = targetYear;
         this.value = value;
     }
 
@@ -38,12 +38,12 @@ public class CountryTargetResult {
     public CountryTargetResult(
      String country,
      TargetType targetType,
-     String label,
+     int targetYear,
      int value
      ) {
         this.country = country;
         this.targetType = targetType;
-        this.label = label;
+        this.targetYear = targetYear;
         this.value = value;
     }
     */
@@ -75,12 +75,12 @@ public class CountryTargetResult {
     }
     */
 
-    public String getLabel() {
-        return label;
+    public int getTargetYear() {
+        return targetYear;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setTargetYear(int targetYear) {
+        this.targetYear = targetYear;
     }
 
     public int getValue() {

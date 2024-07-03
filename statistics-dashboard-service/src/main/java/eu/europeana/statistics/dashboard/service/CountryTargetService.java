@@ -52,7 +52,6 @@ public class CountryTargetService {
       List<CountryTargetResult> result = new ArrayList<>();
 
       for (Target data : targetData) {
-        String label = Integer.toString(data.getYear());
         String country = data.getCountry();
         int[] values = new int[]{ data.getThreeD(), data.getHighQuality(), data.getTotalRecords() };
 
@@ -60,7 +59,7 @@ public class CountryTargetService {
           result.add(new CountryTargetResult(
               country,
               targetTypes[i],
-              label,
+              data.getYear(),
               values[i]
           ));
         }
