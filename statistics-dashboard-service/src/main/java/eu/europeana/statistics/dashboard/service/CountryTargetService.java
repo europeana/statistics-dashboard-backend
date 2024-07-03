@@ -7,6 +7,7 @@ import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryT
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetDataResult;
 
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDTargetsDao;
+//import eu.europeana.statistics.dashboard.common.internal.TargetType;
 
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,6 @@ public class CountryTargetService {
       for (Target data : targetData) {
         String label = Integer.toString(data.getYear());
         String country = data.getCountry();
-        boolean interim = data.getYear() == 2025;
         int[] values = new int[]{ data.getThreeD(), data.getHighQuality(), data.getTotalRecords() };
 
         for (int i = 0; i < values.length; i++) {
@@ -69,8 +69,7 @@ public class CountryTargetService {
               country,
               targetTypes[i],
               label,
-              values[i],
-              interim
+              values[i]
           ));
         }
       }

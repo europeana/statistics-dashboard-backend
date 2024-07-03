@@ -42,7 +42,6 @@ public class CountryTargetServiceTest {
       List<CountryTargetResult> result = countryTargetService.getCountryTargets();
 
       assertEquals(Integer.toString(tdm.getYear()), result.get(0).getLabel());
-      assertEquals(true, result.get(0).getInterim());
       assertEquals(1, daoResult.size());
       assertEquals(daoResult.size() * 3, result.size());
 
