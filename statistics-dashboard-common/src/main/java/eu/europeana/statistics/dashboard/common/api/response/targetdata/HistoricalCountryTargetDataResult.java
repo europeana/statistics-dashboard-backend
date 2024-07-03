@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.common.api.response.targetdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,22 +12,27 @@ public class HistoricalCountryTargetDataResult {
     private LocalDateTime date;
     private String country;
 
-    private int three_d;
-    private int hq;
-    private int total;
+    @JsonProperty("three_d")
+    private int threeD;
+
+    @JsonProperty("hq")
+    private int highQuality;
+
+    @JsonProperty("total")    
+    private int totalNumberRecords;
 
     public HistoricalCountryTargetDataResult(
      String country,
      LocalDateTime date,
-     int three_d,
-     int hq,
-     int total
+     int threeD,
+     int highQuality,
+     int totalNumberRecords
      ) {
         this.country = country;
         this.date = date;
-        this.three_d = three_d;
-        this.hq = hq;
-        this.total = total;
+        this.threeD = threeD;
+        this.highQuality = highQuality;
+        this.totalNumberRecords = totalNumberRecords;
     }
 
     public String getCountry() {
@@ -37,28 +43,28 @@ public class HistoricalCountryTargetDataResult {
         this.country = country;
     }
 
-    public int getThree_d() {
-        return three_d;
+    public int getThreeD() {
+        return threeD;
     }
 
-    public void setTHREE_D(Integer three_d) {
-        this.three_d = three_d;
+    public void setThreeD(Integer threeD) {
+        this.threeD = threeD;
     }
 
-    public int getHQ() {
-        return hq;
+    public int getHighQuality() {
+        return highQuality;
     }
 
-    public void setHQ(Integer hq) {
-        this.hq = hq;
+    public void setHighQuality(Integer highQuality) {
+        this.highQuality = highQuality;
     }
 
-    public int getTotal() {
-        return total;
+    public int getTotalNumberRecords() {
+        return totalNumberRecords;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setTotalNumberRecords(Integer totalNumberRecords) {
+        this.totalNumberRecords = totalNumberRecords;
     }
 
     public LocalDateTime getDate() {
