@@ -56,7 +56,7 @@ public class CountryTargetService {
 
       List<Target> targetData = mongoSDTargetsDao.getCountryTargets();
 
-      ArrayList<CountryTargetResult> result = new ArrayList<>();
+      List<CountryTargetResult> result = new ArrayList<>();
 
       for (Target data : targetData) {
         String label = Integer.toString(data.getYear());

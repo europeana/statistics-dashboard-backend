@@ -43,7 +43,7 @@ public class MongoSDTargetsDao {
    * Return all Historical entities
    */
   public List<Historical> getCountryTargetData(){
-    ArrayList<Historical> queryResult = new ArrayList<>();
+    List<Historical> queryResult = new ArrayList<>();
     Query<Historical> result = retryableExternalRequestForNetworkExceptions(() ->
             datastore.find(Historical.class));
     result.forEach(queryResult::add);
@@ -54,7 +54,7 @@ public class MongoSDTargetsDao {
    * Return all Target entities
    */
   public List<Target> getCountryTargets(){
-    ArrayList<Target> queryResult = new ArrayList<>();
+    List<Target> queryResult = new ArrayList<>();
     Query<Target> result = retryableExternalRequestForNetworkExceptions(() ->
             datastore.find(Target.class));
     result.forEach(queryResult::add);
