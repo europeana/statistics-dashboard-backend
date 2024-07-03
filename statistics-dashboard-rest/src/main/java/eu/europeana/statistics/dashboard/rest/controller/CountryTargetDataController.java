@@ -5,7 +5,7 @@ import java.util.List;
 import eu.europeana.statistics.dashboard.common.internal.model.Target;
 
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryTargetResult;
-import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetDataResult;
+import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetData;
 import eu.europeana.statistics.dashboard.service.CountryTargetService;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,20 +40,19 @@ public class CountryTargetDataController {
     }
 
     /**
-     *
-     * @return HistoricalCountryTargetDataResult
+     * @return all HistoricalCountryTargetData objects
      */
     @GetMapping(value = TARGET_DATA_COUNTRY_ALL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns country target data", response = HistoricalCountryTargetDataResult.class)
+    @ApiOperation(value = "Returns country target data", response = HistoricalCountryTargetData.class)
 
-    /**
-     * @return all HistoricalCountryTargetDataResult objects
-     */
-    public List<HistoricalCountryTargetDataResult> getAllCountryData(){
+    public List<HistoricalCountryTargetData> getAllCountryData(){
         return countryTargetService.getAllCountryData();
     }
 
+    /**
+     * @return the country target result objects
+     */
     @GetMapping(value = TARGET_DATA_TARGETS, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Returns country targets", response = CountryTargetResult.class)

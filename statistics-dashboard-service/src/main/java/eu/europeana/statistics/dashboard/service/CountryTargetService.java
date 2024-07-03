@@ -4,7 +4,7 @@ import eu.europeana.statistics.dashboard.common.internal.model.Historical;
 import eu.europeana.statistics.dashboard.common.internal.model.Target;
 
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryTargetResult;
-import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetDataResult;
+import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetData;
 
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDTargetsDao;
 //import eu.europeana.statistics.dashboard.common.internal.TargetType;
@@ -29,11 +29,11 @@ public class CountryTargetService {
     }
 
     /**
-     * @return all HistoricalCountryTargetDataResult objects
+     * @return all HistoricalCountryTargetData objects
      */
-    public List<HistoricalCountryTargetDataResult> getAllCountryData(){
+    public List<HistoricalCountryTargetData> getAllCountryData(){
       List<Historical> historicalData = mongoSDTargetsDao.getCountryTargetData();
-      return historicalData.stream().map(data -> new HistoricalCountryTargetDataResult(
+      return historicalData.stream().map(data -> new HistoricalCountryTargetData(
           data.getCountry(),
           data.getTimestamp(),
           data.getThreeD(),
@@ -43,7 +43,7 @@ public class CountryTargetService {
     }
 
     /**
-     * @return all HistoricalCountryTargetDataResult objects
+     * @return all HistoricalCountryTargetData objects
      */
     public List<CountryTargetResult> getCountryTargets(){
 

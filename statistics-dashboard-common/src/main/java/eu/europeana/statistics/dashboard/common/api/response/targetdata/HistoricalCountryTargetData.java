@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Class that encapsulates historical data for a specific date
  */
-public class HistoricalCountryTargetDataResult {
+public class HistoricalCountryTargetData {
 
     private LocalDateTime date;
     private String country;
@@ -18,10 +18,10 @@ public class HistoricalCountryTargetDataResult {
     @JsonProperty("hq")
     private int highQuality;
 
-    @JsonProperty("total")    
+    @JsonProperty("total")
     private int totalNumberRecords;
 
-    public HistoricalCountryTargetDataResult(
+    public HistoricalCountryTargetData(
      String country,
      LocalDateTime date,
      int threeD,
