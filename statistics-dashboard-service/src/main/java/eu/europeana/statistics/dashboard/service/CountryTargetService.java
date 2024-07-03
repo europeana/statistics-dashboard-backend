@@ -28,14 +28,10 @@ public class CountryTargetService {
         this.mongoSDTargetsDao = mongoSDTargetsDao;
     }
 
-    public String[] getTargetTypes(){
-      return targetTypes;
-    }
-
     /**
      * @return all HistoricalCountryTargetDataResult objects
      */
-    public List<HistoricalCountryTargetDataResult> getCountryDataAll(){
+    public List<HistoricalCountryTargetDataResult> getAllCountryData(){
       List<Historical> historicalData = mongoSDTargetsDao.getCountryTargetData();
       return historicalData.stream().map(data -> new HistoricalCountryTargetDataResult(
           data.getCountry(),
@@ -44,10 +40,6 @@ public class CountryTargetService {
           data.getHighQuality(),
           data.getTotalRecords())
       ).toList();
-    }
-
-    public List<Target> getCountryTargetsRaw(){
-      return mongoSDTargetsDao.getCountryTargets();
     }
 
     /**

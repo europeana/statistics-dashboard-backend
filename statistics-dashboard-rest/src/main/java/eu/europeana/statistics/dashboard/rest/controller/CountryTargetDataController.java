@@ -47,8 +47,11 @@ public class CountryTargetDataController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Returns country target data", response = HistoricalCountryTargetDataResult.class)
 
-    public List<HistoricalCountryTargetDataResult> getCountryDataAll(){
-        return countryTargetService.getCountryDataAll();
+    /**
+     * @return all HistoricalCountryTargetDataResult objects
+     */
+    public List<HistoricalCountryTargetDataResult> getAllCountryData(){
+        return countryTargetService.getAllCountryData();
     }
 
     @GetMapping(value = TARGET_DATA_TARGETS, produces = {APPLICATION_JSON})

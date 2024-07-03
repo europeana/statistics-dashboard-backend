@@ -45,15 +45,12 @@ public class CountryTargetServiceTest {
       assertEquals(1, daoResult.size());
       assertEquals(daoResult.size() * 3, result.size());
 
-      int i = 0;
-      for (String s : countryTargetService.getTargetTypes()) {
-        assertEquals(s, result.get(i).getTargetType());
-        i++;
-      }
-      for (i = 0; i < 3; i++) {
+      assertEquals("three_d", result.get(0).getTargetType());
+      assertEquals("hq", result.get(1).getTargetType());
+      assertEquals("total", result.get(2).getTargetType());
+
+      for (int i = 0; i < 3; i++) {
         assertEquals(daoResultValues[i], result.get(i).getValue());
       }
-
-     }
-
+   }
 }
