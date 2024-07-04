@@ -20,6 +20,14 @@ public class HistoricalCountryTargetData {
     @JsonProperty("total")
     private int totalNumberRecords;
 
+    /**
+     * constructor
+     * @param country - the country
+     * @param date - the date
+     * @param threeD - the threeD value
+     * @param highQuality - the highQuality value
+     * @param totalNumberRecords - the totalNumberRecords value
+     */
     public HistoricalCountryTargetData(
      String country,
      LocalDateTime date,

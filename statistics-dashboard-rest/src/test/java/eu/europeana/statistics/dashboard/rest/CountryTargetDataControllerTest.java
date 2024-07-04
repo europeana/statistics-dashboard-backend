@@ -38,7 +38,7 @@ class CountryTargetDataControllerTest {
         2,
         3
       );
-    
+
     List<HistoricalCountryTargetData> result = List.of(data1);
     when(countryTargetService.getAllCountryData()).thenReturn(result);
     List<HistoricalCountryTargetData> testResult = controller.getAllCountryData();
@@ -72,10 +72,10 @@ class CountryTargetDataControllerTest {
     );
     when(countryTargetService.getCountryTargets()).thenReturn(result);
     List<CountryTargetResult> testResult = controller.getCountryTargets();
-    assertEquals(result, testResult);
-    assertEquals(testResult.get(0).getTargetType(), TargetType.THREE_D);
-    assertEquals(testResult.get(1).getTargetType(), TargetType.HIGH_QUALITY);
-    assertEquals(testResult.get(2).getTargetType(), TargetType.TOTAL_RECORDS);
+    assertEquals(testResult, result);
+    assertEquals(TargetType.THREE_D, testResult.get(0).getTargetType());
+    assertEquals(TargetType.HIGH_QUALITY, testResult.get(1).getTargetType());
+    assertEquals(TargetType.TOTAL_RECORDS, testResult.get(2).getTargetType());
   }
 
 }

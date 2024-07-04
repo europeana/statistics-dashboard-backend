@@ -14,6 +14,10 @@ public class CountryTargetResult {
 
     /**
      * constructor
+     * @param country - the country
+     * @param targetType - the TargetType
+     * @param targetYear - the targetYear
+     * @param value - the value
      */
     public CountryTargetResult(
      String country,
