@@ -32,6 +32,8 @@ public class CountryTargetDataController {
 
     /**
      * Autowired constructor
+     *
+     * @param countryTargetService the injected service
      */
     @Autowired
     public CountryTargetDataController(CountryTargetService countryTargetService) {

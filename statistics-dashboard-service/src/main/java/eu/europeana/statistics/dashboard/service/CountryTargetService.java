@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for retrieving data pertaining to country targets
+ */
 @Service
 public class CountryTargetService {
 

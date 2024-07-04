@@ -1,7 +1,5 @@
 package eu.europeana.statistics.dashboard.common.api.response.targetdata;
 
-import java.util.List;
-
 import eu.europeana.statistics.dashboard.common.internal.TargetType;
 
 /**
@@ -14,6 +12,9 @@ public class CountryTargetResult {
     private int targetYear;
     private int value;
 
+    /**
+     * constructor
+     */
     public CountryTargetResult(
      String country,
      TargetType targetType,

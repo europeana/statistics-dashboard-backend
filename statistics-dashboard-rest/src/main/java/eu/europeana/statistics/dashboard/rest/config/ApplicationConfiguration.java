@@ -94,11 +94,21 @@ public class ApplicationConfiguration {
     return statisticsService;
   }
 
+  /**
+   * Declare the CountryTargetService and autowire to the mongoSDDao
+   *
+   * @param mongoSDDao the data source.
+   */
   @Bean
   public CountryTargetService getCountryTargetService(MongoSDDao mongoSDDao){
     return new CountryTargetService(mongoSDDao);
   }
 
+  /**
+   * Declare the TargetDataService and autowire to the mongoSDDao
+   *
+   * @param mongoSDDao the data source.
+   */
   @Bean
   public TargetDataService getTargetDataService(MongoSDDao mongoSDDao){
     return new TargetDataService(mongoSDDao);

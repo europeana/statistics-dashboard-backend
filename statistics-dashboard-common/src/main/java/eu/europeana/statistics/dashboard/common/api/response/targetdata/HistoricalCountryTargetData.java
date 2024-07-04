@@ -2,7 +2,6 @@ package eu.europeana.statistics.dashboard.common.api.response.targetdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Class that encapsulates historical data for a specific date
