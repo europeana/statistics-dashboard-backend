@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum TargetType {
 
     THREE_D("three_d"),
-    HIGH_QUALITY("hq"),
+    HIGH_QUALITY("high_quality"),
     TOTAL_RECORDS("total"),;
 
     private final String valueAsString;

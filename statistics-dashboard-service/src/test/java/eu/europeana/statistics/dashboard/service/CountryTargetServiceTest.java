@@ -46,7 +46,7 @@ public class CountryTargetServiceTest {
       assertEquals(daoResult.size() * 3, result.size());
 
       assertEquals("three_d", result.get(0).getTargetType().getValue());
-      assertEquals("hq", result.get(1).getTargetType().getValue());
+      assertEquals("high_quality", result.get(1).getTargetType().getValue());
       assertEquals("total", result.get(2).getTargetType().getValue());
 
       for (int i = 0; i < 3; i++) {

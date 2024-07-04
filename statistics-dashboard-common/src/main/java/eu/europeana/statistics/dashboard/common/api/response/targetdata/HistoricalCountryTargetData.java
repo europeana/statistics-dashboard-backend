@@ -15,7 +15,7 @@ public class HistoricalCountryTargetData {
     @JsonProperty("three_d")
     private int threeD;
 
-    @JsonProperty("hq")
+    @JsonProperty("high_quality")
     private int highQuality;
 
     @JsonProperty("total")
