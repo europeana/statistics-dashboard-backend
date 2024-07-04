@@ -30,31 +30,52 @@ class CountryTargetDataControllerTest {
 
   @Test
   void getAllCountryData() {
-    HistoricalCountryTargetData data = new HistoricalCountryTargetData(
+
+    HistoricalCountryTargetData data1 = new HistoricalCountryTargetData(
       "Germany",
         LocalDateTime.now(),
         1,
         2,
         3
       );
-    List<HistoricalCountryTargetData> result = List.of(data);
+    
+    List<HistoricalCountryTargetData> result = List.of(data1);
     when(countryTargetService.getAllCountryData()).thenReturn(result);
     List<HistoricalCountryTargetData> testResult = controller.getAllCountryData();
     assertEquals(result, testResult);
+
+    HistoricalCountryTargetData firstResult = testResult.get(0);
+    assertEquals(firstResult.getCountry(), "Germany");
+    assertEquals(firstResult.getThreeD(), 1);
+    assertEquals(firstResult.getHighQuality(), 2);
+    assertEquals(firstResult.getTotalNumberRecords(), 3);
   }
 
   @Test
   void getCountryTargets() {
-    CountryTargetResult data = new CountryTargetResult(
-      "Germany",
-      TargetType.THREE_D,
-      2030,
-      50000);
-
-    List<CountryTargetResult> result = List.of(data);
+    List<CountryTargetResult> result = List.of(
+      new CountryTargetResult(
+        "Germany",
+        TargetType.THREE_D,
+        2030,
+        500),
+      new CountryTargetResult(
+        "Germany",
+        TargetType.HIGH_QUALITY,
+        2030,
+        1500),
+      new CountryTargetResult(
+        "Germany",
+        TargetType.TOTAL_RECORDS,
+        2030,
+        2500)
+    );
     when(countryTargetService.getCountryTargets()).thenReturn(result);
     List<CountryTargetResult> testResult = controller.getCountryTargets();
     assertEquals(result, testResult);
+    assertEquals(testResult.get(0).getTargetType(), TargetType.THREE_D);
+    assertEquals(testResult.get(1).getTargetType(), TargetType.HIGH_QUALITY);
+    assertEquals(testResult.get(2).getTargetType(), TargetType.TOTAL_RECORDS);
   }
 
 }
