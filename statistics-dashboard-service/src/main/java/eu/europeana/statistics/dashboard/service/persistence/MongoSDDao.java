@@ -146,4 +146,26 @@ public class MongoSDDao {
   public boolean doesCollectionDataExist(String collectionName){
     return datastore.getDatabase().listCollectionNames().into(new ArrayList<String>()).contains(collectionName);
   }
+
+  /**
+   * Return all Historical entities
+   */
+  public List<Historical> getCountryTargetData(){
+    List<Historical> queryResult = new ArrayList<>();
+    Query<Historical> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(Historical.class));
+    result.forEach(queryResult::add);
+    return queryResult;
+  }
+
+  /**
+   * Return all Target entities
+   */
+  public List<Target> getCountryTargets(){
+    List<Target> queryResult = new ArrayList<>();
+    Query<Target> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(Target.class));
+    result.forEach(queryResult::add);
+    return queryResult;
+  }
 }

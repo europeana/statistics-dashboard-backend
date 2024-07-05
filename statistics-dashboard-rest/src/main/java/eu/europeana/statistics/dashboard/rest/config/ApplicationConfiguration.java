@@ -8,6 +8,7 @@ import eu.europeana.metis.utils.CustomTruststoreAppender.TrustStoreConfiguration
 import eu.europeana.metis.utils.apm.ElasticAPMConfiguration;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
+import eu.europeana.statistics.dashboard.service.CountryTargetService;
 import eu.europeana.statistics.dashboard.service.persistence.MongoSDDao;
 import jakarta.annotation.PreDestroy;
 import org.apache.commons.lang3.StringUtils;
@@ -93,6 +94,23 @@ public class ApplicationConfiguration {
     return statisticsService;
   }
 
+  /**
+   * Declare the CountryTargetService and autowire to the mongoSDDao
+   *
+   * @param mongoSDDao the data source.
+   * @return a CountryTargetService instance.
+   */
+  @Bean
+  public CountryTargetService getCountryTargetService(MongoSDDao mongoSDDao){
+    return new CountryTargetService(mongoSDDao);
+  }
+
+  /**
+   * Declare the TargetDataService and autowire to the mongoSDDao
+   *
+   * @param mongoSDDao the data source.
+   * @return a TargetDataService instance.
+   */
   @Bean
   public TargetDataService getTargetDataService(MongoSDDao mongoSDDao){
     return new TargetDataService(mongoSDDao);
