@@ -31,9 +31,10 @@ class CountryTargetDataControllerTest {
   @Test
   void getAllCountryData() {
 
+    LocalDateTime mockTime = LocalDateTime.now();
     HistoricalCountryTargetData data1 = new HistoricalCountryTargetData(
       "Germany",
-        LocalDateTime.now(),
+        mockTime,
         1,
         2,
         3
@@ -44,8 +45,9 @@ class CountryTargetDataControllerTest {
     List<HistoricalCountryTargetData> testResult = controller.getAllCountryData();
     assertEquals(result, testResult);
 
-    HistoricalCountryTargetData firstResult = testResult.get(0);
+    HistoricalCountryTargetData firstResult = testResult.getFirst();
     assertEquals(firstResult.getCountry(), "Germany");
+    assertEquals(firstResult.getDate(), mockTime);
     assertEquals(firstResult.getThreeD(), 1);
     assertEquals(firstResult.getHighQuality(), 2);
     assertEquals(firstResult.getTotalNumberRecords(), 3);
@@ -72,10 +74,18 @@ class CountryTargetDataControllerTest {
     );
     when(countryTargetService.getCountryTargets()).thenReturn(result);
     List<CountryTargetResult> testResult = controller.getCountryTargets();
-    assertEquals(testResult, result);
+    assertEquals("Germany", testResult.get(0).getCountry());
+    assertEquals("Germany", testResult.get(1).getCountry());
+    assertEquals("Germany", testResult.get(2).getCountry());
     assertEquals(TargetType.THREE_D, testResult.get(0).getTargetType());
     assertEquals(TargetType.HIGH_QUALITY, testResult.get(1).getTargetType());
     assertEquals(TargetType.TOTAL_RECORDS, testResult.get(2).getTargetType());
+    assertEquals(2030, testResult.get(0).getTargetYear());
+    assertEquals(2030, testResult.get(1).getTargetYear());
+    assertEquals(2030, testResult.get(2).getTargetYear());
+    assertEquals(500, testResult.get(0).getValue());
+    assertEquals(1500, testResult.get(1).getValue());
+    assertEquals(2500, testResult.get(2).getValue());
   }
 
 }
