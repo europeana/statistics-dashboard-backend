@@ -26,7 +26,7 @@ public class TargetDataRunner{
     private static final String COMMA_DELIMITER = ",";
     private static final Logger LOGGER = LoggerFactory.getLogger(TargetDataRunner.class);
 
-    public static void runTargetDataScript (MongoSDDao mongoSDDao) throws DataAccessConfigException {
+    public static void runTargetDataScript (MongoSDDao mongoSDDao) {
 
         String fileName = "statistics-dashboard-worker/src/main/resources/TargetData.csv";
         List<List<String>> targetData = readCsvFile(fileName);
@@ -57,10 +57,10 @@ public class TargetDataRunner{
         for(int i = 1; i < targetData.size(); i++){
             List<String> row = targetData.get(i);
             LOGGER.info("Started writing data of country {} into database", row.get(0));
-            Target firstModel = new Target(row.get(0), Integer.parseInt(row.get(1)),
-                    Integer.parseInt(row.get(2)), Integer.parseInt(row.get(3)), 2025);
-            Target secondModel = new Target(row.get(0), Integer.parseInt(row.get(4)),
-                    Integer.parseInt(row.get(5)), Integer.parseInt(row.get(6)), 2030);
+            Target firstModel = new Target(row.get(0), Integer.parseInt(row.get(3)),
+                    Integer.parseInt(row.get(2)), Integer.parseInt(row.get(1)), 2025);
+            Target secondModel = new Target(row.get(0), Integer.parseInt(row.get(6)),
+                    Integer.parseInt(row.get(5)), Integer.parseInt(row.get(4)), 2030);
             results.add(firstModel);
             results.add(secondModel);
         }
