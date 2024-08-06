@@ -42,15 +42,15 @@ public class ScriptsRunner implements CommandLineRunner {
             MongoSDDao mongoSDDao = new MongoSDDao(mongoSDClient, propertiesHolder.getMongoSDDatabase(), true);
 
             //If there is *no* Target data collection, then run this script
-            if(!mongoSDDao.doesCollectionDataExist("Target")){
-                LOGGER.info("Starting target script execution");
-                TargetDataRunner.runTargetDataScript(mongoSDDao);
-                LOGGER.info("Finished target script execution");
-            }
-
-            LOGGER.info("Starting analyze data script execution");
-            AnalyzerRunner.runAnalyzeScript(mongoCoreDao, nativeSolrClient, mongoSDDao);
-            LOGGER.info("Finished analyze data script execution");
+//            if(!mongoSDDao.doesCollectionDataExist("Target")){
+//                LOGGER.info("Starting target script execution");
+//                TargetDataRunner.runTargetDataScript(mongoSDDao);
+//                LOGGER.info("Finished target script execution");
+//            }
+//
+//            LOGGER.info("Starting analyze data script execution");
+//            AnalyzerRunner.runAnalyzeScript(mongoCoreDao, nativeSolrClient, mongoSDDao);
+//            LOGGER.info("Finished analyze data script execution");
 
             LOGGER.info("Starting historical data script execution");
             HistoricalDataRunner.runHistoricalScript(mongoSDDao);
