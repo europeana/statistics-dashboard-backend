@@ -1,5 +1,6 @@
 package eu.europeana.statistics.dashboard.worker.harvest;
 
+import eu.europeana.metis.utils.Country;
 import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -191,7 +192,7 @@ public class SolrHarvester {
   private static StatisticsRecordModel convert(Map<String, String> properties, int recordCount) {
     final StatisticsRecordModel result = new StatisticsRecordModel();
     result.setContentTier(Objects.requireNonNull(properties.get(CONTENT_TIER_FIELD)));
-    result.setCountry(Objects.requireNonNull(properties.get(COUNTRY_FIELD)));
+    result.setCountry(Objects.requireNonNull(Country.fromCountryNameToIsoCode(properties.get(COUNTRY_FIELD)).getIsoCode()));
     result.setDataProvider(Objects.requireNonNull(properties.get(DATA_PROVIDER_FIELD)));
     result.setMetadataTier(Objects.requireNonNull(properties.get(METADATA_TIER_FIELD)));
     result.setProvider(Objects.requireNonNull(properties.get(PROVIDER_FIELD)));
