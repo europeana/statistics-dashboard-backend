@@ -30,6 +30,7 @@ public class HistoricalDataRunner{
         StatisticsQuery query3D = mongoSDDao.createStatisticsQuery();
         query3D.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
         query3D.withValueFilter(MongoStatisticsField.TYPE, List.of("3D"));
+        query3D.withValueFilter(MongoStatisticsField.CONTENT_TIER, List.of("1", "2", "3", "4")); //Exclude content tier 0
         StatisticsData result3dQuery = query3D.queryForStatistics();
 
         StatisticsQuery queryHighQuality = mongoSDDao.createStatisticsQuery();
@@ -39,6 +40,7 @@ public class HistoricalDataRunner{
 
         StatisticsQuery queryTotalRecords = mongoSDDao.createStatisticsQuery();
         queryTotalRecords.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
+        queryTotalRecords.withValueFilter(MongoStatisticsField.CONTENT_TIER, List.of("1", "2", "3", "4")); //Exclude content tier 0
         StatisticsData resultTotalRecords = queryTotalRecords.queryForStatistics();
 
         Historical result = new Historical(country, result3dQuery.getRecordCount(),
