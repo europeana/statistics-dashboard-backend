@@ -35,6 +35,7 @@ public class HistoricalDataRunner{
         StatisticsQuery queryHighQuality = mongoSDDao.createStatisticsQuery();
         queryHighQuality.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
         queryHighQuality.withValueFilter(MongoStatisticsField.CONTENT_TIER, List.of("2", "3", "4"));
+        queryHighQuality.withValueFilter(MongoStatisticsField.METADATA_TIER, List.of("A", "B", "C"));
         StatisticsData resultHighQualityQuery = queryHighQuality.queryForStatistics();
 
         StatisticsQuery queryTotalRecords = mongoSDDao.createStatisticsQuery();
