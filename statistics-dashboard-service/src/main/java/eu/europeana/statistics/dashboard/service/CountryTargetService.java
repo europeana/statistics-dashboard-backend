@@ -44,6 +44,21 @@ public class CountryTargetService {
       ).toList();
     }
 
+    public List<HistoricalCountryTargetData> getAllCountryDataLatest(){
+
+      List<HistoricalCountryTargetData> result = new ArrayList<>();
+      List<String> countries = mongoSDDao.getAllCountryValuesTargetCollection();
+
+      for(String country : countries) {
+        Historical snapshot = mongoSDDao.generateHistoricalSnapshot(country);
+        result.add(
+          new HistoricalCountryTargetData(country, snapshot.getTimestamp(), snapshot.getThreeD(),
+        snapshot.getHighQuality(), snapshot.getTotalRecords())
+        );
+      }
+      return result;
+    }
+
     /**
      * @return all HistoricalCountryTargetData objects
      */
@@ -75,5 +90,4 @@ public class CountryTargetService {
       }
       return result;
     }
-
 }

@@ -16,9 +16,11 @@ import eu.europeana.statistics.dashboard.common.internal.model.Historical;
 import eu.europeana.statistics.dashboard.common.internal.model.StatisticsRecordModel;
 import eu.europeana.statistics.dashboard.common.internal.model.Target;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
+import eu.europeana.statistics.dashboard.common.internal.MongoStatisticsField;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 import org.bson.types.ObjectId;
 
 /**
@@ -168,4 +170,31 @@ public class MongoSDDao {
     result.forEach(queryResult::add);
     return queryResult;
   }
+
+  /**
+   * Create a Historical object (with the current time) for the given country
+   */
+  public Historical generateHistoricalSnapshot(String country){
+      StatisticsQuery query3D = this.createStatisticsQuery();
+      query3D.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
+      query3D.withValueFilter(MongoStatisticsField.TYPE, List.of("3D"));
+      query3D.withValueFilter(MongoStatisticsField.CONTENT_TIER, List.of("1", "2", "3", "4")); //Exclude content tier 0
+      StatisticsData result3dQuery = query3D.queryForStatistics();
+
+      StatisticsQuery queryHighQuality = this.createStatisticsQuery();
+      queryHighQuality.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
+      queryHighQuality.withValueFilter(MongoStatisticsField.CONTENT_TIER, List.of("2", "3", "4"));
+      queryHighQuality.withValueFilter(MongoStatisticsField.METADATA_TIER, List.of("A", "B", "C"));
+      StatisticsData resultHighQualityQuery = queryHighQuality.queryForStatistics();
+
+      StatisticsQuery queryTotalRecords = this.createStatisticsQuery();
+      queryTotalRecords.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
+      queryTotalRecords.withValueFilter(MongoStatisticsField.CONTENT_TIER, List.of("1", "2", "3", "4")); //Exclude content tier 0
+      StatisticsData resultTotalRecords = queryTotalRecords.queryForStatistics();
+
+      Historical result = new Historical(country, result3dQuery.getRecordCount(),
+              resultHighQualityQuery.getRecordCount(), resultTotalRecords.getRecordCount(), LocalDateTime.now());
+      return result;
+  }
+
 }
