@@ -36,27 +36,26 @@ public class TargetDataController {
     }
 
     /**
-     * Get a complete statistics overview over the whole Europeana database
+     * Returns all the historical data based on the given country, including their latest values per target data
      *
-     * @return A complete overview of Europeana database
-     * value = "{id}/progress", produces = APPLICATION_JSON_VALUE
+     * @return Historical data based on the given country
      */
     @GetMapping(value = TARGET_DATA_COUNTRY, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns a complete overview of Europeana's database", response = Country.class)
+    @ApiOperation(value = "Returns historical data based on the given country", response = Country.class)
     public Country getCountryData(
             @PathVariable(name = "country") String country) {
         return targetDataService.getCountryData(country);
     }
 
     /**
-     * Get the result statistics of the given {@link StatisticsFilteringRequest}.
+     * Returns the latest values of each target data for all countries
      *
-     * @return the statistics where the filters were applied
+     * @return A list of the latest values of each target data for all countries
      */
     @GetMapping(value = TARGET_DATA_OVERVIEW, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns overview current data for each type of target", response = OverviewData.class)
+    @ApiOperation(value = "Returns the latest target data for all countries", response = OverviewData.class)
     public OverviewData getOverviewData(){
         return targetDataService.getOverviewDataAllCountries();
     }
