@@ -174,7 +174,7 @@ public class MongoSDDao {
   /**
    * Create a Historical object (with the current time) for the given country
    */
-  public Historical generateHistoricalSnapshot(String country){
+  public Historical generateLatestTargetData(String country){
       StatisticsQuery query3D = this.createStatisticsQuery();
       query3D.withValueFilter(MongoStatisticsField.COUNTRY, List.of(country));
       query3D.withValueFilter(MongoStatisticsField.TYPE, List.of("3D"));

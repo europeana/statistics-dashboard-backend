@@ -10,17 +10,14 @@ import java.util.List;
 
 public class HistoricalDataRunner{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AnalyzerRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HistoricalDataRunner.class);
 
     public static void runHistoricalScript(MongoSDDao mongoSDDao){
         List<String> countries = mongoSDDao.getAllCountryValuesTargetCollection();
         for(String country : countries) {
-            writeHistoricalData(country, mongoSDDao);
+           LOGGER.info("Starting historical data process for {}", country);
+           Historical result = mongoSDDao.generateLatestTargetData(country);
+           mongoSDDao.saveHistoricalRecord(result);
         }
-    }
-
-    private static void writeHistoricalData(String country, MongoSDDao mongoSDDao){
-        Historical result = mongoSDDao.generateHistoricalSnapshot(country);
-        mongoSDDao.saveHistoricalRecord(result);
     }
 }
