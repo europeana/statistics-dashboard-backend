@@ -1,5 +1,4 @@
 package eu.europeana.statistics.dashboard.rest.controller;
-
 import java.util.List;
 
 import eu.europeana.statistics.dashboard.common.internal.model.Target;
@@ -48,7 +47,11 @@ public class CountryTargetDataController {
     @ApiOperation(value = "Returns country target data", response = HistoricalCountryTargetData.class)
 
     public List<HistoricalCountryTargetData> getAllCountryData(){
-        return countryTargetService.getAllCountryData();
+      // initalise the result with the latest data
+      List<HistoricalCountryTargetData> result = countryTargetService.getAllCountryDataLatest();
+      // add the historic data to the result
+      result.addAll(countryTargetService.getAllCountryData());
+      return result;
     }
 
     /**
