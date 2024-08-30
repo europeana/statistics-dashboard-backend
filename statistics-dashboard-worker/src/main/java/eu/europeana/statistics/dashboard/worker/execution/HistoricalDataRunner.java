@@ -13,7 +13,7 @@ public class HistoricalDataRunner{
     private static final Logger LOGGER = LoggerFactory.getLogger(HistoricalDataRunner.class);
 
     public static void runHistoricalScript(MongoSDDao mongoSDDao){
-        List<String> countries = mongoSDDao.getAllCountryValuesTargetCollection();
+        List<String> countries = mongoSDDao.getAllCountryValuesStatisticsCollection();
         for(String country : countries) {
            LOGGER.info("Starting historical data process for {}", country);
 

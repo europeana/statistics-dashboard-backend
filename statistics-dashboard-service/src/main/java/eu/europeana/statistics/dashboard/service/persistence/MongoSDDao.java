@@ -102,6 +102,19 @@ public class MongoSDDao {
   }
 
   /**
+   * Returns all existing values of countries from StatisticsRecordModel data collection
+   *
+   * @return All existing values of countries from StatisticsRecordModel data collection
+   */
+  public List<String> getAllCountryValuesStatisticsCollection() {
+    ArrayList<String> countries = new ArrayList<>();
+    DistinctIterable<String> docs = retryableExternalRequestForNetworkExceptions(() -> datastore
+            .getCollection(StatisticsRecordModel.class).distinct("country", String.class));
+    docs.forEach(countries::add);
+    return countries;
+  }
+
+  /**
    * Returns target data of a given country
    *
    * @param country - The country to get the target data from
