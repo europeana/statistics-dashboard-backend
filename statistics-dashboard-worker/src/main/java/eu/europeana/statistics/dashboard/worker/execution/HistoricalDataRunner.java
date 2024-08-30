@@ -16,7 +16,11 @@ public class HistoricalDataRunner{
         List<String> countries = mongoSDDao.getAllCountryValuesTargetCollection();
         for(String country : countries) {
            LOGGER.info("Starting historical data process for {}", country);
+
            Historical result = mongoSDDao.generateLatestTargetData(country);
+
+           LOGGER.info("Finished historical data process for {}", country);
+
            mongoSDDao.saveHistoricalRecord(result);
         }
     }
