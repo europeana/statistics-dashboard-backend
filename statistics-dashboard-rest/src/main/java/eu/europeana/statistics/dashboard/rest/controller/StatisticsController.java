@@ -61,9 +61,10 @@ public class StatisticsController {
   @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
   public ResultListFilters getGeneralStatistics(
       @ApiParam(value = "Include content Tier 0")
-      @RequestParam(name = "content-tier-zero", required = false) boolean contentTierZero) {
-    return contentTierZero ? statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero() :
-        statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero();
+      @RequestParam(name = "content-tier-zero", required = false) boolean contentTierZero,
+      @RequestParam(value = "country", required = false, defaultValue = "") String country) {
+    return contentTierZero ? statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero(country) :
+        statisticsService.queryGeneralEuropeanaDataWithoutContentTierZero(country);
   }
 
   /**
