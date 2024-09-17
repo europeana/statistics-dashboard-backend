@@ -176,6 +176,7 @@ public class MongoSDDao {
 
   /**
    * Return filtered Historical entities
+   * @param country - the country to filter on
    * @return List<Historical>
    */
   public List<Historical> getCountryTargetDataFiltered(String country){

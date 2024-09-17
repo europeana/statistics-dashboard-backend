@@ -43,6 +43,7 @@ public class CountryTargetDataController {
     /**
      * getCountryDataFiltered
      * returns historical data for a specific country
+     * @param country - the country to filter on
      * @return List<HistoricalCountryTargetData>
      */
     @GetMapping(value = TARGET_DATA_COUNTRY_HISTORICAL, produces = {APPLICATION_JSON})
