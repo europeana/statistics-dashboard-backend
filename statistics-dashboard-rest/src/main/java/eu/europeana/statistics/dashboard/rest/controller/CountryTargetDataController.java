@@ -40,12 +40,12 @@ public class CountryTargetDataController {
         this.countryTargetService = countryTargetService;
     }
 
-    /**
-     * @return the latest country data
-     */
     @GetMapping(value = TARGET_DATA_COUNTRY_HISTORICAL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Returns historical country target data", response = HistoricalCountryTargetData.class)
+    /**
+    * @return the latest country data
+    */
     public List<HistoricalCountryTargetData> getCountryDataFiltered(
     @RequestParam(name = "country") String country){
       return countryTargetService.getAllCountryDataFiltered(country);
