@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class CountryTargetDataController {
 
     public static final String TARGET_DATA_COUNTRY_ALL = "/statistics/europeana/target/country/all";
+    public static final String TARGET_DATA_COUNTRY_HISTORICAL = "/statistics/europeana/target/country/historical";
     public static final String TARGET_DATA_TARGETS = "/statistics/europeana/targets";
     public static final String APPLICATION_JSON = "application/json";
     public static final String CONTROLLER_TAG_NAME = "CountryTargetDataController";
@@ -40,18 +41,24 @@ public class CountryTargetDataController {
     }
 
     /**
-     * @return all HistoricalCountryTargetData objects
+     * @return the latest country data
+     */
+    @GetMapping(value = TARGET_DATA_COUNTRY_HISTORICAL, produces = {APPLICATION_JSON})
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Returns historical country target data", response = HistoricalCountryTargetData.class)
+    public List<HistoricalCountryTargetData> getCountryDataFiltered(
+    @RequestParam(name = "country") String country){
+      return countryTargetService.getAllCountryDataFiltered(country);
+    }
+
+    /**
+     * @return the latest country data
      */
     @GetMapping(value = TARGET_DATA_COUNTRY_ALL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns country target data", response = HistoricalCountryTargetData.class)
-
-    public List<HistoricalCountryTargetData> getAllCountryData(){
-      // initalise the result with the latest data
-      List<HistoricalCountryTargetData> result = countryTargetService.getAllCountryDataLatest();
-      // add the historic data to the result
-      result.addAll(countryTargetService.getAllCountryData());
-      return result;
+    @ApiOperation(value = "Returns latest country target data", response = HistoricalCountryTargetData.class)
+    public List<HistoricalCountryTargetData> getAllCountryDataLatest(){
+      return countryTargetService.getAllCountryDataLatest();
     }
 
     /**

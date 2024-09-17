@@ -31,10 +31,10 @@ public class CountryTargetService {
     }
 
     /**
-     * @return all HistoricalCountryTargetData objects
+     * @return all HistoricalCountryTargetData objects for the country
      */
-    public List<HistoricalCountryTargetData> getAllCountryData(){
-      List<Historical> historicalData = mongoSDDao.getCountryTargetData();
+    public List<HistoricalCountryTargetData> getAllCountryDataFiltered(String country){
+      List<Historical> historicalData = mongoSDDao.getCountryTargetDataFiltered(country);
       return historicalData.stream().map(data -> new HistoricalCountryTargetData(
           data.getCountry(),
           data.getTimestamp(),
@@ -44,6 +44,9 @@ public class CountryTargetService {
       ).toList();
     }
 
+    /**
+     * @return most recent HistoricalCountryTargetData for all countries
+     */
     public List<HistoricalCountryTargetData> getAllCountryDataLatest(){
 
       List<HistoricalCountryTargetData> result = new ArrayList<>();
@@ -58,7 +61,6 @@ public class CountryTargetService {
       }
       return result;
     }
-
 
     /**
      * @return all HistoricalCountryTargetData objects

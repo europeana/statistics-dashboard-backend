@@ -174,6 +174,19 @@ public class MongoSDDao {
   }
 
   /**
+   * Return filtered Historical entities
+   */
+  public List<Historical> getCountryTargetDataFiltered(String country){
+    List<Historical> queryResult = new ArrayList<>();
+    Query<Historical> result = retryableExternalRequestForNetworkExceptions(() ->
+            datastore.find(Historical.class)
+            .filter(Filters.eq(MongoFieldNames.COUNTRY_FIELD, country))
+    );
+    result.forEach(queryResult::add);
+    return queryResult;
+  }
+
+  /**
    * Return all Target entities
    */
   public List<Target> getCountryTargets(){
