@@ -164,6 +164,7 @@ public class MongoSDDao {
 
   /**
    * Return all Historical entities
+   * @return List<Historical>
    */
   public List<Historical> getCountryTargetData(){
     List<Historical> queryResult = new ArrayList<>();
@@ -175,6 +176,7 @@ public class MongoSDDao {
 
   /**
    * Return filtered Historical entities
+   * @return List<Historical>
    */
   public List<Historical> getCountryTargetDataFiltered(String country){
     List<Historical> queryResult = new ArrayList<>();
@@ -188,6 +190,7 @@ public class MongoSDDao {
 
   /**
    * Return all Target entities
+   * @return List<Target>
    */
   public List<Target> getCountryTargets(){
     List<Target> queryResult = new ArrayList<>();

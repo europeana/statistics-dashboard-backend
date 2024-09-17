@@ -38,8 +38,7 @@ class CountryTargetDataControllerTest {
         2,
         3
       );
-    List<HistoricalCountryTargetData> result = List.of(data1);
-    return result;
+    return List.of(data1);
   }
 
   @Test
@@ -65,10 +64,10 @@ class CountryTargetDataControllerTest {
     assertEquals(result, testResult);
 
     HistoricalCountryTargetData firstResult = testResult.getFirst();
-    assertEquals(firstResult.getCountry(), "DE");
-    assertEquals(firstResult.getThreeD(), 1);
-    assertEquals(firstResult.getHighQuality(), 2);
-    assertEquals(firstResult.getTotalNumberRecords(), 3);
+    assertEquals("DE", firstResult.getCountry());
+    assertEquals(1, firstResult.getThreeD());
+    assertEquals(2, firstResult.getHighQuality());
+    assertEquals(3, firstResult.getTotalNumberRecords());
   }
 
   @Test
