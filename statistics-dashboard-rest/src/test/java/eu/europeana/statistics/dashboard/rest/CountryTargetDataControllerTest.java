@@ -42,7 +42,7 @@ class CountryTargetDataControllerTest {
   }
 
   @Test
-  void getCountryDataFiltered() {
+  void getCountryDataFiltered_expectSuccess() {
 
     List<HistoricalCountryTargetData> result = getHistoricalCountryTargetData();
 
@@ -56,7 +56,7 @@ class CountryTargetDataControllerTest {
 
 
   @Test
-  void getAllCountryDataLatest() {
+  void getAllCountryDataLatest_expectSuccess() {
 
     List<HistoricalCountryTargetData> result = getHistoricalCountryTargetData();
     when(countryTargetService.getAllCountryDataLatest()).thenReturn(result);
@@ -71,7 +71,7 @@ class CountryTargetDataControllerTest {
   }
 
   @Test
-  void getCountryTargets() {
+  void getCountryTargets_expectSuccess() {
     String countryCode = "DE";
     List<CountryTargetResult> result = List.of(
       new CountryTargetResult(
