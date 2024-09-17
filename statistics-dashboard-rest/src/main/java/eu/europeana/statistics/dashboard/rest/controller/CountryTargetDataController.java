@@ -40,19 +40,23 @@ public class CountryTargetDataController {
         this.countryTargetService = countryTargetService;
     }
 
+    /**
+     * getCountryDataFiltered
+     * returns historical data for a specific country
+     * @return List<HistoricalCountryTargetData>
+     */
     @GetMapping(value = TARGET_DATA_COUNTRY_HISTORICAL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Returns historical country target data", response = HistoricalCountryTargetData.class)
-    /**
-    * @return the latest country data
-    */
     public List<HistoricalCountryTargetData> getCountryDataFiltered(
     @RequestParam(name = "country") String country){
       return countryTargetService.getAllCountryDataFiltered(country);
     }
 
     /**
-     * @return the latest country data
+     * getAllCountryDataLatest
+     * returns the latest country data
+     * @return List<HistoricalCountryTargetData>
      */
     @GetMapping(value = TARGET_DATA_COUNTRY_ALL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
@@ -62,7 +66,9 @@ public class CountryTargetDataController {
     }
 
     /**
-     * @return the country target result objects
+     * getCountryTargets
+     * returns the country target result objects
+     * @return List<CountryTargetResult>
      */
     @GetMapping(value = TARGET_DATA_TARGETS, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
