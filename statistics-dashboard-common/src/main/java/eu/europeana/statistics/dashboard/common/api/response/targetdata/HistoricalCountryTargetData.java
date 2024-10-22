@@ -12,13 +12,13 @@ public class HistoricalCountryTargetData {
     private String country;
 
     @JsonProperty("three_d")
-    private int threeD;
+    private Long threeD;
 
     @JsonProperty("high_quality")
-    private int highQuality;
+    private Long highQuality;
 
     @JsonProperty("total")
-    private int totalNumberRecords;
+    private Long totalNumberRecords;
 
     /**
      * constructor
@@ -31,9 +31,9 @@ public class HistoricalCountryTargetData {
     public HistoricalCountryTargetData(
      String country,
      LocalDateTime date,
-     int threeD,
-     int highQuality,
-     int totalNumberRecords
+     Long threeD,
+     Long highQuality,
+     Long totalNumberRecords
      ) {
         this.country = country;
         this.date = date;
@@ -50,27 +50,27 @@ public class HistoricalCountryTargetData {
         this.country = country;
     }
 
-    public int getThreeD() {
+    public Long getThreeD() {
         return threeD;
     }
 
-    public void setThreeD(Integer threeD) {
+    public void setThreeD(Long threeD) {
         this.threeD = threeD;
     }
 
-    public int getHighQuality() {
+    public Long getHighQuality() {
         return highQuality;
     }
 
-    public void setHighQuality(Integer highQuality) {
+    public void setHighQuality(Long highQuality) {
         this.highQuality = highQuality;
     }
 
-    public int getTotalNumberRecords() {
+    public Long getTotalNumberRecords() {
         return totalNumberRecords;
     }
 
-    public void setTotalNumberRecords(Integer totalNumberRecords) {
+    public void setTotalNumberRecords(Long totalNumberRecords) {
         this.totalNumberRecords = totalNumberRecords;
     }
 

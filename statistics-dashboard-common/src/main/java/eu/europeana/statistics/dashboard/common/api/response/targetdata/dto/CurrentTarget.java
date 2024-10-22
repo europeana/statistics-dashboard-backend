@@ -11,10 +11,10 @@ import java.util.List;
 public class CurrentTarget {
 
     private TargetType type;
-    private Integer currentTotalRecords;
+    private Long currentTotalRecords;
     private List<CurrentData> currentData;
 
-    public CurrentTarget(TargetType type, Integer currentTotalRecords, List<CurrentData> currentData) {
+    public CurrentTarget(TargetType type, Long currentTotalRecords, List<CurrentData> currentData) {
         this.type = type;
         this.currentTotalRecords = currentTotalRecords;
         this.currentData = currentData;
@@ -28,11 +28,11 @@ public class CurrentTarget {
         this.type = type;
     }
 
-    public Integer getCurrentTotalRecords() {
+    public Long getCurrentTotalRecords() {
         return currentTotalRecords;
     }
 
-    public void setCurrentTotalRecords(Integer currentTotalRecords) {
+    public void setCurrentTotalRecords(Long currentTotalRecords) {
         this.currentTotalRecords = currentTotalRecords;
     }
 

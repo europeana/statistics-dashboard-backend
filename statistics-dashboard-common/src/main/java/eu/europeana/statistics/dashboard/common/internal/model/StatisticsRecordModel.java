@@ -80,7 +80,7 @@ public class StatisticsRecordModel {
   private String updatedDate;
 
   @Property(MongoFieldNames.RECORD_COUNT_FIELD)
-  private int recordCount;
+  private Long recordCount;
 
   public ObjectId getId() {
     return id;
@@ -178,11 +178,11 @@ public class StatisticsRecordModel {
     this.updatedDate = updatedDate;
   }
 
-  public int getRecordCount() {
+  public Long getRecordCount() {
     return recordCount;
   }
 
-  public void setRecordCount(int recordCount) {
+  public void setRecordCount(Long recordCount) {
     this.recordCount = recordCount;
   }
 }
