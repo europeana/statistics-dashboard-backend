@@ -49,7 +49,6 @@ public class TargetDataService {
         return new OverviewData(targetValues);
     }
 
-
     private List<CurrentTarget> prepareCountryCurrentTargetData(String country){
 
         List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo = mongoSDDao.getAllTargetDataOfCountry(country);
@@ -62,15 +61,16 @@ public class TargetDataService {
 
     }
 
-    private CurrentTarget prepareCurrentTargetDataResult(TargetType targetType, String country, List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo){
+    private CurrentTarget prepareCurrentTargetDataResult(TargetType targetType, String country,
+      List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo){
         Long currentValue = getCurrentValueOfTargetType(targetType, country);
         return new CurrentTarget(targetType, currentValue,
                 List.of(prepareCurrentTargetData(currentValue, targetDataInfo.get(0), targetType),
                         prepareCurrentTargetData(currentValue, targetDataInfo.get(1), targetType)));
     }
 
-    private CurrentData prepareCurrentTargetData(Long currentValue, eu.europeana.statistics.dashboard.common.internal.model.Target target, TargetType targetType){
-
+    private CurrentData prepareCurrentTargetData(Long currentValue,
+      eu.europeana.statistics.dashboard.common.internal.model.Target target, TargetType targetType){
         return switch (targetType) {
             case THREE_D -> new CurrentData(target.getYear(), target.getThreeD(),
                     calculatePercentage(target.getThreeD(), currentValue));

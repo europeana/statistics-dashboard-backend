@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 
 class HistoricalCountryTargetDataTest {
 
+
     @Test
     void testNullsBecomeZeroes_expectSuccess(){
         HistoricalCountryTargetData historical = new HistoricalCountryTargetData("NL", LocalDateTime.now(), 0L, 1L, 2L);
         assertNull(historical.getThreeD());
-        assertEquals(historical.getHighQuality(), 1);
-        assertEquals(historical.getTotalNumberRecords(), 2);
+        assertEquals(1, historical.getHighQuality());
+        assertEquals(2, historical.getTotalNumberRecords());
     }
 
 }
