@@ -37,9 +37,15 @@ public class HistoricalCountryTargetData {
      ) {
         this.country = country;
         this.date = date;
-        this.threeD = threeD;
-        this.highQuality = highQuality;
-        this.totalNumberRecords = totalNumberRecords;
+        if(threeD > 0){
+          this.threeD = threeD;
+        }
+        if(highQuality > 0){
+          this.highQuality = highQuality;
+        }
+        if(totalNumberRecords > 0){
+          this.totalNumberRecords = totalNumberRecords;
+        }
     }
 
     public String getCountry() {
