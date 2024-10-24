@@ -1,11 +1,14 @@
 package eu.europeana.statistics.dashboard.common.api.response.targetdata;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
 /**
  * Class that encapsulates historical data for a specific date
  */
+@JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
 public class HistoricalCountryTargetData {
 
     private LocalDateTime date;
@@ -37,16 +40,17 @@ public class HistoricalCountryTargetData {
      ) {
         this.country = country;
         this.date = date;
-        if(threeD > 0){
+        if(threeD != null && threeD > 0){
           this.threeD = threeD;
         }
-        if(highQuality > 0){
+        if(highQuality != null && highQuality > 0){
           this.highQuality = highQuality;
         }
-        if(totalNumberRecords > 0){
+        if(totalNumberRecords != null && totalNumberRecords > 0){
           this.totalNumberRecords = totalNumberRecords;
         }
     }
+
 
     public String getCountry() {
         return country;
@@ -61,7 +65,11 @@ public class HistoricalCountryTargetData {
     }
 
     public void setThreeD(Long threeD) {
+      if(threeD != null && threeD > 0){
         this.threeD = threeD;
+      } else {
+        this.threeD = null;
+      }
     }
 
     public Long getHighQuality() {
@@ -69,7 +77,11 @@ public class HistoricalCountryTargetData {
     }
 
     public void setHighQuality(Long highQuality) {
+      if(highQuality != null && highQuality > 0){
         this.highQuality = highQuality;
+      } else {
+        this.highQuality = null;
+      }
     }
 
     public Long getTotalNumberRecords() {
@@ -77,7 +89,11 @@ public class HistoricalCountryTargetData {
     }
 
     public void setTotalNumberRecords(Long totalNumberRecords) {
-        this.totalNumberRecords = totalNumberRecords;
+        if(totalNumberRecords != null && totalNumberRecords > 0){
+          this.totalNumberRecords = totalNumberRecords;
+        } else {
+          this.totalNumberRecords = null;
+        }
     }
 
     public LocalDateTime getDate() {
