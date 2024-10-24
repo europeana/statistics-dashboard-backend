@@ -96,7 +96,7 @@ class StatisticsServiceTest {
                 .thenReturn(MongoStatisticsField.PROVIDER)
                 .thenReturn(MongoStatisticsField.RIGHTS_CATEGORY)
                 .thenReturn(MongoStatisticsField.TYPE);
-        when(statisticsData.getRecordCount()).thenReturn(12);
+        when(statisticsData.getRecordCount()).thenReturn(12L);
         when(statisticsData.getFieldValue())
                 .thenReturn("1")
                 .thenReturn("2")
@@ -127,7 +127,7 @@ class StatisticsServiceTest {
                 .thenReturn(MongoStatisticsField.PROVIDER)
                 .thenReturn(MongoStatisticsField.RIGHTS_CATEGORY)
                 .thenReturn(MongoStatisticsField.TYPE);
-        when(statisticsData.getRecordCount()).thenReturn(12);
+        when(statisticsData.getRecordCount()).thenReturn(12L);
         when(statisticsData.getFieldValue())
                 .thenReturn("0")
                 .thenReturn("1")
@@ -155,7 +155,7 @@ class StatisticsServiceTest {
         when(statisticsData.getBreakdown()).thenReturn(List.of(statisticsData));
         when(statisticsData.getField()).thenReturn(MongoStatisticsField.CONTENT_TIER)
                 .thenReturn(MongoStatisticsField.CONTENT_TIER);
-        when(statisticsData.getRecordCount()).thenReturn(5);
+        when(statisticsData.getRecordCount()).thenReturn(5L);
         when(statisticsData.getFieldValue())
                 .thenReturn("1")
                 .thenReturn("1");

@@ -36,39 +36,39 @@ public class TargetDataServiceTest {
     private TargetDataService targetDataService;
 
     private List<eu.europeana.statistics.dashboard.common.internal.model.Target> prepareMockTargetData(){
-        eu.europeana.statistics.dashboard.common.internal.model.Target elem1 = new eu.europeana.statistics.dashboard.common.internal.model.Target("Netherlands", 1234, 4567, 7891, 2025);
-        eu.europeana.statistics.dashboard.common.internal.model.Target elem2 = new eu.europeana.statistics.dashboard.common.internal.model.Target("Netherlands", 123456, 456789, 789123, 2030);
+        eu.europeana.statistics.dashboard.common.internal.model.Target elem1 = new eu.europeana.statistics.dashboard.common.internal.model.Target("Netherlands", 1234L, 4567L, 7891L, 2025);
+        eu.europeana.statistics.dashboard.common.internal.model.Target elem2 = new eu.europeana.statistics.dashboard.common.internal.model.Target("Netherlands", 123456L, 456789L, 789123L, 2030);
 
         return List.of(elem1, elem2);
     }
 
     private List<eu.europeana.statistics.dashboard.common.internal.model.Historical> prepareMockHistoricalData(){
-        eu.europeana.statistics.dashboard.common.internal.model.Historical elem1 = new eu.europeana.statistics.dashboard.common.internal.model.Historical("Netherlands", 306, 518, 589,
+        eu.europeana.statistics.dashboard.common.internal.model.Historical elem1 = new eu.europeana.statistics.dashboard.common.internal.model.Historical("Netherlands", 306L, 518L, 589L,
                 LocalDateTime.of(2024, Month.APRIL, 25, 16, 45));
-        eu.europeana.statistics.dashboard.common.internal.model.Historical elem2 = new eu.europeana.statistics.dashboard.common.internal.model.Historical("Netherlands", 316, 572, 672,
+        eu.europeana.statistics.dashboard.common.internal.model.Historical elem2 = new eu.europeana.statistics.dashboard.common.internal.model.Historical("Netherlands", 316L, 572L, 672L,
                 LocalDateTime.of(2024, Month.MAY, 25, 16, 45));
 
         return List.of(elem1, elem2);
     }
 
     private Country prepareExpectedCountryDataResult(){
-        CurrentData elem13D = new CurrentData(2025, 1234, 25.61);
-        CurrentData elem23D = new CurrentData(2030, 123456, 0.26);
-        CurrentData elem1Hq = new CurrentData(2025, 4567, 12.52);
-        CurrentData elem2Hq = new CurrentData(2030, 456789, 0.12);
-        CurrentData elem1TotalRecords = new CurrentData(2025, 7891, 8.52);
-        CurrentData elem2TotalRecords = new CurrentData(2030, 789123, 0.09);
-        CurrentTarget currentTargetDataElem1 = new CurrentTarget(TargetType.THREE_D, 316, List.of(elem13D, elem23D));
-        CurrentTarget currentTargetDataElem2 = new CurrentTarget(TargetType.HIGH_QUALITY, 572,
+        CurrentData elem13D = new CurrentData(2025, 1234L, 25.61);
+        CurrentData elem23D = new CurrentData(2030, 123456L, 0.26);
+        CurrentData elem1Hq = new CurrentData(2025, 4567L, 12.52);
+        CurrentData elem2Hq = new CurrentData(2030, 456789L, 0.12);
+        CurrentData elem1TotalRecords = new CurrentData(2025, 7891L, 8.52);
+        CurrentData elem2TotalRecords = new CurrentData(2030, 789123L, 0.09);
+        CurrentTarget currentTargetDataElem1 = new CurrentTarget(TargetType.THREE_D, 316L, List.of(elem13D, elem23D));
+        CurrentTarget currentTargetDataElem2 = new CurrentTarget(TargetType.HIGH_QUALITY, 572L,
                 List.of(elem1Hq, elem2Hq));
-        CurrentTarget currentTargetDataElem3 = new CurrentTarget(TargetType.TOTAL_RECORDS, 672,
+        CurrentTarget currentTargetDataElem3 = new CurrentTarget(TargetType.TOTAL_RECORDS, 672L,
                 List.of(elem1TotalRecords, elem2TotalRecords));
-        Target target13D = new Target(TargetType.THREE_D, 306);
-        Target target1Hq = new Target(TargetType.HIGH_QUALITY, 518);
-        Target target1TotalRecords = new Target(TargetType.TOTAL_RECORDS, 589);
-        Target target23D = new Target(TargetType.THREE_D, 316);
-        Target target2Hq = new Target(TargetType.HIGH_QUALITY, 572);
-        Target target2TotalRecords = new Target(TargetType.TOTAL_RECORDS, 672);
+        Target target13D = new Target(TargetType.THREE_D, 306L);
+        Target target1Hq = new Target(TargetType.HIGH_QUALITY, 518L);
+        Target target1TotalRecords = new Target(TargetType.TOTAL_RECORDS, 589L);
+        Target target23D = new Target(TargetType.THREE_D, 316L);
+        Target target2Hq = new Target(TargetType.HIGH_QUALITY, 572L);
+        Target target2TotalRecords = new Target(TargetType.TOTAL_RECORDS, 672L);
         HistoricalData historicalDataData1 = new HistoricalData(LocalDateTime.of(2024, Month.APRIL, 25, 16, 45),
                 List.of(target13D, target1Hq, target1TotalRecords));
         HistoricalData historicalDataData2 = new HistoricalData(LocalDateTime.of(2024, Month.MAY, 25, 16, 45),
@@ -78,13 +78,13 @@ public class TargetDataServiceTest {
 
     private OverviewData prepareExpectedOverviewDataResult(){
         CountryOverview belgiumElem =  new CountryOverview("Belgium",
-                List.of(new Target(TargetType.THREE_D, 123),
-                        new Target(TargetType.HIGH_QUALITY, 456),
-                        new Target(TargetType.TOTAL_RECORDS, 789)));
+                List.of(new Target(TargetType.THREE_D, 123L),
+                        new Target(TargetType.HIGH_QUALITY, 456L),
+                        new Target(TargetType.TOTAL_RECORDS, 789L)));
         CountryOverview netherlandsElem =  new CountryOverview("Netherlands",
-                List.of(new Target(TargetType.THREE_D, 234),
-                        new Target(TargetType.HIGH_QUALITY, 567),
-                        new Target(TargetType.TOTAL_RECORDS, 891)));
+                List.of(new Target(TargetType.THREE_D, 234L),
+                        new Target(TargetType.HIGH_QUALITY, 567L),
+                        new Target(TargetType.TOTAL_RECORDS, 891L)));
 
         return new OverviewData(List.of(belgiumElem, netherlandsElem));
     }
@@ -95,7 +95,7 @@ public class TargetDataServiceTest {
         when(mockMongoSDDao.createStatisticsQuery()).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.queryForStatistics()).thenReturn(mockStatisticsData);
         when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
-        when(mockStatisticsData.getRecordCount()).thenReturn(316).thenReturn(572).thenReturn(672);
+        when(mockStatisticsData.getRecordCount()).thenReturn(316L).thenReturn(572L).thenReturn(672L);
         when(mockMongoSDDao.getAllHistoricalOfCountry("Netherlands")).thenReturn(prepareMockHistoricalData());
 
        Country result = targetDataService.getCountryData("Netherlands");
@@ -119,8 +119,8 @@ public class TargetDataServiceTest {
         when(mockMongoSDDao.createStatisticsQuery()).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.withValueFilter(any(),any())).thenReturn(mockStatisticsQuery);
         when(mockStatisticsQuery.queryForStatistics()).thenReturn(mockStatisticsData);
-        when(mockStatisticsData.getRecordCount()).thenReturn(123).thenReturn(456).thenReturn(789)
-                .thenReturn(234).thenReturn(567).thenReturn(891);
+        when(mockStatisticsData.getRecordCount()).thenReturn(123L).thenReturn(456L).thenReturn(789L)
+                .thenReturn(234L).thenReturn(567L).thenReturn(891L);
 
 
         OverviewData result = targetDataService.getOverviewDataAllCountries();

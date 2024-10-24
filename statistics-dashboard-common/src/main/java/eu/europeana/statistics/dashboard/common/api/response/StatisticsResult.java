@@ -13,11 +13,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class StatisticsResult {
 
   private String value;
-  private long count;
+  private Long count;
   private double percentage;
   private BreakdownResult breakdowns;
 
-  public StatisticsResult(String value, long count, double percentage) {
+  public StatisticsResult(String value, Long count, double percentage) {
     this.value = value;
     this.count = count;
     this.percentage = percentage;
@@ -31,11 +31,11 @@ public class StatisticsResult {
     this.value = value;
   }
 
-  public long getCount() {
+  public Long getCount() {
     return count;
   }
 
-  public void setCount(long count) {
+  public void setCount(Long count) {
     this.count = count;
   }
 

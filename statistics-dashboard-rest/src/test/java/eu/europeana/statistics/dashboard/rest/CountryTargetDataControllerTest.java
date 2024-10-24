@@ -34,9 +34,9 @@ class CountryTargetDataControllerTest {
     HistoricalCountryTargetData data1 = new HistoricalCountryTargetData(
         "DE",
         mockTime,
-        1,
-        2,
-        3
+        1L,
+        2L,
+        3L
       );
     return List.of(data1);
   }
@@ -78,17 +78,17 @@ class CountryTargetDataControllerTest {
         countryCode,
         TargetType.THREE_D,
         2030,
-        500),
+        500L),
       new CountryTargetResult(
         countryCode,
         TargetType.HIGH_QUALITY,
         2030,
-        1500),
+        1500L),
       new CountryTargetResult(
         countryCode,
         TargetType.TOTAL_RECORDS,
         2030,
-        2500)
+        2500L)
     );
     when(countryTargetService.getCountryTargets()).thenReturn(result);
     List<CountryTargetResult> testResult = controller.getCountryTargets();

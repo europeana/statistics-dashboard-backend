@@ -28,13 +28,13 @@ public class Target {
     private String country;
 
     @Property(TargetDataMongoFieldNames.THREE_D_FIELD)
-    private int threeD;
+    private Long threeD;
 
     @Property(TargetDataMongoFieldNames.HIGH_QUALITY_FIELD)
-    private int highQuality;
+    private Long highQuality;
 
     @Property(TargetDataMongoFieldNames.TOTAL_RECORDS_FIELD)
-    private int totalRecords;
+    private Long totalRecords;
 
     @Property(TargetDataMongoFieldNames.TARGET_YEAR_FIELD)
     private int year;
@@ -42,7 +42,7 @@ public class Target {
     //Empty constructor for when we perform queries
     public Target(){}
 
-    public Target(String country, int threeD, int highQuality, int totalRecords, int year) {
+    public Target(String country, Long threeD, Long highQuality, Long totalRecords, int year) {
         this.country = country;
         this.threeD = threeD;
         this.highQuality = highQuality;
@@ -66,27 +66,27 @@ public class Target {
         this.country = country;
     }
 
-    public int getThreeD() {
+    public Long getThreeD() {
         return threeD;
     }
 
-    public void setThreeD(int threeD) {
+    public void setThreeD(Long threeD) {
         this.threeD = threeD;
     }
 
-    public int getHighQuality() {
+    public Long getHighQuality() {
         return highQuality;
     }
 
-    public void setHighQuality(int highQuality) {
+    public void setHighQuality(Long highQuality) {
         this.highQuality = highQuality;
     }
 
-    public int getTotalRecords() {
+    public Long getTotalRecords() {
         return totalRecords;
     }
 
-    public void setTotalRecords(int totalRecords) {
+    public void setTotalRecords(Long totalRecords) {
         this.totalRecords = totalRecords;
     }
 

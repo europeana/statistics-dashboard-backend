@@ -148,7 +148,7 @@ public class StatisticsQuery {
     final List<StatisticsResult> queryResults = MorphiaUtils.getListOfAggregationRetryable(aggregation, StatisticsResult.class);
 
     if(queryResults.isEmpty()){
-      return new StatisticsData(null, null, 0);
+      return new StatisticsData(null, null, 0L);
     }
 
     // Compile the result
@@ -285,7 +285,7 @@ public class StatisticsQuery {
     private Map<String, String> breakdownValues;
 
     @Property(MongoFieldNames.RECORD_COUNT_FIELD)
-    private int recordCount;
+    private Long recordCount;
 
     /**
      * Gets breakdown values.
@@ -301,7 +301,7 @@ public class StatisticsQuery {
      *
      * @return the record count
      */
-    public int getRecordCount() {
+    public Long getRecordCount() {
       return recordCount;
     }
 

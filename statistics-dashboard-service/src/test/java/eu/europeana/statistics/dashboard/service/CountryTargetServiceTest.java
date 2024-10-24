@@ -31,7 +31,7 @@ class CountryTargetServiceTest {
     @Test
      void getCountryTargets_expectSuccess(){
 
-      int[] daoResultValues = new int[]{ 100, 200, 300 };
+      long[] daoResultValues = new long[]{ 100L, 200L, 300L };
       Target tdm = new Target(
         "Italy",
         daoResultValues[0],
@@ -62,8 +62,8 @@ class CountryTargetServiceTest {
     void getAllCountryDataFiltered_expectSuccess(){
       final String countryCode = "NL";
        List<Historical> targetData = List.of(
-               new Historical(countryCode, 123, 456, 789, LocalDateTime.MIN),
-               new Historical(countryCode, 321, 654, 987, LocalDateTime.MAX)
+               new Historical(countryCode, 123L, 456L, 789L, LocalDateTime.MIN),
+               new Historical(countryCode, 321L, 654L, 987L, LocalDateTime.MAX)
        );
        when(mockMongoSDDao.getCountryTargetDataFiltered(any())).thenReturn(targetData);
 
@@ -86,7 +86,7 @@ class CountryTargetServiceTest {
     void getAllCountryDataLatest_expectSuccess(){
 
        List<String> countries = Arrays.asList("AT", "BE", "CZ");
-       Historical historical = new Historical("will-be-overridden", 1, 2, 3, LocalDateTime.MAX);
+       Historical historical = new Historical("will-be-overridden", 1L, 2L, 3L, LocalDateTime.MAX);
 
        when(mockMongoSDDao.getAllCountryValuesTargetCollection()).thenReturn(countries);
        when(mockMongoSDDao.generateLatestTargetData(any())).thenReturn(historical);
