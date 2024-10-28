@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TargetDataServiceTest {
+class TargetDataServiceTest {
 
     @Mock
     private StatisticsData mockStatisticsData;

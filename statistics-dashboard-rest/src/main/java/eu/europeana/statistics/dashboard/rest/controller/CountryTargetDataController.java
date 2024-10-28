@@ -1,17 +1,19 @@
 package eu.europeana.statistics.dashboard.rest.controller;
-import java.util.List;
-
-import eu.europeana.statistics.dashboard.common.internal.model.Target;
 
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryTargetResult;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetData;
 import eu.europeana.statistics.dashboard.service.CountryTargetService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller for the Target Data Page
