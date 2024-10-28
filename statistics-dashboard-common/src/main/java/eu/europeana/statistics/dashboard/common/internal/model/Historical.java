@@ -31,13 +31,13 @@ public class Historical {
     private String country;
 
     @Property(TargetDataMongoFieldNames.THREE_D_FIELD)
-    private int threeD;
+    private Long threeD;
 
     @Property(TargetDataMongoFieldNames.HIGH_QUALITY_FIELD)
-    private int highQuality;
+    private Long highQuality;
 
     @Property(TargetDataMongoFieldNames.TOTAL_RECORDS_FIELD)
-    private int totalRecords;
+    private Long totalRecords;
 
     @Property(TargetDataMongoFieldNames.TIMESTAMP_FIELD)
     private LocalDateTime timestamp;
@@ -45,7 +45,7 @@ public class Historical {
     //Empty constructor for when we perform queries
     public Historical(){}
 
-    public Historical(String country, int threeD, int highQuality, int totalRecords, LocalDateTime timestamp) {
+    public Historical(String country, Long threeD, Long highQuality, Long totalRecords, LocalDateTime timestamp) {
         this.country = country;
         this.threeD = threeD;
         this.highQuality = highQuality;
@@ -69,27 +69,27 @@ public class Historical {
         this.country = country;
     }
 
-    public int getThreeD() {
+    public Long getThreeD() {
         return threeD;
     }
 
-    public void setThreeD(int threeD) {
+    public void setThreeD(Long threeD) {
         this.threeD = threeD;
     }
 
-    public int getHighQuality() {
+    public Long getHighQuality() {
         return highQuality;
     }
 
-    public void setHighQuality(int highQuality) {
+    public void setHighQuality(Long highQuality) {
         this.highQuality = highQuality;
     }
 
-    public int getTotalRecords() {
+    public Long getTotalRecords() {
         return totalRecords;
     }
 
-    public void setTotalRecords(int totalRecords) {
+    public void setTotalRecords(Long totalRecords) {
         this.totalRecords = totalRecords;
     }
 
