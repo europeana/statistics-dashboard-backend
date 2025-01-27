@@ -36,17 +36,6 @@
         </dependency>
         <dependency>
             <groupId>eu.europeana.metis</groupId>
-            <artifactId>metis-core-common</artifactId>
-            <version>${version.metis-core}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>eu.europeana.cloud</groupId>
-                    <artifactId>ecloud-service-dps-rest-client-java</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>eu.europeana.metis</groupId>
             <artifactId>metis-core-service</artifactId>
             <version>${version.metis-core}</version>
             <exclusions>
@@ -69,6 +58,17 @@
                 <exclusion>
                     <groupId>org.redisson</groupId>
                     <artifactId>redisson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>eu.europeana.metis</groupId>
+            <artifactId>metis-core-common</artifactId>
+            <version>${version.metis-core}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>eu.europeana.cloud</groupId>
+                    <artifactId>ecloud-service-dps-rest-client-java</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
