@@ -21,6 +21,7 @@
         <version.maven.release.plugin>2.5.3</version.maven.release.plugin>
         <version.surefire.plugin>3.1.2</version.surefire.plugin>
         <version.metis>13-SNAPSHOT</version.metis>
+        <version.metis-core>14-SNAPSHOT</version.metis-core>
         <version.log4j>2.23.0</version.log4j>
         <version.slf4j>2.0.12</version.slf4j>
         <version.elastic.apm>1.48.1</version.elastic.apm>
