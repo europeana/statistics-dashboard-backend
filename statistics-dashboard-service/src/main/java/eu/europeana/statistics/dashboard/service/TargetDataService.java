@@ -49,7 +49,6 @@ public class TargetDataService {
         return new OverviewData(targetValues);
     }
 
-
     private List<CurrentTarget> prepareCountryCurrentTargetData(String country){
 
         List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo = mongoSDDao.getAllTargetDataOfCountry(country);
@@ -62,15 +61,16 @@ public class TargetDataService {
 
     }
 
-    private CurrentTarget prepareCurrentTargetDataResult(TargetType targetType, String country, List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo){
-        int currentValue = getCurrentValueOfTargetType(targetType, country);
+    private CurrentTarget prepareCurrentTargetDataResult(TargetType targetType, String country,
+      List<eu.europeana.statistics.dashboard.common.internal.model.Target> targetDataInfo){
+        Long currentValue = getCurrentValueOfTargetType(targetType, country);
         return new CurrentTarget(targetType, currentValue,
                 List.of(prepareCurrentTargetData(currentValue, targetDataInfo.get(0), targetType),
                         prepareCurrentTargetData(currentValue, targetDataInfo.get(1), targetType)));
     }
 
-    private CurrentData prepareCurrentTargetData(int currentValue, eu.europeana.statistics.dashboard.common.internal.model.Target target, TargetType targetType){
-
+    private CurrentData prepareCurrentTargetData(Long currentValue,
+      eu.europeana.statistics.dashboard.common.internal.model.Target target, TargetType targetType){
         return switch (targetType) {
             case THREE_D -> new CurrentData(target.getYear(), target.getThreeD(),
                     calculatePercentage(target.getThreeD(), currentValue));
@@ -82,7 +82,7 @@ public class TargetDataService {
 
     }
 
-    private int getCurrentValueOfTargetType(TargetType targetType, String country){
+    private Long getCurrentValueOfTargetType(TargetType targetType, String country){
         StatisticsQuery query = mongoSDDao.createStatisticsQuery();
 
         switch (targetType){
@@ -117,9 +117,9 @@ public class TargetDataService {
     }
 
     private CountryOverview prepareOverviewCountryData(String country){
-        int current3DValue = getCurrentValueOfTargetType(TargetType.THREE_D, country);
-        int currentHighQualityValue = getCurrentValueOfTargetType(TargetType.HIGH_QUALITY, country);
-        int currentTotalRecordsValue = getCurrentValueOfTargetType(TargetType.TOTAL_RECORDS, country);
+        Long current3DValue = getCurrentValueOfTargetType(TargetType.THREE_D, country);
+        Long currentHighQualityValue = getCurrentValueOfTargetType(TargetType.HIGH_QUALITY, country);
+        Long currentTotalRecordsValue = getCurrentValueOfTargetType(TargetType.TOTAL_RECORDS, country);
         return new CountryOverview(country,
                 List.of(new Target(TargetType.THREE_D, current3DValue),
                         new Target(TargetType.HIGH_QUALITY, currentHighQualityValue),
@@ -127,6 +127,9 @@ public class TargetDataService {
     }
 
     private double calculatePercentage(double totalCount, double count) {
-        return totalCount <= 0 ? 0 : Double.parseDouble(PERCENTAGE_FORMAT.format((count / totalCount) * 100.0));
+      if(totalCount <= 0){
+        return 0;
+      }
+      return Double.parseDouble(PERCENTAGE_FORMAT.format((count / totalCount) * 100.0));
     }
 }

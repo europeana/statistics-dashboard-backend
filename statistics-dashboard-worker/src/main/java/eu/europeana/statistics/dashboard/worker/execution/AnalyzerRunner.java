@@ -19,11 +19,21 @@ import org.slf4j.LoggerFactory;
 /**
  * This class contains a script that analyzes all datasets and saves them in the statistics dashboard database.
  */
-public class AnalyzerRunner {
+public final class AnalyzerRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AnalyzerRunner.class);
 
-
+    private AnalyzerRunner() {
+        // no op
+    }
+    /**
+     * Run analyze script.
+     *
+     * @param mongoCoreDao the mongo core dao
+     * @param nativeSolrClient the native solr client
+     * @param mongoSDDao the mongo sd dao
+     * @throws DataHarvestingException the data harvesting exception
+     */
     public static void runAnalyzeScript(MongoCoreDao mongoCoreDao, SolrClient nativeSolrClient, MongoSDDao mongoSDDao) throws DataHarvestingException {
 
         final Set<String> datasetIds = mongoCoreDao.getAllDatasetIds().collect(Collectors.toSet());

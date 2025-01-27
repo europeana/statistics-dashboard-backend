@@ -6,10 +6,10 @@ package eu.europeana.statistics.dashboard.common.api.response.targetdata.dto;
 public class CurrentData {
 
     private int targetYear;
-    private int targetValue;
+    private Long targetValue;
     private double percentage;
 
-    public CurrentData(Integer targetYear, Integer targetValue, double percentage) {
+    public CurrentData(Integer targetYear, Long targetValue, double percentage) {
         this.targetYear = targetYear;
         this.targetValue = targetValue;
         this.percentage = percentage;
@@ -23,11 +23,11 @@ public class CurrentData {
         this.targetYear = targetYear;
     }
 
-    public int getTargetValue() {
+    public Long getTargetValue() {
         return targetValue;
     }
 
-    public void setTargetValue(int targetValue) {
+    public void setTargetValue(Long targetValue) {
         this.targetValue = targetValue;
     }
 
