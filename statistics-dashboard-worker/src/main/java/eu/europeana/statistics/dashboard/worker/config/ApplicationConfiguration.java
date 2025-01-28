@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -48,7 +49,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner() {
-        return new ScriptsRunner(propertiesHolder);
+    public CommandLineRunner commandLineRunner(ResourceLoader resourceLoader) {
+        return new ScriptsRunner(propertiesHolder, resourceLoader);
     }
 }
