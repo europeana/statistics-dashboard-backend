@@ -32,7 +32,7 @@
       <dependency>
         <groupId>eu.europeana.metis</groupId>
         <artifactId>metis-common-solr</artifactId>
-        <version>${version.metis}</version>
+        <version>${version.metis-common}</version>
       </dependency>
       <dependency>
         <groupId>eu.europeana.metis</groupId>
