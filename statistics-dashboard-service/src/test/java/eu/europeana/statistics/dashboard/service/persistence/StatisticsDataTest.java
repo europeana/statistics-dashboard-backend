@@ -33,7 +33,7 @@ class StatisticsDataTest {
 
     @Test
     void getBreakdown() {
-        StatisticsData item = new StatisticsData(MongoStatisticsField.COUNTRY, "NETHERLANDS", 5);
+        StatisticsData item = new StatisticsData(MongoStatisticsField.COUNTRY, "NETHERLANDS", 5L);
         statisticsData = new StatisticsData(MongoStatisticsField.METADATA_TIER, "A",
                 List.of(item));
         assertIterableEquals(List.of(item), statisticsData.getBreakdown());
@@ -41,7 +41,8 @@ class StatisticsDataTest {
 
     @Test
     void getBreakdownWhenNullAsEmptyList() {
-        statisticsData = new StatisticsData(MongoStatisticsField.METADATA_TIER, "A", null);
+        Long nullLongValue = null;
+        statisticsData = new StatisticsData(MongoStatisticsField.METADATA_TIER, "A", nullLongValue);
         assertIterableEquals(List.of(), statisticsData.getBreakdown());
     }
 

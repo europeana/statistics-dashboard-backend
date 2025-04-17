@@ -10,7 +10,7 @@ public class CountryTargetResult {
     private String country;
     private TargetType targetType;
     private int targetYear;
-    private int value;
+    private Long value;
 
     /**
      * constructor
@@ -23,7 +23,7 @@ public class CountryTargetResult {
      String country,
      TargetType targetType,
      int targetYear,
-     int value
+     Long value
      ) {
         this.country = country;
         this.targetType = targetType;
@@ -55,11 +55,11 @@ public class CountryTargetResult {
         this.targetYear = targetYear;
     }
 
-    public int getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 

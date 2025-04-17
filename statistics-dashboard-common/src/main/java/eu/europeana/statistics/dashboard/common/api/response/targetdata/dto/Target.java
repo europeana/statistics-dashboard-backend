@@ -8,9 +8,9 @@ import eu.europeana.statistics.dashboard.common.internal.TargetType;
 public class Target {
 
     private TargetType targetType;
-    private int value;
+    private Long value;
 
-    public Target(TargetType targetType, int value) {
+    public Target(TargetType targetType, Long value) {
         this.targetType = targetType;
         this.value = value;
     }
@@ -23,11 +23,11 @@ public class Target {
         this.targetType = targetType;
     }
 
-    public int getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 }

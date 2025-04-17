@@ -61,7 +61,7 @@ class StatisticsControllerTest {
   @Test
   void getFilters() throws BreakdownDeclarationFailException {
     FiltersWrapper filtersWrapper = new FiltersWrapper();
-    FilteringResult filteringResult = new FilteringResult(new StatisticsResult("value", 5, 100),
+    FilteringResult filteringResult = new FilteringResult(new StatisticsResult("value", 5L, 100L),
         new FilteringOptions(new HashSet<>() {{
           add("a");
         }},

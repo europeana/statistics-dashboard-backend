@@ -108,7 +108,7 @@ public class StatisticsService {
      */
     private List<BreakdownResult> calculateBreakDownsResultList(List<StatisticsData> allBreakdowns) {
         // Get total count of records (it is the same for each group of breakdowns)
-        int totalRecordCount = allBreakdowns.getFirst().getRecordCount();
+        Long totalRecordCount = allBreakdowns.getFirst().getRecordCount();
         // It returns a list of StatisticsData, where each has a list of breakdowns
         return allBreakdowns
                 .stream()
@@ -133,7 +133,7 @@ public class StatisticsService {
      * @param totalRecordCount total records
      * @return List of StatisticsResult
      */
-    private List<StatisticsResult> calculateBreakDownStatisticsResult(StatisticsData statisticsData, int totalRecordCount) {
+    private List<StatisticsResult> calculateBreakDownStatisticsResult(StatisticsData statisticsData, Long totalRecordCount) {
         return statisticsData.getBreakdown()
                 .stream()
                 .map(breakdown -> new StatisticsResult(
@@ -165,7 +165,7 @@ public class StatisticsService {
         Map<MongoStatisticsField, Optional<ValueRange>> rangeAvailableOptions = prepareRangeFilteringOptionsQuery(
                 readyQuery);
 
-        int totalRecords = queryResult.getRecordCount();
+        Long totalRecords = queryResult.getRecordCount();
 
         StatisticsResult statisticsAllRecordsResult = new StatisticsResult(STATISTICS_RESULT_ROOT_VALUE,
                 totalRecords, calculatePercentage(totalRecords, totalRecords));
@@ -314,7 +314,7 @@ public class StatisticsService {
     }
 
     private Pair<FacetValue, List<StatisticsResult>> parseBreakdownsAsOutput(
-            StatisticsData queryResult, int totalRecords) {
+            StatisticsData queryResult, Long totalRecords) {
 
         // Get Facet for the following breakdown
         FacetValue breakdownBy = queryResult.getBreakdown().get(0).getField().getFacet();

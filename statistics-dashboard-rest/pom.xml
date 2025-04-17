@@ -3,7 +3,7 @@
   <parent>
     <artifactId>statistics-dashboard-backend</artifactId>
     <groupId>eu.europeana.statistics.backend</groupId>
-    <version>6.2</version>
+    <version>7</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -17,7 +17,7 @@
     <dependency>
       <groupId>eu.europeana.metis</groupId>
       <artifactId>metis-common-utils</artifactId>
-      <version>${version.metis}</version>
+      <version>${version.metis-common}</version>
     </dependency>
     <dependency>
       <groupId>jakarta.xml.bind</groupId>

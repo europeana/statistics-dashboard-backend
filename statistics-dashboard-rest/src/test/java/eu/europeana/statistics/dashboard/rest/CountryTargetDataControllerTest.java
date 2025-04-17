@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,55 +29,72 @@ class CountryTargetDataControllerTest {
   @InjectMocks
   private CountryTargetDataController controller;
 
-  @Test
-  void getAllCountryData() {
-
+  private List<HistoricalCountryTargetData> getHistoricalCountryTargetData() {
     LocalDateTime mockTime = LocalDateTime.now();
     HistoricalCountryTargetData data1 = new HistoricalCountryTargetData(
-      "Germany",
+        "DE",
         mockTime,
-        1,
-        2,
-        3
+        1L,
+        2L,
+        3L
       );
-
-    List<HistoricalCountryTargetData> result = List.of(data1);
-    when(countryTargetService.getAllCountryData()).thenReturn(result);
-    List<HistoricalCountryTargetData> testResult = controller.getAllCountryData();
-    assertEquals(result, testResult);
-
-    HistoricalCountryTargetData firstResult = testResult.getFirst();
-    assertEquals(firstResult.getCountry(), "Germany");
-    assertEquals(firstResult.getDate(), mockTime);
-    assertEquals(firstResult.getThreeD(), 1);
-    assertEquals(firstResult.getHighQuality(), 2);
-    assertEquals(firstResult.getTotalNumberRecords(), 3);
+    return List.of(data1);
   }
 
   @Test
-  void getCountryTargets() {
+  void getCountryDataFiltered_expectSuccess() {
+
+    List<HistoricalCountryTargetData> result = getHistoricalCountryTargetData();
+
+    when(countryTargetService.getAllCountryDataFiltered(any())).thenReturn(
+      result
+    );
+
+    List<HistoricalCountryTargetData> testResult = controller.getCountryDataFiltered("DE");
+    assertEquals(result, testResult);
+  }
+
+
+  @Test
+  void getAllCountryDataLatest_expectSuccess() {
+
+    List<HistoricalCountryTargetData> result = getHistoricalCountryTargetData();
+    when(countryTargetService.getAllCountryDataLatest()).thenReturn(result);
+    List<HistoricalCountryTargetData> testResult = controller.getAllCountryDataLatest();
+    assertEquals(result, testResult);
+
+    HistoricalCountryTargetData firstResult = testResult.getFirst();
+    assertEquals("DE", firstResult.getCountry());
+    assertEquals(1, firstResult.getThreeD());
+    assertEquals(2, firstResult.getHighQuality());
+    assertEquals(3, firstResult.getTotalNumberRecords());
+  }
+
+  @Test
+  void getCountryTargets_expectSuccess() {
+    String countryCode = "DE";
     List<CountryTargetResult> result = List.of(
       new CountryTargetResult(
-        "Germany",
+        countryCode,
         TargetType.THREE_D,
         2030,
-        500),
+        500L),
       new CountryTargetResult(
-        "Germany",
+        countryCode,
         TargetType.HIGH_QUALITY,
         2030,
-        1500),
+        1500L),
       new CountryTargetResult(
-        "Germany",
+        countryCode,
         TargetType.TOTAL_RECORDS,
         2030,
-        2500)
+        2500L)
     );
     when(countryTargetService.getCountryTargets()).thenReturn(result);
     List<CountryTargetResult> testResult = controller.getCountryTargets();
-    assertEquals("Germany", testResult.get(0).getCountry());
-    assertEquals("Germany", testResult.get(1).getCountry());
-    assertEquals("Germany", testResult.get(2).getCountry());
+    assertEquals(countryCode, testResult.get(0).getCountry());
+    assertEquals(countryCode, testResult.get(1).getCountry());
+    assertEquals(countryCode, testResult.get(2).getCountry());
     assertEquals(TargetType.THREE_D, testResult.get(0).getTargetType());
     assertEquals(TargetType.HIGH_QUALITY, testResult.get(1).getTargetType());
     assertEquals(TargetType.TOTAL_RECORDS, testResult.get(2).getTargetType());

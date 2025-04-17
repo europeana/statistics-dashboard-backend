@@ -99,7 +99,7 @@ public class SolrHarvester {
     }
 
     // Check that the total count of all records is the expected count of the whole dataset.
-    if (result.stream().mapToInt(StatisticsRecordModel::getRecordCount).sum() != size) {
+    if (result.stream().mapToLong(StatisticsRecordModel::getRecordCount).sum() != size) {
       throw new DataHarvestingException("Computed total over the lists for separate dates does not "
           + "match the expected total for dataset " + datasetId + ".");
     }
@@ -189,7 +189,7 @@ public class SolrHarvester {
     foundProperties.remove(pivotField.getField());
   }
 
-  private static StatisticsRecordModel convert(Map<String, String> properties, int recordCount) {
+  private static StatisticsRecordModel convert(Map<String, String> properties, long recordCount) {
     final StatisticsRecordModel result = new StatisticsRecordModel();
     result.setContentTier(Objects.requireNonNull(properties.get(CONTENT_TIER_FIELD)));
     result.setCountry(Objects.requireNonNull(Country.fromCountryNameToIsoCode(properties.get(COUNTRY_FIELD)).getIsoCode()));

@@ -15,7 +15,7 @@ public class StatisticsData {
 
   private final MongoStatisticsField field;
   private final String fieldValue;
-  private final int recordCount;
+  private final Long recordCount;
   private final List<StatisticsData> breakdown;
 
   /**
@@ -33,7 +33,7 @@ public class StatisticsData {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = Optional.ofNullable(breakdown)
-        .map(list -> list.stream().mapToInt(StatisticsData::getRecordCount).sum()).orElse(0);
+        .map(list -> list.stream().mapToLong(StatisticsData::getRecordCount).sum()).orElse(null);
     this.breakdown = Optional.ofNullable(breakdown).filter(list -> !list.isEmpty())
         .map(ArrayList::new).orElse(new ArrayList<>());
   }
@@ -45,9 +45,9 @@ public class StatisticsData {
    *                    the top level node.
    * @param fieldValue  The value of the field that applies to this data (and its children) and that
    *                    distinguishes it from its siblings. Is null for the top level node.
-   * @param recordCount The number of records represented by this node. Should be greater than 1.
+   * @param recordCount The number of records represented by this node.
    */
-  StatisticsData(MongoStatisticsField field, String fieldValue, int recordCount) {
+  StatisticsData(MongoStatisticsField field, String fieldValue, Long recordCount) {
     this.field = field;
     this.fieldValue = fieldValue;
     this.recordCount = recordCount;
@@ -73,7 +73,7 @@ public class StatisticsData {
   /**
    * @return The number of records represented by this node. Should be greater than 1.
    */
-  public int getRecordCount() {
+  public Long getRecordCount() {
     return recordCount;
   }
 
