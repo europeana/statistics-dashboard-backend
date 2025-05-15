@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>statistics-dashboard-backend</artifactId>
     <groupId>eu.europeana.statistics.backend</groupId>
     <version>8-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
-
-  <properties>
-    <version.springdoc-openapi-starter-webmvc-ui>2.3.0</version.springdoc-openapi-starter-webmvc-ui>
-  </properties>
-
   <artifactId>statistics-dashboard-rest</artifactId>
 
   <dependencies>
+    <!-- Submodules -->
+    <dependency>
+      <groupId>eu.europeana.statistics.backend</groupId>
+      <artifactId>statistics-dashboard-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>eu.europeana.statistics.backend</groupId>
+      <artifactId>statistics-dashboard-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- Owned -->
     <dependency>
       <groupId>eu.europeana.metis</groupId>
       <artifactId>metis-common-utils</artifactId>
       <version>${version.metis-common}</version>
     </dependency>
+    <!-- Compile -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
@@ -33,11 +42,6 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
       <version>${version.jackson}</version>
-    </dependency>
-    <dependency>
-      <groupId>eu.europeana.statistics.backend</groupId>
-      <artifactId>statistics-dashboard-common</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -68,29 +72,6 @@
       <version>${version.jakarta.annotation}</version>
     </dependency>
     <dependency>
-      <groupId>eu.europeana.statistics.backend</groupId>
-      <artifactId>statistics-dashboard-service</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${version.junit}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${version.mockito}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <version>${version.mockito}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
       <exclusions>
@@ -113,6 +94,26 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
       <optional>true</optional>
+    </dependency>
+    <!-- Runtime -->
+    <!-- Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${version.junit}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${version.mockito}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${version.mockito}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
