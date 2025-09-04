@@ -1,6 +1,12 @@
-# Statistics Dashboard Backend
+[![CI](https://github.com/europeana/statistics-dashboard-backend/actions/workflows/ci.yml/badge.svg)](https://github.com/europeana/statistics-dashboard-backend/actions/workflows/ci.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend)
 
-[![Build Status](https://travis-ci.org/europeana/statistics-dashboard-backend.svg?branch=develop)](https://travis-ci.org/europeana/statistics-dashboard-backend)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend)  
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend)  
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend)  
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=europeana_statistics-dashboard-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=europeana_statistics-dashboard-backend)
+
+# Statistics Dashboard Backend
 
 A utility for Europeana API data.
 
