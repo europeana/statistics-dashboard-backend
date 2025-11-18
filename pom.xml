@@ -33,7 +33,7 @@
 
     <!--Internal-->
     <version.metis-common>15</version.metis-common>
-    <version.metis-core>14</version.metis-core>
+    <version.metis-core>16-SNAPSHOT</version.metis-core>
 
     <!--External-->
     <version.log4j>2.23.0</version.log4j>
