@@ -7,11 +7,10 @@ import eu.europeana.statistics.dashboard.common.api.response.ResultListFilters;
 import eu.europeana.statistics.dashboard.common.internal.RightsCategory;
 import eu.europeana.statistics.dashboard.service.StatisticsService;
 import eu.europeana.statistics.dashboard.service.exception.BreakdownDeclarationFailException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import java.util.Set;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @Tags(@Tag(name = StatisticsController.CONTROLLER_TAG_NAME, description = "Controller providing statistics values throughout Europeana database"))
-@Api(tags = StatisticsController.CONTROLLER_TAG_NAME)
 @RestController
 public class StatisticsController {
 
@@ -58,9 +56,9 @@ public class StatisticsController {
    */
   @GetMapping(value = GENERAL_STATISTICS, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Returns a complete overview of Europeana's database", response = ResultListFilters.class)
+  @Operation(summary = "Returns a complete overview of Europeana's database")
   public ResultListFilters getGeneralStatistics(
-      @ApiParam(value = "Include content Tier 0")
+      @Parameter(description = "Include content Tier 0")
       @RequestParam(name = "content-tier-zero", required = false) boolean contentTierZero,
       @RequestParam(value = "country", required = false, defaultValue = "") String country) {
     return contentTierZero ? statisticsService.queryGeneralEuropeanaDataIncludingContentTierZero(country) :
@@ -75,10 +73,10 @@ public class StatisticsController {
    */
   @PostMapping(value = FILTERING_STATISTICS, consumes = {APPLICATION_JSON}, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Returns the results of the given filtering options", response = FilteringResult.class)
-  @ApiResponses(value = {@ApiResponse(code = 400, message = "Facet declaration failed")})
+  @Operation(summary = "Returns a complete overview of Europeana's database")
+  @ApiResponse(responseCode = "400", description = "Facet declaration failed")
   public FilteringResult getFilters(
-      @ApiParam(value = "The filters to be applied", required = true) @RequestBody FiltersWrapper filters)
+      @Parameter(description = "The filters to be applied", required = true) @RequestBody FiltersWrapper filters)
       throws BreakdownDeclarationFailException {
     return statisticsService.queryDataWithFilters(filters);
   }
@@ -90,13 +88,12 @@ public class StatisticsController {
    */
   @GetMapping(value = RIGHTS_URLS, produces = {APPLICATION_JSON})
   @ResponseStatus(HttpStatus.OK)
-  @ApiOperation(value = "Returns a list of rights urls associated to a given category", response = Set.class)
+  @Operation(summary = "Returns a list of rights urls associated to a given category")
   public Set<String> getRightsUrlAssociatedToCategory(
-      @ApiParam(value = "Category which the urls are associated with")
+      @Parameter(description = "Category which the urls are associated with")
       @RequestParam(name = "rightsCategories") Set<String> rightsCategoriesNames) {
     return statisticsService.getRightsUrlsWithCategory(rightsCategoriesNames.stream().map(RightsCategory::toCategoryFromName)
                                                                             .collect(Collectors.toUnmodifiableSet()));
 
   }
-
 }

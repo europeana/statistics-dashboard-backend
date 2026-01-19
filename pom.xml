@@ -40,7 +40,6 @@
     <version.log4j>2.23.0</version.log4j>
     <version.slf4j>2.0.12</version.slf4j>
     <version.elastic.apm>1.48.1</version.elastic.apm>
-    <version.swagger.annotations>1.6.2</version.swagger.annotations>
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.servlet.api>4.0.1</version.servlet.api>
     <version.jakarta.annotation>2.1.1</version.jakarta.annotation>
