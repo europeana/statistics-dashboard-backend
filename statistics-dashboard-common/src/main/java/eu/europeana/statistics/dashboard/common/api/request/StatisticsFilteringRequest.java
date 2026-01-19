@@ -1,12 +1,12 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import eu.europeana.statistics.dashboard.common.utils.FilterNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Class that encapsulates all types of statistics filters, each of them with their conditions

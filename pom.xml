@@ -32,15 +32,14 @@
     <version.maven.release.plugin>2.5.3</version.maven.release.plugin>
 
     <!--Internal-->
-    <version.metis-common>15</version.metis-common>
-    <version.metis-core>16-SNAPSHOT</version.metis-core>
+    <version.metis-common>19-SNAPSHOT</version.metis-common>
+    <version.metis-core>17-SNAPSHOT</version.metis-core>
 
     <!--External-->
+    <version.spring.boot>4.0.1</version.spring.boot>
     <version.log4j>2.23.0</version.log4j>
     <version.slf4j>2.0.12</version.slf4j>
     <version.elastic.apm>1.48.1</version.elastic.apm>
-    <version.spring.boot>4.0.1</version.spring.boot>
-    <version.swagger>3.0.0</version.swagger>
     <version.swagger.annotations>1.6.2</version.swagger.annotations>
     <version.commons.lang3>3.12.0</version.commons.lang3>
     <version.servlet.api>4.0.1</version.servlet.api>
@@ -48,7 +47,7 @@
     <version.jakarta.xml.bind-api>4.0.1</version.jakarta.xml.bind-api>
     <version.jaxb.runtime>4.0.4</version.jaxb.runtime>
     <version.jetbrains>24.0.1</version.jetbrains>
-    <version.springdoc-openapi-starter-webmvc-ui>2.3.0</version.springdoc-openapi-starter-webmvc-ui>
+    <version.springdoc-openapi-starter-webmvc-ui>2.8.14</version.springdoc-openapi-starter-webmvc-ui>
   </properties>
 
   <dependencyManagement>
