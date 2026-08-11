@@ -31,6 +31,7 @@ truststore.password=
 
 #Solr/Zookeeper published records
 solr.publish.hosts=
+solr.publish.useHttp1=
 zookeeper.publish.hosts=
 zookeeper.publish.port=
 zookeeper.publish.chroot=
