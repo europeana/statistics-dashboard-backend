@@ -3,8 +3,7 @@ package eu.europeana.statistics.dashboard.rest.controller;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.dto.Country;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.dto.OverviewData;
 import eu.europeana.statistics.dashboard.service.TargetDataService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @Tags(@Tag(name = TargetDataController.CONTROLLER_TAG_NAME, description = "Controller providing target data for each country"))
-@Api(tags = TargetDataController.CONTROLLER_TAG_NAME)
 @RestController
 public class TargetDataController {
 
@@ -45,7 +43,7 @@ public class TargetDataController {
      */
     @GetMapping(value = TARGET_DATA_COUNTRY, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns historical data based on the given country", response = Country.class)
+    @Operation(summary = "Returns historical data based on the given country")
     public Country getCountryData(
             @PathVariable(name = "country") String country) {
         return targetDataService.getCountryData(country);
@@ -58,7 +56,7 @@ public class TargetDataController {
      */
     @GetMapping(value = TARGET_DATA_OVERVIEW, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns the latest target data for all countries", response = OverviewData.class)
+    @Operation(summary = "Returns the latest target data for all countries")
     public OverviewData getOverviewData(){
         return targetDataService.getOverviewDataAllCountries();
     }

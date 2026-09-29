@@ -1,7 +1,7 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.apache.commons.lang3.StringUtils;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Class that represents a filter type range.

@@ -1,6 +1,6 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Class that represents a filter type count. That is, a filtering that results in a count of records with the conditions met

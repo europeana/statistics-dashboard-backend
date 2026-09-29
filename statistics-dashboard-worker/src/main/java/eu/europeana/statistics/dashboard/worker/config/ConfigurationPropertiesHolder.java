@@ -65,6 +65,8 @@ public class ConfigurationPropertiesHolder {
   // Solr/Zookeeper publish
   @Value("${solr.publish.hosts}")
   private String[] publishSolrHosts;
+  @Value("${solr.publish.useHttp1:true}")
+  private Boolean solrPublishUseHttp1;
   @Value("${zookeeper.publish.hosts}")
   private String[] publishZookeeperHosts;
   @Value("${zookeeper.publish.port}")
@@ -118,6 +120,7 @@ public class ConfigurationPropertiesHolder {
         throw new DataAccessConfigException(e.getMessage(), e);
       }
     }
+    properties.setSolrUseHttp1(solrPublishUseHttp1);
     return properties;
   }
 

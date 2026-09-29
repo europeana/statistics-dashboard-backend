@@ -1,6 +1,5 @@
 package eu.europeana.statistics.dashboard.common.internal.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Field;
 import dev.morphia.annotations.Id;
@@ -11,6 +10,7 @@ import dev.morphia.annotations.Property;
 import eu.europeana.metis.mongo.utils.ObjectIdSerializer;
 import eu.europeana.statistics.dashboard.common.utils.MongoFieldNames;
 import org.bson.types.ObjectId;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * This class models the database structure for statistics data.

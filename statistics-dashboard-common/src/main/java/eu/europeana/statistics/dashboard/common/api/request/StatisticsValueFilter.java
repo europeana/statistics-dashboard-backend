@@ -1,15 +1,14 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.util.CollectionUtils;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Similarly to filter type {@link StatisticsBreakdownValueFilter} but this class does not contain breakdowns
  */
-
 @JsonSerialize
 public class StatisticsValueFilter implements StatisticsFilter{
 

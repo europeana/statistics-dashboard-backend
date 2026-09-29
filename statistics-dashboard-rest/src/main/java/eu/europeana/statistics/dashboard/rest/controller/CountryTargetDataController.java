@@ -3,8 +3,7 @@ package eu.europeana.statistics.dashboard.rest.controller;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.CountryTargetResult;
 import eu.europeana.statistics.dashboard.common.api.response.targetdata.HistoricalCountryTargetData;
 import eu.europeana.statistics.dashboard.service.CountryTargetService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import java.util.List;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @Tags(@Tag(name = CountryTargetDataController.CONTROLLER_TAG_NAME, description = "Controller providing target data for each country"))
-@Api(tags = CountryTargetDataController.CONTROLLER_TAG_NAME)
 @RestController
 public class CountryTargetDataController {
 
@@ -50,7 +48,7 @@ public class CountryTargetDataController {
      */
     @GetMapping(value = TARGET_DATA_COUNTRY_HISTORICAL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns historical country target data", response = HistoricalCountryTargetData.class)
+    @Operation(summary = "Returns historical country target data")
     public List<HistoricalCountryTargetData> getCountryDataFiltered(
     @RequestParam(name = "country") String country){
       return countryTargetService.getAllCountryDataFiltered(country);
@@ -63,7 +61,7 @@ public class CountryTargetDataController {
      */
     @GetMapping(value = TARGET_DATA_COUNTRY_ALL, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns latest country target data", response = HistoricalCountryTargetData.class)
+    @Operation(summary = "Returns latest country target data")
     public List<HistoricalCountryTargetData> getAllCountryDataLatest(){
       return countryTargetService.getAllCountryDataLatest();
     }
@@ -75,8 +73,7 @@ public class CountryTargetDataController {
      */
     @GetMapping(value = TARGET_DATA_TARGETS, produces = {APPLICATION_JSON})
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Returns country targets", response = CountryTargetResult.class)
-
+    @Operation(summary = "Returns country targets")
     public List<CountryTargetResult> getCountryTargets(){
         return countryTargetService.getCountryTargets();
     }

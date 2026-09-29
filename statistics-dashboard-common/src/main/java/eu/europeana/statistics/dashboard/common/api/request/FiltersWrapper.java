@@ -1,7 +1,7 @@
 package eu.europeana.statistics.dashboard.common.api.request;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * A wrapper class for the filters as the input
