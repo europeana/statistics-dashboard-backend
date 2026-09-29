@@ -5,7 +5,7 @@
   <parent>
     <artifactId>statistics-dashboard-backend</artifactId>
     <groupId>eu.europeana.statistics.backend</groupId>
-    <version>8-SNAPSHOT</version>
+    <version>9-SNAPSHOT</version>
   </parent>
   <artifactId>statistics-dashboard-rest</artifactId>
 
